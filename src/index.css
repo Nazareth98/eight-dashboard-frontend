@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.float-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+}
+
+.block-height {
+  height: 90vh;
+}
