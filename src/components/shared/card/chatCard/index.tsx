@@ -1,6 +1,10 @@
-/* eslint-disable react/prop-types */
+interface ChatCardType {
+  onClick?: () => void;
+  checked: boolean;
+  name: string;
+}
 
-const ChatCard = (props) => {
+const ChatCard = (props: ChatCardType) => {
   return (
     <div
       onClick={props.onClick}

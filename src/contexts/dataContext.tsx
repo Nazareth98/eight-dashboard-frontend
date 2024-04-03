@@ -34,7 +34,6 @@ const DataContextProvider = ({ children }: any) => {
     try {
       const accounts = await getAccount();
       const rate = await getRate();
-
       const endpoint = "/chatbot/refresh-data";
       const { result } = await getData(endpoint);
       console.log(accounts);

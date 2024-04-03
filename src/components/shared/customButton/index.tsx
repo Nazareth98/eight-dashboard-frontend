@@ -25,8 +25,8 @@ const CustomButton = (props: CustomButtonProps) => {
       break;
     case "attention":
       bgColorClass =
-        "bg-yellow-300 border-2 border-yellow-300 hover:bg-yellow-400 hover:border-yellow-400 active:bg-yellow-500";
-      textColorClass = "text-yellow-950";
+        "border-2 border-yellow-300 hover:bg-yellow-950  active:bg-yellow-900";
+      textColorClass = "text-yellow-400";
       break;
     default:
       bgColorClass =

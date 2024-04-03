@@ -3,6 +3,7 @@ type ContactType = {
   chatId: string;
   phone: string;
   id?: number;
+  isSelected?: boolean;
 };
 
 export default ContactType;

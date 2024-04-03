@@ -17,7 +17,8 @@
     "react-jwt": "^1.2.0",
     "react-loading-skeleton": "^3.4.0",
     "react-modal": "^3.16.1",
-    "react-qr-code": "^2.0.12"
+    "react-qr-code": "^2.0.12",
+    "react-select": "^5.8.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.56",

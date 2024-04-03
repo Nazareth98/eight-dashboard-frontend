@@ -25,7 +25,7 @@ const ChatbotAccountList = () => {
     updateAccounts();
   }, [accountsData]);
 
-  function hanldeActiveAccount(event) {
+  function handleActiveAccount(event) {
     const id = event.currentTarget.id;
     const selectAccount = accountsData.find(
       (account: AccountType) => account.id == id
@@ -67,7 +67,7 @@ const ChatbotAccountList = () => {
       <div className="flex flex-col gap-2 pr-2 overflow-y-auto">
         {accountsList?.map((item: AccountType, index) => (
           <div
-            onClick={item.status == 1 ? () => "" : hanldeActiveAccount}
+            onClick={item.status == 1 ? () => "" : handleActiveAccount}
             key={index}
             id={item.id}
             className={`bg-gray-950 px-2 py-4 cursor-pointer border-2 rounded-lg grid grid-cols-6 items-center gap-4 transition ${
