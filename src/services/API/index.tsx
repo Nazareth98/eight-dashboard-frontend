@@ -45,4 +45,13 @@ export const putData = async (endpoint: string, data: any) => {
   }
 };
 
-export const deleteData = async () => {};
+export const deleteData = async (endpoint: string) => {
+  try {
+    getToken();
+    const result = await axios.delete(`${baseUrl}${endpoint}`);
+    return result.data;
+  } catch (error) {
+    console.log(error.response.data);
+    return error.response.data;
+  }
+};

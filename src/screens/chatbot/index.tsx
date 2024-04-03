@@ -7,10 +7,10 @@ import ChatbotAccountList from "../../components/chatbotAccountList";
 import ChatbotAddAccount from "../../components/chatbotAddAccount";
 import ChatbotUpdateRate from "../../components/chatbotUpdateRate";
 import { useContext, useEffect } from "react";
-import { dataContext } from "../../contexts/dataContext";
+import { chatbotContext } from "../../contexts/chatbotContext";
 
 const Chatbot = () => {
-  const { getInitialData } = useContext(dataContext);
+  const { getInitialData } = useContext(chatbotContext);
 
   useEffect(() => {
     const loadData = async () => {

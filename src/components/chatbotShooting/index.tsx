@@ -4,10 +4,10 @@ import CustomButton from "../shared/customButton";
 import IconExchange from "../../assets/svg/iconExchange";
 import IconBalance from "../../assets/svg/iconBalance";
 import { useContext } from "react";
-import { dataContext } from "../../contexts/dataContext";
+import { chatbotContext } from "../../contexts/chatbotContext";
 
 const ChatbotShooting = () => {
-  const { shootingRate, shootingAccount } = useContext(dataContext);
+  const { shootingRate, shootingAccount } = useContext(chatbotContext);
 
   const handleShootingRate = async () => {
     try {

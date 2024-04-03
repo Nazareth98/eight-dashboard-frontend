@@ -7,23 +7,23 @@ import GroupType from "../types/groupType";
 import ContactType from "../types/contactType";
 import AccountType from "../types/accountType";
 
-interface DataContext {
+interface ChatbotContext {
   currentRate: RateType | null;
   groupsData: GroupType[] | null;
   contactsData: ContactType[] | null;
   activeAccounts: AccountType | null;
 }
 
-const initialState: DataContext = {
+const initialState: ChatbotContext = {
   currentRate: null,
   groupsData: null,
   contactsData: null,
   activeAccounts: null,
 };
 
-const dataContext = createContext<DataContext>(initialState);
+const chatbotContext = createContext<ChatbotContext>(initialState);
 
-const DataContextProvider = ({ children }: any) => {
+const ChatbotContextProvider = ({ children }: any) => {
   const [currentRate, setCurrentRate] = useState<RateType | null>();
   const [groupsData, setGroupsData] = useState<GroupType[] | null>();
   const [contactsData, setContactsData] = useState<GroupType[] | null>();
@@ -126,7 +126,7 @@ const DataContextProvider = ({ children }: any) => {
   };
 
   return (
-    <dataContext.Provider
+    <chatbotContext.Provider
       value={{
         getInitialData,
         groupsData,
@@ -143,8 +143,8 @@ const DataContextProvider = ({ children }: any) => {
       }}
     >
       {children}
-    </dataContext.Provider>
+    </chatbotContext.Provider>
   );
 };
 
-export { dataContext, DataContextProvider };
+export { chatbotContext, ChatbotContextProvider };

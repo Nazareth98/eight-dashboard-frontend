@@ -8,13 +8,16 @@ import CardIconInfo from "../../shared/cardIconInfo";
 import IconUser from "../../../assets/svg/iconUser";
 import IconPayments from "../../../assets/svg/iconPayments";
 import ChatCard from "../../shared/card/chatCard";
-import { dataContext } from "../../../contexts/dataContext";
+import { chatbotContext } from "../../../contexts/chatbotContext";
 import ContactType from "../../../types/contactType";
 import GroupType from "../../../types/groupType";
 import IconVerified from "../../../assets/svg/iconVerified";
 import IconGroups from "../../../assets/svg/iconGroups";
 import { putData } from "../../../services/API";
 import { customerContext } from "../../../contexts/customerContext";
+import CustomInput from "../../shared/customInput";
+import IconSearch from "../../../assets/svg/iconSearch";
+import CustomCheckbox from "../../shared/customCheckbox";
 
 const customStyles = {
   overlay: {
@@ -40,13 +43,19 @@ const customStyles = {
 };
 
 const ModalCustomerLink = (props) => {
-  const { contactsData, groupsData } = useContext(dataContext);
+  const { contactsData, groupsData } = useContext(chatbotContext);
   const { refreshData } = useContext(customerContext);
 
   const [groupOptions, setGroupOptions] = useState<GroupType[]>();
   const [contactOptions, setContactOptions] = useState<ContactType[]>();
   const [selectedContact, setSelectContact] = useState<ContactType>();
   const [selectedGroup, setSelectGroup] = useState<GroupType>();
+
+  const [inputGroup, setInputGroup] = useState("");
+  const [inputContact, setInputContact] = useState("");
+
+  const [deleteContact, setDeleteContact] = useState(false);
+  const [deleteGroup, setDeleteGroup] = useState(false);
 
   const resetSelection = () => {
     if (contactsData) {
@@ -123,8 +132,16 @@ const ModalCustomerLink = (props) => {
     try {
       const endpoint = `/customer/${props.data.id}`;
       const data = {
-        contact: selectedContact ? selectedContact : props.data.contact,
-        group: selectedGroup ? selectedGroup : props.data.group,
+        contact: selectedContact
+          ? selectedContact
+          : deleteContact
+          ? null
+          : props.data.contact,
+        group: selectedGroup
+          ? selectedGroup
+          : deleteGroup
+          ? null
+          : props.data.group,
       };
       const result = await putData(endpoint, data);
       refreshData();
@@ -135,6 +152,28 @@ const ModalCustomerLink = (props) => {
     closeModal();
   };
 
+  const handleChangeGroup = (e) => {
+    const textoDigitado = e.target.value;
+    setInputGroup(textoDigitado);
+
+    const resultadosFiltrados = groupsData?.filter((group) => {
+      return group.name.toLowerCase().includes(textoDigitado.toLowerCase());
+    });
+
+    setGroupOptions(resultadosFiltrados);
+  };
+
+  const handleChangeContact = (e) => {
+    const textoDigitado = e.target.value;
+    setInputContact(textoDigitado);
+
+    const resultadosFiltrados = contactsData?.filter((contact) =>
+      contact.name.toLowerCase().includes(textoDigitado.toLowerCase())
+    );
+
+    setContactOptions(resultadosFiltrados);
+  };
+
   return (
     <Modal
       isOpen={props.isOpen}
@@ -142,7 +181,7 @@ const ModalCustomerLink = (props) => {
       style={customStyles}
       contentLabel="Example Modal"
     >
-      <div className="w-full flex items-center gap-2">
+      <div className="w-full flex transition-all items-center gap-2">
         <IconEdit width="40px" fill="fill-primary-300" />
 
         <h3 className="font-heading font-semibold text-gray-50 text-3xl">
@@ -192,30 +231,70 @@ const ModalCustomerLink = (props) => {
           alternate={!props.data?.contact}
         />
       </div>
-      <div className="w-full flex items-center justify-center gap-8 ">
-        <div className="w-1/2 h-80 pr-2 overflow-y-auto flex flex-col gap-2">
-          {groupOptions?.map((group: GroupType) => {
-            return (
-              <ChatCard
-                id={group.id}
-                checked={group.isSelected}
-                name={group.name}
-                onClick={handleSelectGroup}
+      <div className="w-full flex items-center gap-8">
+        <CustomCheckbox
+          label="Remover vínculo com grupo"
+          checked={deleteGroup}
+          setChecked={setDeleteGroup}
+        />
+        <CustomCheckbox
+          label="Remover vínculo com contato"
+          checked={deleteContact}
+          setChecked={setDeleteContact}
+        />
+      </div>
+      <div className="w-full flex flex-col items-center justify-center gap-8 ">
+        <div className="w-full flex items-center justify-center gap-8 ">
+          {!deleteGroup && (
+            <div className="w-full">
+              <CustomInput
+                inputValue={inputGroup}
+                onChange={handleChangeGroup}
+                placeholder="Pesquise por um Grupo"
+                icon={<IconSearch width="25px" fill="fill-gray-600" />}
               />
-            );
-          })}
+            </div>
+          )}
+          {!deleteContact && (
+            <div className="w-full">
+              <CustomInput
+                inputValue={inputContact}
+                onChange={handleChangeContact}
+                placeholder="Pesquise por um Contato"
+                icon={<IconSearch width="25px" fill="fill-gray-600" />}
+              />
+            </div>
+          )}
         </div>
-        <div className="w-1/2 h-80 pr-2 overflow-y-auto flex flex-col gap-2">
-          {contactOptions?.map((contact: ContactType) => {
-            return (
-              <ChatCard
-                id={contact.id}
-                checked={contact.isSelected}
-                name={contact.name}
-                onClick={handleSelectContact}
-              />
-            );
-          })}
+        <div className="w-full flex items-center justify-center gap-8 ">
+          {!deleteGroup && (
+            <div className="w-full h-80 pr-2 overflow-y-auto flex flex-col gap-2">
+              {groupOptions?.map((group: GroupType) => {
+                return (
+                  <ChatCard
+                    id={group.id}
+                    checked={group.isSelected}
+                    name={group.name}
+                    onClick={handleSelectGroup}
+                  />
+                );
+              })}
+            </div>
+          )}
+          {!deleteContact && (
+            <div className="w-full h-80 pr-2 overflow-y-auto flex flex-col gap-2">
+              {contactOptions?.map((contact: ContactType) => {
+                return (
+                  <ChatCard
+                    id={contact.id}
+                    checked={contact.isSelected}
+                    name={contact.name}
+                    onClick={handleSelectContact}
+                  />
+                );
+              })}
+            </div>
+          )}
         </div>
       </div>
       <div className="w-full flex items-center justify-center gap-8">

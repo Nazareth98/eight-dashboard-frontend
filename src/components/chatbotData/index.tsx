@@ -4,7 +4,7 @@ import IconPhone from "../../assets/svg/iconPhone";
 import IconContacts from "../../assets/svg/iconContacts";
 import IconGroups from "../../assets/svg/iconGroups";
 import IconExchange from "../../assets/svg/iconExchange";
-import { dataContext } from "../../contexts/dataContext";
+import { chatbotContext } from "../../contexts/chatbotContext";
 import RateType from "../../types/rateType";
 
 interface AccountDataType {
@@ -21,7 +21,7 @@ const ChatbotData = () => {
   const [rate, setRate] = useState<RateType | null>(null);
 
   const { contactsData, groupsData, activeAccount, currentRate } =
-    useContext(dataContext);
+    useContext(chatbotContext);
 
   useEffect(() => {
     function updateData() {

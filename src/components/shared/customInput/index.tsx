@@ -3,11 +3,12 @@ import { ReactElement } from "react";
 interface InputProps {
   placeholder?: string;
   inputValue: any;
-  setValue: (value: any) => void;
+  setValue?: (value: any) => void;
   type?: string;
   label?: string;
   icon?: ReactElement;
   onKeyPress?: any;
+  onChange?: (props: any) => void;
 }
 
 const CustomInput = (props: InputProps) => {
@@ -31,7 +32,7 @@ const CustomInput = (props: InputProps) => {
         type={props.type}
         placeholder={props.placeholder}
         value={props.inputValue}
-        onChange={handleChange}
+        onChange={props.onChange ? props.onChange : handleChange}
         {...props}
       />
       <div

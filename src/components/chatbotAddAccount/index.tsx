@@ -6,11 +6,11 @@ import CustomTextarea from "../shared/customTextarea";
 import CustomButton from "../shared/customButton";
 import IconClean from "../../assets/svg/iconClean";
 import IconAdd from "../../assets/svg/iconAdd";
-import { dataContext } from "../../contexts/dataContext";
+import { chatbotContext } from "../../contexts/chatbotContext";
 import ModalWarning from "../shared/modal/modalWarning";
 
 const ChatbotAddAccount = () => {
-  const { addAccount } = useContext(dataContext);
+  const { addAccount } = useContext(chatbotContext);
   const [activeModal, setActiveModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const [accountName, setAccountName] = useState<string>("");

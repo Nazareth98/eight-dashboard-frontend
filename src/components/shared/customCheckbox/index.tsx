@@ -1,6 +1,3 @@
-/* eslint-disable react/prop-types */
-import { useState } from "react";
-
 const CustomCheckbox = ({ label, checked, setChecked, onChange }) => {
   const handleCheckboxChange = () => {
     setChecked(!checked);
@@ -8,13 +5,16 @@ const CustomCheckbox = ({ label, checked, setChecked, onChange }) => {
   };
 
   return (
-    <div className="flex gap-1">
+    <div className="flex items-center gap-1">
       <input
         type="checkbox"
         checked={checked}
         onChange={onChange ? onChange : handleCheckboxChange}
       />
-      <label className="text-gray-500 text-sm" style={{ marginRight: "8px" }}>
+      <label
+        className="text-gray-300 text-sm font-medium"
+        style={{ marginRight: "8px" }}
+      >
         {label}
       </label>
     </div>

@@ -29,7 +29,7 @@ import Header from "../header";
 import CustomButton from "../shared/customButton";
 import fullLogo from "../../assets/images/full_logo.png";
 import { authContext } from "../../contexts/authContext";
-import { dataContext } from "../../contexts/dataContext.js";
+import { chatbotContext } from "../../contexts/chatbotContext.js";
 
 interface OptionType {
   id: number;
@@ -42,7 +42,7 @@ interface OptionType {
 const Navigation = () => {
   const [selectedSection, setSelectedSection] = useState<OptionType>({ id: 1 });
 
-  const { getInitialData } = useContext(dataContext);
+  const { getInitialData } = useContext(chatbotContext);
   const { signOut } = useContext(authContext);
 
   const navOptions = [

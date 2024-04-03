@@ -5,11 +5,11 @@ import CustomInput from "../shared/customInput";
 import CustomButton from "../shared/customButton";
 import IconClean from "../../assets/svg/iconClean";
 import IconAdd from "../../assets/svg/iconAdd";
-import { dataContext } from "../../contexts/dataContext";
+import { chatbotContext } from "../../contexts/chatbotContext";
 import ModalWarning from "../shared/modal/modalWarning";
 
 const ChatbotUpdateRate = () => {
-  const { updateRate } = useContext(dataContext);
+  const { updateRate } = useContext(chatbotContext);
   const [activeModal, setActiveModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const [rate, setRate] = useState<number>(0);
