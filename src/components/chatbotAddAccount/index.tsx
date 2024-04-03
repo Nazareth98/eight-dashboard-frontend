@@ -59,6 +59,7 @@ const ChatbotAddAccount = () => {
         <CustomTextarea
           label="Texto da mensagem:"
           setValue={setAccountText}
+          value={accountText}
           placeholder="Conta pix: ..."
           rows={8}
         />

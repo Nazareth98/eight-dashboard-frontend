@@ -18,6 +18,7 @@ const ChatbotUpdateRate = () => {
     if (!rate) {
       setModalMessage("O valor da Taxa é obrigatório.");
       setActiveModal(true);
+      return;
     }
     await updateRate(rate);
     setRate(0);
