@@ -192,7 +192,7 @@ const Navigation = () => {
 
   return (
     <div className="flex h-full w-full bg-gray-950">
-      <nav className="bg-gray-900 w-1/6 h-full p-12 flex flex-col gap-8 items-center">
+      <nav className="bg-gray-900 w-[350px] h-full p-12 flex flex-col gap-8 items-center">
         <div>
           <img src={fullLogo} alt="Logo Principal" />
         </div>
@@ -208,19 +208,19 @@ const Navigation = () => {
               }`}
               onClick={handleSelectSection}
             >
-              {item.icon}
+              <div>{item.icon}</div>
               {item.name}
             </li>
           ))}
         </ul>
         <div className="mt-auto">
           <CustomButton type="danger" onClick={signOut}>
-            <IconLogout width="25px" fill="fill-red-950" />
+            <IconLogout width="25px" fill="fill-red-500" />
             SAIR
           </CustomButton>
         </div>
       </nav>
-      <section className="w-5/6 max-h-screen">
+      <section className="w-full max-h-screen">
         <Header
           icon={selectedSection.icon}
           description={selectedSection.name || "Visão geral"}

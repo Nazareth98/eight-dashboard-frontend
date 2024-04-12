@@ -49,7 +49,6 @@ const ModalWarning = (props) => {
       </div>
       <div className="bg-yellow-950 rounded p-2 border-2 border-yellow-400 flex items-center gap-2">
         <IconWarning fill="fill-yellow-400" />
-
         <p className="text-yellow-400">{props.message}</p>
       </div>
       <div>

@@ -1,5 +1,3 @@
-import React from "react";
-
 interface CardIconInfoType {
   data?: string;
   icon?: any;

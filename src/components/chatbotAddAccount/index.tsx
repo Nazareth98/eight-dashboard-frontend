@@ -65,8 +65,8 @@ const ChatbotAddAccount = () => {
         />
 
         <div className="w-full h-full flex items-end justify-end self-end gap-4">
-          <CustomButton type="danger" onClick={cleanFields}>
-            <IconClean fill="fill-red-500" width="25px" />
+          <CustomButton type="attention" onClick={cleanFields}>
+            <IconClean fill="fill-yellow-500" width="25px" />
             Limpar
           </CustomButton>
           <CustomButton onClick={handleAddAccount}>
