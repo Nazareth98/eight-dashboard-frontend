@@ -1,4 +1,4 @@
-import { KeyboardEvent, useContext, useState } from "react";
+import { useContext, useState } from "react";
 import IconAdd from "../../assets/svg/iconAdd";
 import CustomInput from "../shared/customInput";
 import CustomSubtitle from "../shared/customSubtitle";
@@ -6,8 +6,6 @@ import IconVisibilityOn from "../../assets/svg/iconVisibilityOn";
 import IconVisibilityOff from "../../assets/svg/iconVisibilityOff";
 import CheckboxGroup from "../shared/customCheckboxGroup";
 import CustomButton from "../shared/customButton";
-import IconWarning from "../../assets/svg/iconWarning";
-import { postData } from "../../services/API";
 import ModalWarning from "../shared/modal/modalWarning";
 import UserType from "../../types/userType";
 import { userContext } from "../../contexts/userContext";
@@ -35,17 +33,11 @@ const SettingsCreateUser = () => {
     setAccessLevel(level);
   };
 
-  const handleKeyPress = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === "Enter") {
-      handleCreateUser();
-    }
-  };
-
   const handleChangeVisibility = () => {
     setIsVisible(!isVisible);
   };
 
-  const cleanFieds = () => {
+  const cleanFields = () => {
     setName("");
     setLastname("");
     setPassword("");
@@ -75,7 +67,7 @@ const SettingsCreateUser = () => {
         setModalWarning(result.message);
         setModalIsOpen(true);
       } else {
-        cleanFieds();
+        cleanFields();
         alert(result.message);
       }
     } catch (error) {
@@ -116,7 +108,6 @@ const SettingsCreateUser = () => {
           placeholder="********"
           inputValue={password}
           setValue={setPassword}
-          onKeyPress={handleKeyPress}
           icon={
             isVisible ? (
               <IconVisibilityOn
@@ -140,7 +131,6 @@ const SettingsCreateUser = () => {
           placeholder="********"
           inputValue={confirmPassword}
           setValue={setConfirmPassword}
-          onKeyPress={handleKeyPress}
           icon={
             isVisible ? (
               <IconVisibilityOn
@@ -186,13 +176,13 @@ const SettingsCreateUser = () => {
         />
       </form>
       <div className="h-full w-full flex items-end justify-end gap-4">
-        <CustomButton type="attention" onClick={cleanFieds}>
+        <CustomButton type="attention" onClick={cleanFields}>
           <IconClean fill="fill-yellow-500" width="25px" />
           Limpar
         </CustomButton>
         <CustomButton onClick={handleCreateUser}>
           <IconAdd fill="fill-primary-400" width="25px" />
-          Atualizar
+          Adicionar
         </CustomButton>
       </div>
     </div>

@@ -30,7 +30,7 @@ const ChatbotContextProvider = ({ children }: any) => {
   const [accountsData, setAccountsData] = useState<AccountType[] | null>();
   const [activeAccount, setActiveAccount] = useState<AccountType | null>();
 
-  const getInitialData = async () => {
+  const setInitialData = async () => {
     try {
       const accounts = await getAccount();
       const rate = await getRate();
@@ -128,7 +128,7 @@ const ChatbotContextProvider = ({ children }: any) => {
   return (
     <chatbotContext.Provider
       value={{
-        getInitialData,
+        setInitialData,
         groupsData,
         contactsData,
         currentRate,

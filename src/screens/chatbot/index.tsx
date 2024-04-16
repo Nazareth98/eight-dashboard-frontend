@@ -10,11 +10,11 @@ import { useContext, useEffect } from "react";
 import { chatbotContext } from "../../contexts/chatbotContext";
 
 const Chatbot = () => {
-  const { getInitialData } = useContext(chatbotContext);
+  const { setInitialData } = useContext(chatbotContext);
 
   useEffect(() => {
     const loadData = async () => {
-      await getInitialData();
+      await setInitialData();
     };
     loadData();
   }, []);

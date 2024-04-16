@@ -6,6 +6,7 @@ import { AuthContextProvider } from "./contexts/authContext.tsx";
 import { ChatbotContextProvider } from "./contexts/chatbotContext.tsx";
 import { CustomerContextProvider } from "./contexts/customerContext.tsx";
 import { UserContextProvider } from "./contexts/userContext.tsx";
+import { ExchangerContextProvider } from "./contexts/exchangerContext.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
@@ -13,7 +14,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       <ChatbotContextProvider>
         <CustomerContextProvider>
           <UserContextProvider>
-            <App />
+            <ExchangerContextProvider>
+              <App />
+            </ExchangerContextProvider>
           </UserContextProvider>
         </CustomerContextProvider>
       </ChatbotContextProvider>

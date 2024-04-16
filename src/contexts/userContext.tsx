@@ -1,4 +1,3 @@
-// Arquivo: AuthContextProvider.js
 import { createContext, useState } from "react";
 
 import { getData, postData } from "../services/API";
