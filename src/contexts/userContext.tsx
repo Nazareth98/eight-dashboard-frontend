@@ -1,18 +1,20 @@
 import { createContext, useState } from "react";
 
-import { getData, postData } from "../services/API";
+import { deleteData, getData, postData } from "../services/API";
 import UserType from "../types/userType";
 
 interface UserContext {
   userData?: UserType[];
   updateData: () => void;
   createUser: (body: UserType) => Promise<any> | void;
+  deleteUser: (id: number) => any;
 }
 
 const initialState: UserContext = {
   userData: undefined,
   updateData: () => {},
   createUser: () => {},
+  deleteUser: () => {},
 };
 
 const userContext = createContext<UserContext>(initialState);
@@ -50,8 +52,21 @@ const UserContextProvider = ({ children }: any) => {
     }
   };
 
+  async function deleteUser(id: number) {
+    try {
+      const endpoint = `/user/${id}`;
+      const result = await deleteData(endpoint);
+      await updateData();
+      return result;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
-    <userContext.Provider value={{ updateData, userData, createUser }}>
+    <userContext.Provider
+      value={{ updateData, userData, createUser, deleteUser }}
+    >
       {children}
     </userContext.Provider>
   );

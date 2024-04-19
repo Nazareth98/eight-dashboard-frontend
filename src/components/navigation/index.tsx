@@ -42,7 +42,7 @@ interface OptionType {
 const Navigation = () => {
   const [selectedSection, setSelectedSection] = useState<OptionType>({ id: 1 });
 
-  const { getInitialData } = useContext(chatbotContext);
+  const { setInitialData } = useContext(chatbotContext);
   const { signOut } = useContext(authContext);
 
   const navOptions = [
@@ -173,14 +173,6 @@ const Navigation = () => {
       content: <Settings />,
     },
   ];
-
-  useEffect(() => {
-    async function loadData() {
-      await getInitialData();
-    }
-
-    loadData();
-  }, []);
 
   const handleSelectSection = ({
     currentTarget,

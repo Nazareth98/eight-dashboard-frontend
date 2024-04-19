@@ -1,7 +1,6 @@
 import { createContext, useState } from "react";
 
 import { deleteData, getData, postData } from "../services/API";
-import UserType from "../types/userType";
 import ExchangerType from "../types/exchangerType";
 
 interface ExchangerContext {

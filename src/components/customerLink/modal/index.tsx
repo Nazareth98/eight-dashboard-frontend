@@ -59,6 +59,7 @@ const ModalCustomerLink = (props) => {
 
   const resetSelection = () => {
     if (contactsData) {
+      console.log(contactsData);
       const updatedContacts = contactsData.map((contact) => {
         contact.isSelected = false;
         return contact;
