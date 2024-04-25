@@ -42,7 +42,6 @@ interface OptionType {
 const Navigation = () => {
   const [selectedSection, setSelectedSection] = useState<OptionType>({ id: 1 });
 
-  const { setInitialData } = useContext(chatbotContext);
   const { signOut } = useContext(authContext);
 
   const navOptions = [

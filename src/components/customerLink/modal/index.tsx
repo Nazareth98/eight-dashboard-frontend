@@ -48,6 +48,7 @@ const ModalCustomerLink = (props) => {
 
   const [groupOptions, setGroupOptions] = useState<GroupType[]>();
   const [contactOptions, setContactOptions] = useState<ContactType[]>();
+
   const [selectedContact, setSelectContact] = useState<ContactType>();
   const [selectedGroup, setSelectGroup] = useState<GroupType>();
 
@@ -59,7 +60,6 @@ const ModalCustomerLink = (props) => {
 
   const resetSelection = () => {
     if (contactsData) {
-      console.log(contactsData);
       const updatedContacts = contactsData.map((contact) => {
         contact.isSelected = false;
         return contact;

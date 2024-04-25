@@ -5,7 +5,7 @@ const CustomCheckbox = ({ label, checked, setChecked, onChange }) => {
   };
 
   return (
-    <div className="flex items-center gap-1">
+    <div className="flex gap-1">
       <input
         type="checkbox"
         checked={checked}

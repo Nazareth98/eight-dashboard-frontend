@@ -29,7 +29,6 @@ const StockList = () => {
           }
         });
       });
-      console.log(depositos);
       setStockResume(depositos);
     }
 

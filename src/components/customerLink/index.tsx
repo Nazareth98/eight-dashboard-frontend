@@ -25,14 +25,12 @@ const CustomerLink = () => {
   const [warningMessage, setWarningMessage] = useState("");
 
   useEffect(() => {
-    console.log(customerData);
     const updatedOptions = customerData?.map((customer) => {
       customer.value = customer.id;
       customer.label = `#${customer.id} - ${customer.name}`;
 
       return customer;
     });
-    console.log("atualizado", updatedOptions);
     setOptions(updatedOptions);
   }, [customerData]);
 
@@ -100,9 +98,9 @@ const CustomerLink = () => {
       <div className="w-full h-full flex items-start gap-2">
         <div className="w-1/2 flex flex-col gap-4">
           <CardIconInfo
-            label="SIGA ID"
+            label="Dígito"
             icon={<IconUser width="20px" fill="fill-primary-400" />}
-            data={selectedOption?.sigaId}
+            data={selectedOption?.sigaDigit}
           />
           <CardIconInfo
             label="Saldo"
