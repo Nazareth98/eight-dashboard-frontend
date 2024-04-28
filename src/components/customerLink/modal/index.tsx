@@ -8,7 +8,6 @@ import CardIconInfo from "../../shared/cardIconInfo";
 import IconUser from "../../../assets/svg/iconUser";
 import IconPayments from "../../../assets/svg/iconPayments";
 import ChatCard from "../../shared/card/chatCard";
-import { chatbotContext } from "../../../contexts/chatbotContext";
 import ContactType from "../../../types/contactType";
 import GroupType from "../../../types/groupType";
 import IconVerified from "../../../assets/svg/iconVerified";
@@ -18,6 +17,7 @@ import { customerContext } from "../../../contexts/customerContext";
 import CustomInput from "../../shared/customInput";
 import IconSearch from "../../../assets/svg/iconSearch";
 import CustomCheckbox from "../../shared/customCheckbox";
+import { contactsContext } from "../../../contexts/contactsContext";
 
 const customStyles = {
   overlay: {
@@ -43,8 +43,8 @@ const customStyles = {
 };
 
 const ModalCustomerLink = (props) => {
-  const { contactsData, groupsData } = useContext(chatbotContext);
-  const { refreshData } = useContext(customerContext);
+  const { contactData, groupData } = useContext(contactsContext);
+  const { getCustomers } = useContext(customerContext);
 
   const [groupOptions, setGroupOptions] = useState<GroupType[]>();
   const [contactOptions, setContactOptions] = useState<ContactType[]>();
@@ -59,8 +59,8 @@ const ModalCustomerLink = (props) => {
   const [deleteGroup, setDeleteGroup] = useState(false);
 
   const resetSelection = () => {
-    if (contactsData) {
-      const updatedContacts = contactsData.map((contact) => {
+    if (contactData) {
+      const updatedContacts = contactData.map((contact) => {
         contact.isSelected = false;
         return contact;
       });
@@ -69,8 +69,8 @@ const ModalCustomerLink = (props) => {
       setSelectContact(null);
     }
 
-    if (groupsData) {
-      const updatedGroups = groupsData.map((group) => {
+    if (groupData) {
+      const updatedGroups = groupData.map((group) => {
         group.isSelected = false;
         return group;
       });
@@ -145,7 +145,7 @@ const ModalCustomerLink = (props) => {
           : props.data.group,
       };
       const result = await putData(endpoint, data);
-      refreshData();
+      await getCustomers();
       alert(result.message);
     } catch (error) {
       console.error(error);
@@ -157,7 +157,7 @@ const ModalCustomerLink = (props) => {
     const textoDigitado = e.target.value;
     setInputGroup(textoDigitado);
 
-    const resultadosFiltrados = groupsData?.filter((group) => {
+    const resultadosFiltrados = groupData?.filter((group) => {
       return group.name.toLowerCase().includes(textoDigitado.toLowerCase());
     });
 
@@ -168,7 +168,7 @@ const ModalCustomerLink = (props) => {
     const textoDigitado = e.target.value;
     setInputContact(textoDigitado);
 
-    const resultadosFiltrados = contactsData?.filter((contact) =>
+    const resultadosFiltrados = contactData?.filter((contact) =>
       contact.name.toLowerCase().includes(textoDigitado.toLowerCase())
     );
 
@@ -273,6 +273,7 @@ const ModalCustomerLink = (props) => {
               {groupOptions?.map((group: GroupType) => {
                 return (
                   <ChatCard
+                    key={group.id}
                     id={group.id}
                     checked={group.isSelected}
                     name={group.name}
@@ -287,6 +288,7 @@ const ModalCustomerLink = (props) => {
               {contactOptions?.map((contact: ContactType) => {
                 return (
                   <ChatCard
+                    key={contact.id}
                     id={contact.id}
                     checked={contact.isSelected}
                     name={contact.name}

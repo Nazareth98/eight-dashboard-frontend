@@ -1,7 +1,6 @@
 import { createContext, useState } from "react";
 
-import { getData } from "../services/API";
-import ExchangerType from "../types/exchangerType";
+import { getData, postData } from "../services/API";
 import GroupType from "../types/groupType";
 import ContactType from "../types/contactType";
 
@@ -9,12 +8,14 @@ interface ShootingContext {
   groupsData?: GroupType[];
   contactsData?: ContactType[];
   updateData: () => void;
+  shooting: (body: any) => Promise<any>;
 }
 
 const initialState: ShootingContext = {
   groupsData: undefined,
   contactsData: undefined,
   updateData: () => {},
+  shooting: async () => {},
 };
 
 const shootingContext = createContext<ShootingContext>(initialState);
@@ -54,8 +55,20 @@ const ShootingContextProvider = ({ children }: any) => {
     }
   }
 
+  async function shooting(body) {
+    try {
+      const endpoint = "/chatbot/shooting-all";
+      const result = await postData(endpoint, body);
+      return result;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
-    <shootingContext.Provider value={{ contactsData, groupsData, updateData }}>
+    <shootingContext.Provider
+      value={{ contactsData, groupsData, updateData, shooting }}
+    >
       {children}
     </shootingContext.Provider>
   );

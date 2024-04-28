@@ -36,7 +36,6 @@ const ChatbotContextProvider = ({ children }: any) => {
       const rate = await getRate();
       const endpoint = "/chatbot/refresh-data";
       const { result } = await getData(endpoint);
-      console.log(accounts);
       setAccountsData(accounts);
       setCurrentRate(rate);
       setGroupsData(result.updateGroups);

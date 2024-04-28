@@ -10,6 +10,7 @@ import { ExchangerContextProvider } from "./contexts/exchangerContext.tsx";
 import { StockContextProvider } from "./contexts/stockContext.tsx";
 import { ShootingContextProvider } from "./contexts/shootingContext.tsx";
 import { OrderContextProvider } from "./contexts/orderContext.tsx";
+import { ContactsContextProvider } from "./contexts/contactsContext.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
@@ -21,7 +22,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
               <StockContextProvider>
                 <ShootingContextProvider>
                   <OrderContextProvider>
-                    <App />
+                    <ContactsContextProvider>
+                      <App />
+                    </ContactsContextProvider>
                   </OrderContextProvider>
                 </ShootingContextProvider>
               </StockContextProvider>
