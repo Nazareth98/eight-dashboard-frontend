@@ -9,10 +9,10 @@ function getToken() {
   return token;
 }
 
-export const getData = async (endpoint: string) => {
+export const getData = async (endpoint: string, body?: any) => {
   try {
     getToken();
-    const result = await axios.get(`${baseUrl}${endpoint}`);
+    const result = await axios.get(`${baseUrl}${endpoint}`, body);
     console.log(result.data);
     return result.data;
   } catch (error) {

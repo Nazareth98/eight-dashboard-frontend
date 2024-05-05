@@ -11,6 +11,7 @@ import { StockContextProvider } from "./contexts/stockContext.tsx";
 import { ShootingContextProvider } from "./contexts/shootingContext.tsx";
 import { OrderContextProvider } from "./contexts/orderContext.tsx";
 import { ContactsContextProvider } from "./contexts/contactsContext.tsx";
+import { BillToPayContextProvider } from "./contexts/billToPayContext.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
@@ -23,7 +24,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
                 <ShootingContextProvider>
                   <OrderContextProvider>
                     <ContactsContextProvider>
-                      <App />
+                      <BillToPayContextProvider>
+                        <App />
+                      </BillToPayContextProvider>
                     </ContactsContextProvider>
                   </OrderContextProvider>
                 </ShootingContextProvider>
