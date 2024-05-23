@@ -2,6 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+html,
+body {
+  width: 100vw;
+  max-width: 100vw;
+}
+
+* {
+  box-sizing: border-box;
+}
+
 .float-icon {
   position: absolute;
   right: 10px;
@@ -10,4 +20,11 @@
 
 .block-height {
   height: 90vh;
+}
+
+.container {
+  max-width: calc(100vw - 320px);
+  min-height: 100vh; /* Exemplo para definir a altura como 100% da altura da viewport */
+  overflow: auto; /* Se desejar rolagem quando o conteúdo exceder o container */
+  box-sizing: border-box; /* Inclui padding e bordas na largura e altura total */
 }

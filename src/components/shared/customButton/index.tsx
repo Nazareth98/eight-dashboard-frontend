@@ -20,26 +20,26 @@ const CustomButton = (props: CustomButtonProps) => {
       break;
     case "danger":
       bgColorClass =
-        " border-2 border-red-500 hover:bg-red-950 hover:border-red-600 active:bg-red-900";
-      textColorClass = "text-red-500";
+        "bg-red-800 hover:bg-red-700 hover:border-red-600 active:bg-red-900";
+      textColorClass = "text-red-100";
       break;
     case "attention":
-      bgColorClass =
-        "border-2 border-yellow-300 hover:bg-yellow-950  active:bg-yellow-900";
-      textColorClass = "text-yellow-400";
+      bgColorClass = "bg-yellow-400 hover:bg-yellow-300 active:bg-yellow-600";
+      textColorClass = "text-yellow-900";
       break;
     default:
       bgColorClass =
-        "border-2 border-primary-300 hover:bg-primary-950 hover:border-primary-300 active:bg-primary-900";
-      textColorClass = "text-primary-300";
+        "bg-primary-400 hover:bg-primary-300 active:bg-primary-600";
+      textColorClass = "text-primary-900";
       break;
   }
 
   return (
     <button
-      className={`px-4 py-2 rounded font-medium transition flex flex-row items-center justify-center gap-2 ${bgColorClass} ${textColorClass} ${props.className}`}
+      className={`px-4 py-2 rounded font-semibold font-heading transition flex flex-row items-center justify-center gap-2 active:translate-y-1 ${bgColorClass} ${textColorClass} ${props.className}`}
       onClick={props.onClick}
       disabled={props.disabled ? props.disabled : false}
+      id={props.id}
     >
       {props.children}
     </button>

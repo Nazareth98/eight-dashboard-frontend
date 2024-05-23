@@ -30,10 +30,12 @@ const AuthContextProvider = ({ children }) => {
 
   const signIn = async (email: string, password: string) => {
     try {
-      const response = await postData("/auth/login", {
+      const body = {
         email,
         password,
-      });
+      };
+      console.log("chegou aqui", body);
+      const response = await postData("/auth/login", body);
 
       if (response.status === 200) {
         const teste = JSON.stringify(response.token);

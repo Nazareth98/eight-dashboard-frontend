@@ -79,7 +79,7 @@ const CustomerLink = () => {
   };
 
   return (
-    <div className="col-span-5 row-span-4 bg-gray-900 p-4 rounded-sm border-2 border-gray-800 flex flex-col gap-4">
+    <div className="h-[20rem] col-span-5 row-span-6 bg-gray-900 p-6 rounded-xl border-2 border-gray-800 flex flex-col gap-4">
       <ModalCustomerLink
         isOpen={activeModal}
         setIsOpen={setActiveModal}
@@ -149,11 +149,11 @@ const CustomerLink = () => {
           type="attention"
           disabled={buttonsDisabled}
         >
-          <IconRefresh width="25px" fill="fill-yellow-400" />
+          <IconRefresh width="25px" fill="fill-yellow-600" />
           Atualizar dados
         </CustomButton>
         <CustomButton disabled={buttonsDisabled} onClick={handleLinkContacts}>
-          <IconLink width="25px" fill="fill-primary-400" />
+          <IconLink width="25px" fill="fill-primary-700" />
           Vincular
         </CustomButton>
       </div>

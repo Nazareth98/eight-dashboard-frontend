@@ -4,17 +4,19 @@ import ChatbotQrcode from "../../components/chatbotQrcode";
 import ChatbotShooting from "../../components/chatbotShooting";
 import ChatbotAccountList from "../../components/chatbotAccountList";
 
-import ChatbotAddAccount from "../../components/chatbotAddAccount";
 import ChatbotUpdateRate from "../../components/chatbotUpdateRate";
 import { useContext, useEffect } from "react";
 import { chatbotContext } from "../../contexts/chatbotContext";
+import { contactsContext } from "../../contexts/contactsContext";
 
 const Chatbot = () => {
   const { setInitialData } = useContext(chatbotContext);
+  const { updateData } = useContext(contactsContext);
 
   useEffect(() => {
     const loadData = async () => {
       await setInitialData();
+      await updateData();
     };
     loadData();
   }, []);
@@ -25,7 +27,6 @@ const Chatbot = () => {
       <ChatbotQrcode />
       <ChatbotShooting />
       <ChatbotAccountList />
-      <ChatbotAddAccount />
       <ChatbotUpdateRate />
     </ScreenContainer>
   );

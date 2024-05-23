@@ -1,4 +1,4 @@
-import { ReactElement, useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 
 import IconDispatches from "../../assets/svg/iconDispatches";
 import IconLogout from "../../assets/svg/iconLogout";
@@ -40,22 +40,37 @@ interface OptionType {
 }
 
 const Navigation = () => {
-  const [selectedSection, setSelectedSection] = useState<OptionType>({ id: 1 });
+  const [selectedSection, setSelectedSection] = useState<OptionType>({
+    id: 10,
+  });
 
   const { signOut } = useContext(authContext);
 
   const navOptions = [
+    // {
+    //   id: 1,
+    //   name: "Visão Geral",
+    //   description: "Visão geral",
+    //   icon: (
+    //     <IconOverview
+    //       width="24px"
+    //       fill={selectedSection.id === 1 ? "fill-primary-400" : "fill-gray-400"}
+    //     />
+    //   ),
+    //   content: <Overview />,
+    // },
     {
-      id: 1,
-      name: "Visão Geral",
-      description: "Visão geral",
+      id: 10,
+      name: "Chatbot",
       icon: (
-        <IconOverview
+        <IconPhone
           width="24px"
-          fill={selectedSection.id === 1 ? "fill-primary-400" : "fill-gray-400"}
+          fill={
+            selectedSection.id === 10 ? "fill-primary-400" : "fill-gray-400"
+          }
         />
       ),
-      content: <Overview />,
+      content: <Chatbot />,
     },
     {
       id: 2,
@@ -68,17 +83,17 @@ const Navigation = () => {
       ),
       content: <BillsToPay />,
     },
-    {
-      id: 3,
-      name: "Contas à receber",
-      icon: (
-        <IconSaving
-          width="24px"
-          fill={selectedSection.id === 3 ? "fill-primary-400" : "fill-gray-400"}
-        />
-      ),
-      content: <BillsToReceive />,
-    },
+    // {
+    //   id: 3,
+    //   name: "Contas à receber",
+    //   icon: (
+    //     <IconSaving
+    //       width="24px"
+    //       fill={selectedSection.id === 3 ? "fill-primary-400" : "fill-gray-400"}
+    //     />
+    //   ),
+    //   content: <BillsToReceive />,
+    // },
     {
       id: 4,
       name: "Analytics",
@@ -90,17 +105,17 @@ const Navigation = () => {
       ),
       content: <Analytics />,
     },
-    {
-      id: 5,
-      name: "Cambistas",
-      icon: (
-        <IconExchange
-          width="24px"
-          fill={selectedSection.id === 5 ? "fill-primary-400" : "fill-gray-400"}
-        />
-      ),
-      content: <Exchangers />,
-    },
+    // {
+    //   id: 5,
+    //   name: "Cambistas",
+    //   icon: (
+    //     <IconExchange
+    //       width="24px"
+    //       fill={selectedSection.id === 5 ? "fill-primary-400" : "fill-gray-400"}
+    //     />
+    //   ),
+    //   content: <Exchangers />,
+    // },
     {
       id: 6,
       name: "Estoque",
@@ -145,19 +160,7 @@ const Navigation = () => {
       ),
       content: <Orders />,
     },
-    {
-      id: 10,
-      name: "Chatbot",
-      icon: (
-        <IconPhone
-          width="24px"
-          fill={
-            selectedSection.id === 10 ? "fill-primary-400" : "fill-gray-400"
-          }
-        />
-      ),
-      content: <Chatbot />,
-    },
+
     {
       id: 11,
       name: "Configurações",
@@ -182,8 +185,8 @@ const Navigation = () => {
   };
 
   return (
-    <div className="flex h-full w-full bg-gray-950">
-      <nav className="bg-gray-900 w-[350px] h-full p-12 flex flex-col gap-8 items-center">
+    <div className="w-full">
+      <div className="bg-gray-900 w-[320px] h-full p-12 flex flex-col gap-8 items-center fixed left-0 top-0">
         <div>
           <img src={fullLogo} alt="Logo Principal" />
         </div>
@@ -194,8 +197,8 @@ const Navigation = () => {
               key={item.id}
               className={`py-3 px-4 flex items-center gap-2 font-semibold rounded cursor-pointer transition hover:translate-x-2 ${
                 selectedSection.id === item.id
-                  ? "text-primary-400 bg-primary-950 border-2 border-primary-400 hover:bg-primary-900 translate-x-8 hover:translate-x-8"
-                  : "text-gray-400 border-2 border-gray-900 hover:bg-gray-950"
+                  ? "text-white border-l-4 border-primary-400 translate-x-8 hover:translate-x-8"
+                  : "text-gray-400 border-l-2 border-gray-900 hover:bg-gray-950"
               }`}
               onClick={handleSelectSection}
             >
@@ -206,18 +209,20 @@ const Navigation = () => {
         </ul>
         <div className="mt-auto">
           <CustomButton type="danger" onClick={signOut}>
-            <IconLogout width="25px" fill="fill-red-500" />
+            <IconLogout width="25px" fill="fill-red-900" />
             SAIR
           </CustomButton>
         </div>
-      </nav>
-      <section className="w-full max-h-screen">
-        <Header
-          icon={selectedSection.icon}
-          description={selectedSection.name || "Visão geral"}
-        />
-        {selectedSection.content || <Overview />}
-      </section>
+      </div>
+      <div className="ml-[320px] container w-full h-full flex bg-gray-950">
+        <section className="w-full h-screen flex flex-col">
+          <Header
+            icon={selectedSection.icon}
+            description={selectedSection.name || "Visão geral"}
+          />
+          {selectedSection.content || <Chatbot />}
+        </section>
+      </div>
     </div>
   );
 };

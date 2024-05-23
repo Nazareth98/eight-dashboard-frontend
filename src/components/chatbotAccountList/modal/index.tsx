@@ -1,6 +1,9 @@
 import Modal from "react-modal";
 import IconEdit from "../../../assets/svg/iconEdit";
 import CustomButton from "../../shared/customButton";
+import { useEffect, useState } from "react";
+import CustomInput from "../../shared/customInput";
+import CustomTextarea from "../../shared/customTextarea";
 Modal.setAppElement("#root");
 
 const customStyles = {
@@ -27,9 +30,23 @@ const customStyles = {
 };
 
 const ModalAccount = (props) => {
+  const [name, setName] = useState("");
+  const [text, setText] = useState("");
+
   const closeModal = () => {
     props.setIsOpen(false);
   };
+
+  useEffect(() => {
+    function loadData() {
+      setName(props.data.name);
+      setText(props.data.text);
+    }
+
+    if (props.data) {
+      loadData();
+    }
+  }, [props]);
 
   return (
     <Modal
@@ -42,21 +59,27 @@ const ModalAccount = (props) => {
         <IconEdit width="40px" fill="fill-primary-300" />
 
         <h3 className="font-heading font-semibold text-gray-50 text-3xl">
-          {props.data?.name}
+          {props.data?.type}
         </h3>
       </div>
-      <div className="w-full flex flex-col gap-4">
-        <span className="font-medium text-gray-50">Texto:</span>
-        <p className="max-w-80 text-gray-300">{props.data?.text}</p>
-      </div>
-      <div className="flex items center justify-center gap-8">
+
+      <form className="flex flex-col gap-4 w-[30rem]">
+        <CustomInput label="Nome" inputValue={name} setValue={setName} />
+        <CustomTextarea
+          label="Texto"
+          value={text}
+          setValue={setText}
+          rows={8}
+        />
+      </form>
+
+      <div className="w-full flex items-center justify-end gap-8">
         <CustomButton type="attention" onClick={closeModal}>
           VOLTAR
         </CustomButton>
-        <CustomButton type="danger" onClick={props.onDelete}>
-          EXCLUIR
+        <CustomButton onClick={() => props.onConfirm(name, text)}>
+          SALVAR
         </CustomButton>
-        <CustomButton onClick={props.onConfirm}>ATIVAR</CustomButton>
       </div>
     </Modal>
   );

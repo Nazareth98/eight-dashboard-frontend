@@ -18,10 +18,11 @@ const stockContext = createContext<StockContext>(initialState);
 const StockContextProvider = ({ children }: any) => {
   const [stockData, setStockData] = useState<any[]>();
 
-  async function getExchangers() {
+  async function getStock() {
     try {
       const endpoint = "/stock";
       const { result } = await getData(endpoint);
+      console.log(result);
       return result;
     } catch (error) {
       console.log(error);
@@ -30,7 +31,7 @@ const StockContextProvider = ({ children }: any) => {
 
   async function updateData() {
     try {
-      const data = await getExchangers();
+      const data = await getStock();
       setStockData(data);
     } catch (error) {
       console.log(error);

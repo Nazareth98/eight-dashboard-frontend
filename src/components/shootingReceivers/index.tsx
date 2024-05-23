@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 
 import CustomSubtitle from "../shared/customSubtitle";
 import IconGroups from "../../assets/svg/iconGroups";
@@ -9,6 +9,7 @@ import ContactType from "../../types/contactType";
 import ChatCard from "../shared/card/chatCard";
 import CustomInput from "../shared/customInput";
 import IconSearch from "../../assets/svg/iconSearch";
+import Loading from "../shared/loading";
 
 const ShootingReceivers = ({
   setSelectContacts,
@@ -17,6 +18,8 @@ const ShootingReceivers = ({
   selectGroups,
 }) => {
   const { contactsData, groupsData } = useContext(shootingContext);
+
+  const [isLoading, setIsLoading] = useState(true);
 
   const [allGroupsChecked, setAllGroupsChecked] = useState(false);
   const [allContactsChecked, setAllContactsChecked] = useState(false);
@@ -27,27 +30,26 @@ const ShootingReceivers = ({
   const [inputGroup, setInputGroup] = useState("");
   const [inputContact, setInputContact] = useState("");
 
-  const resetSelection = () => {
-    if (contactsData) {
+  useState(() => {
+    const resetSelection = () => {
       const updatedContacts = contactsData.map((contact) => {
         contact.isSelected = false;
         return contact;
       });
       setContactOptions(updatedContacts);
-    }
 
-    if (groupsData) {
       const updatedGroups = groupsData.map((group) => {
         group.isSelected = false;
         return group;
       });
-
       setGroupOptions(updatedGroups);
-    }
-  };
 
-  useState(() => {
-    resetSelection();
+      setTimeout(() => setIsLoading(false), 300);
+    };
+
+    if (contactsData && groupsData) {
+      resetSelection();
+    }
   }, []);
 
   function handleCheckAllGroups() {
@@ -151,65 +153,72 @@ const ShootingReceivers = ({
   }
 
   return (
-    <div className="col-span-6 row-span-12 bg-gray-900 p-4 rounded-sm border-2 border-gray-800 flex flex-col gap-4">
+    <div className="h-[52rem] col-span-6 row-span-12 bg-gray-900 p-6 rounded-xl border-2 border-gray-800 flex flex-col gap-4">
       <CustomSubtitle
         icon={<IconGroups fill="fill-primary-400" width="25px" />}
         subtitle="Selecione os destinatários"
       />
-      <div className="w-full flex items-center gap-8">
-        <CustomCheckbox
-          label="Todos os Grupos"
-          checked={allGroupsChecked}
-          onChange={handleCheckAllGroups}
-        />
-        <CustomCheckbox
-          label="Todos os Contatos"
-          checked={allContactsChecked}
-          onChange={handleCheckAllContacts}
-        />
-      </div>
-      <div className="w-full flex items-center justify-center gap-8 ">
-        <div className="w-1/2 flex flex-col gap-4">
-          <CustomInput
-            inputValue={inputGroup}
-            icon={<IconSearch fill="fill-gray-600" />}
-            placeholder="Pesquise por um Grupo"
-            onChange={handleSearchGroup}
-          />
-          <div className="w-full h-[550px] pr-2 overflow-y-auto flex flex-col gap-2">
-            {groupOptions?.map((group: GroupType) => {
-              return (
-                <ChatCard
-                  id={group.id}
-                  checked={group.isSelected}
-                  name={group.name}
-                  onClick={handleSelectGroup}
-                />
-              );
-            })}
+
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <>
+          <div className="w-full flex items-center gap-8">
+            <CustomCheckbox
+              label="Todos os Grupos"
+              checked={allGroupsChecked}
+              onChange={handleCheckAllGroups}
+            />
+            <CustomCheckbox
+              label="Todos os Contatos"
+              checked={allContactsChecked}
+              onChange={handleCheckAllContacts}
+            />
           </div>
-        </div>
-        <div className="w-1/2 flex flex-col gap-4">
-          <CustomInput
-            inputValue={inputContact}
-            icon={<IconSearch fill="fill-gray-600" />}
-            placeholder="Pesquise por um Contato"
-            onChange={handleSearchContact}
-          />
-          <div className="w-full h-[550px] pr-2 overflow-y-auto flex flex-col gap-2">
-            {contactOptions?.map((contact: ContactType) => {
-              return (
-                <ChatCard
-                  id={contact.id}
-                  checked={contact.isSelected}
-                  name={contact.name}
-                  onClick={handleSelectContact}
-                />
-              );
-            })}
+          <div className="w-full flex items-center justify-center gap-8 ">
+            <div className="w-1/2 flex flex-col gap-4">
+              <CustomInput
+                inputValue={inputGroup}
+                icon={<IconSearch fill="fill-gray-600" />}
+                placeholder="Pesquise por um Grupo"
+                onChange={handleSearchGroup}
+              />
+              <div className="w-full h-[38rem] pr-2 overflow-y-auto flex flex-col gap-2">
+                {groupOptions?.map((group: GroupType) => {
+                  return (
+                    <ChatCard
+                      id={group.id}
+                      checked={group.isSelected}
+                      name={group.name}
+                      onClick={handleSelectGroup}
+                    />
+                  );
+                })}
+              </div>
+            </div>
+            <div className="w-1/2 flex flex-col gap-4">
+              <CustomInput
+                inputValue={inputContact}
+                icon={<IconSearch fill="fill-gray-600" />}
+                placeholder="Pesquise por um Contato"
+                onChange={handleSearchContact}
+              />
+              <div className="w-full h-[38rem] pr-2 overflow-y-auto flex flex-col gap-2">
+                {contactOptions?.map((contact: ContactType) => {
+                  return (
+                    <ChatCard
+                      id={contact.id}
+                      checked={contact.isSelected}
+                      name={contact.name}
+                      onClick={handleSelectContact}
+                    />
+                  );
+                })}
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+        </>
+      )}
     </div>
   );
 };

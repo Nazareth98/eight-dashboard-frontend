@@ -1,23 +1,16 @@
-// Arquivo: AuthContextProvider.js
 import { createContext, useState } from "react";
 
 import { getData, postData, putData } from "../services/API";
 import RateType from "../types/rateType";
-import GroupType from "../types/groupType";
-import ContactType from "../types/contactType";
 import AccountType from "../types/accountType";
 
 interface ChatbotContext {
   currentRate: RateType | null;
-  groupsData: GroupType[] | null;
-  contactsData: ContactType[] | null;
   activeAccounts: AccountType | null;
 }
 
 const initialState: ChatbotContext = {
   currentRate: null,
-  groupsData: null,
-  contactsData: null,
   activeAccounts: null,
 };
 
@@ -25,8 +18,6 @@ const chatbotContext = createContext<ChatbotContext>(initialState);
 
 const ChatbotContextProvider = ({ children }: any) => {
   const [currentRate, setCurrentRate] = useState<RateType | null>();
-  const [groupsData, setGroupsData] = useState<GroupType[] | null>();
-  const [contactsData, setContactsData] = useState<GroupType[] | null>();
   const [accountsData, setAccountsData] = useState<AccountType[] | null>();
   const [activeAccount, setActiveAccount] = useState<AccountType | null>();
 
@@ -34,14 +25,11 @@ const ChatbotContextProvider = ({ children }: any) => {
     try {
       const accounts = await getAccount();
       const rate = await getRate();
-      const endpoint = "/chatbot/refresh-data";
-      const { result } = await getData(endpoint);
       setAccountsData(accounts);
       setCurrentRate(rate);
-      setGroupsData(result.updateGroups);
-      setContactsData(result.updateContacts);
     } catch (error) {
       console.log(error);
+      throw new Error(error);
     }
   };
 
@@ -52,6 +40,7 @@ const ChatbotContextProvider = ({ children }: any) => {
       return result;
     } catch (error) {
       console.log(error);
+      throw new Error(error);
     }
   };
 
@@ -66,6 +55,7 @@ const ChatbotContextProvider = ({ children }: any) => {
       return result;
     } catch (error) {
       console.log(error);
+      throw new Error(error);
     }
   };
 
@@ -76,6 +66,7 @@ const ChatbotContextProvider = ({ children }: any) => {
       return result;
     } catch (error) {
       console.log(error);
+      throw new Error(error);
     }
   };
 
@@ -86,17 +77,19 @@ const ChatbotContextProvider = ({ children }: any) => {
       return result;
     } catch (error) {
       console.log(error);
+      throw new Error(error);
     }
   };
 
-  const updateActiveAccount = async (account: AccountType) => {
+  const updateAccount = async (account: AccountType) => {
     try {
       const id = account.id;
       const endpoint = `/chatbot/account/${id}`;
-      const result = await putData(endpoint, {});
+      const result = await putData(endpoint, account);
       return result;
     } catch (error) {
       console.log(error);
+      throw new Error(error);
     }
   };
 
@@ -109,6 +102,7 @@ const ChatbotContextProvider = ({ children }: any) => {
       return result;
     } catch (error) {
       console.log(error);
+      throw new Error(error);
     }
   };
 
@@ -124,19 +118,29 @@ const ChatbotContextProvider = ({ children }: any) => {
     }
   };
 
+  const refreshData = async () => {
+    try {
+      const endpoint = `/chatbot/refresh-data`;
+      const result = await getData(endpoint);
+      return result;
+    } catch (error) {
+      console.log(error);
+      throw new Error(error);
+    }
+  };
+
   return (
     <chatbotContext.Provider
       value={{
         setInitialData,
-        groupsData,
-        contactsData,
+        refreshData,
         currentRate,
         accountsData,
         activeAccount,
         shootingRate,
         shootingAccount,
         getAccount,
-        updateActiveAccount,
+        updateAccount,
         addAccount,
         updateRate,
       }}

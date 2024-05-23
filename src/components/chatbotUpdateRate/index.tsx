@@ -7,6 +7,7 @@ import IconClean from "../../assets/svg/iconClean";
 import IconAdd from "../../assets/svg/iconAdd";
 import { chatbotContext } from "../../contexts/chatbotContext";
 import ModalWarning from "../shared/modal/modalWarning";
+import IconRefresh from "../../assets/svg/iconRefresh";
 
 const ChatbotUpdateRate = () => {
   const { updateRate } = useContext(chatbotContext);
@@ -26,14 +27,14 @@ const ChatbotUpdateRate = () => {
   };
 
   return (
-    <div className="col-span-3 row-span-3 bg-gray-900 p-4 rounded-sm border-2 border-gray-800 flex flex-col gap-4">
+    <div className="col-span-3 col-start-10 bg-gray-900 p-6 rounded-xl border-2 border-gray-800 flex flex-col gap-4">
       <ModalWarning
         isOpen={activeModal}
         setIsOpen={setActiveModal}
         message={modalMessage}
       />
       <CustomSubtitle
-        icon={<IconExchange fill="fill-primary-400" width="25px" />}
+        icon={<IconExchange fill="fill-gray-500" width="25px" />}
         subtitle="Atualize a Taxa"
       />
       <div className="w-full h-full flex flex-col gap-4">
@@ -45,11 +46,10 @@ const ChatbotUpdateRate = () => {
         />
         <div className="w-full h-full flex items-end justify-end self-end gap-4">
           <CustomButton type="attention">
-            <IconClean fill="fill-yellow-500" width="25px" />
-            Limpar
+            <IconClean fill="fill-yellow-600" width="25px" />
           </CustomButton>
           <CustomButton onClick={handleUpdateRate}>
-            <IconAdd fill="fill-primary-400" width="25px" />
+            <IconRefresh fill="fill-primary-700" width="25px" />
             Atualizar
           </CustomButton>
         </div>

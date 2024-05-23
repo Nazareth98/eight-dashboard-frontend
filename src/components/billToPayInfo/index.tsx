@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import DataCard from "../shared/card/dataCard";
 import IconPayments from "../../assets/svg/iconPayments";
 import { billToPayContext } from "../../contexts/billToPayContext";
+import { formatCurrency } from "../../utils/generalsUtils";
 
 const BillToPayInfo = () => {
   const { updateData, billToPayData } = useContext(billToPayContext);
@@ -9,9 +10,9 @@ const BillToPayInfo = () => {
   const [total, setTotal] = useState(0);
   const [paidOut, setPaidOut] = useState(0);
   const [pending, setPending] = useState(0);
+  const [billsAmount, setBillAmount] = useState(0);
 
   useEffect(() => {
-    console.log(billToPayData);
     if (!billToPayData) {
       setTotal(0);
       setPaidOut(0);
@@ -32,10 +33,10 @@ const BillToPayInfo = () => {
         pendingSum += billValue;
       }
     });
-    console.log("chegou");
     setTotal(totalSum);
     setPaidOut(paidOutSum);
     setPending(pendingSum);
+    setBillAmount(billToPayData.length);
   }, [billToPayData]);
 
   return (
@@ -44,20 +45,25 @@ const BillToPayInfo = () => {
         type="alternate"
         name="Total do mês"
         icon={<IconPayments fill="fill-gray-300" />}
-        value={`$${total}`}
+        value={`$${formatCurrency(total)}`}
       />
 
       <DataCard
         name="Pago"
         icon={<IconPayments fill="fill-primary-400" />}
-        value={`$${paidOut}`}
+        value={`$${formatCurrency(paidOut)}`}
       />
 
       <DataCard
         type="danger"
         name="Pendente"
         icon={<IconPayments fill="fill-red-500 " />}
-        value={`$${pending}`}
+        value={`$${formatCurrency(pending)}`}
+      />
+      <DataCard
+        type="attention"
+        name="Contas totais"
+        value={`${billsAmount}`}
       />
     </>
   );

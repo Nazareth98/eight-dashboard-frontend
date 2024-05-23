@@ -25,7 +25,6 @@ const CustomerContextProvider = ({ children }: any) => {
     try {
       const endpoint = "/customer";
       const { result } = await getData(endpoint);
-      console.log("aqui", result);
       setCustomerData(result);
     } catch (error) {
       console.log(error);

@@ -2,7 +2,6 @@ import React, { useContext, useState } from "react";
 import { exchangerContext } from "../../contexts/exchangerContext";
 import CustomSubtitle from "../shared/customSubtitle";
 import IconGroups from "../../assets/svg/iconGroups";
-import IconEdit from "../../assets/svg/iconEdit";
 import IconDelete from "../../assets/svg/iconDelete";
 import ModalConfirm from "../shared/modal/modalConfirm";
 import ModalWarning from "../shared/modal/modalWarning";

@@ -45,7 +45,7 @@ const SettingsUserList = () => {
   }
 
   return (
-    <div className="col-span-8 row-span-6 row-start-5 col-start-5 bg-gray-900 p-4 rounded-sm border-2 border-gray-800 flex flex-col gap-4">
+    <div className="h-[52rem] col-span-8 row-span-12 col-start-5 bg-gray-900 p-6 rounded-xl border-2 border-gray-800 flex flex-col gap-4">
       <ModalConfirm
         isOpen={modalIsOpen}
         setIsOpen={setModalIsOpen}

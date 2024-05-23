@@ -74,6 +74,9 @@ const OrderContextProvider = ({ children }: any) => {
       };
       const endpoint = `/order/${id}`;
       const response = await postData(endpoint, body);
+      if (!response.status) {
+        return response.response.data;
+      }
       return response;
     } catch (error) {
       console.log(error);

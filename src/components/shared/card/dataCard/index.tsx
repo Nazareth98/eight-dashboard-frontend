@@ -28,7 +28,7 @@ const DataCard = (props) => {
   }
 
   return (
-    <div className="bg-gray-900 p-4 rounded border-2 border-gray-800 col-span-2 row-span-2 flex items-center gap-4">
+    <div className="bg-gray-900 col-span-3 row-span-3 p-6 rounded-xl border-2 border-gray-800 flex items-center gap-4">
       <div className={`p-3 rounded-full transition ${bgColorClass}`}>
         {props.icon ? (
           props.icon

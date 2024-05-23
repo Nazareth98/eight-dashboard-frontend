@@ -29,7 +29,7 @@ const Header = (props: HeaderType) => {
   }, []);
 
   return (
-    <header className="bg-gray-900 w-full h-16 p-4 grid grid-cols-12">
+    <header className="w-full h-16 p-4 grid grid-cols-12">
       <div className="col-span-3 flex items-center gap-2">
         {props.icon}
         <h2 className="text-2xl font-medium text-gray-50">

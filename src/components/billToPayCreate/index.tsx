@@ -59,7 +59,7 @@ const BillToPayCreate = () => {
   }
 
   return (
-    <div className="col-span-4 row-span-8 row-start-3 col-start-9 bg-gray-900 p-4 rounded-sm border-2 border-gray-800 flex flex-col gap-4">
+    <div className="col-span-3 row-span-9 bg-gray-900 p-6 rounded-xl border-2 border-gray-800 flex flex-col gap-4">
       <CustomSubtitle
         icon={<IconAdd fill="fill-primary-400" width="25px" />}
         subtitle="Adiciona Conta à Pagar"
@@ -101,12 +101,11 @@ const BillToPayCreate = () => {
       </form>
       <div className="h-full w-full flex items-end justify-end gap-4">
         <CustomButton type="attention" onClick={cleanFields}>
-          <IconClean fill="fill-yellow-500" width="25px" />
-          LIMPAR
+          <IconClean fill="fill-yellow-600" width="25px" />
         </CustomButton>
         <CustomButton onClick={handleCreateBill}>
-          <IconAdd fill="fill-primary-400" width="25px" />
-          ADICIONAR
+          <IconAdd fill="fill-primary-700" width="25px" />
+          Adicionar
         </CustomButton>
       </div>
     </div>

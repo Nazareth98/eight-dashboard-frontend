@@ -1,6 +1,6 @@
 import { createContext, useState } from "react";
 
-import { deleteData, getData, postData } from "../services/API";
+import { deleteData, getData, postData, putData } from "../services/API";
 import BillToPayType from "../types/billToPayType";
 
 interface BillToPayContext {
@@ -8,6 +8,8 @@ interface BillToPayContext {
   updateData: () => void;
   createBillToPay: (body: BillToPayType) => Promise<any> | void;
   deleteBillToPay: (id: number) => any;
+  updateBillToPayStatus: (id: number) => any;
+  updateBillToPayData: (body: BillToPayType) => any;
 }
 
 const initialState: BillToPayContext = {
@@ -15,6 +17,8 @@ const initialState: BillToPayContext = {
   updateData: () => {},
   createBillToPay: () => {},
   deleteBillToPay: () => {},
+  updateBillToPayData: () => {},
+  updateBillToPayStatus: () => {},
 };
 
 const billToPayContext = createContext<BillToPayContext>(initialState);
@@ -64,9 +68,39 @@ const BillToPayContextProvider = ({ children }: any) => {
     }
   }
 
+  async function updateBillToPayStatus(id: number) {
+    try {
+      const endpoint = `/bill/pay/${id}`;
+      const result = await putData(endpoint, {});
+      await updateData();
+      return result;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function updateBillToPayData(body: BillToPayType) {
+    try {
+      const id = body.id;
+      const endpoint = `/bill/${id}`;
+      const result = await putData(endpoint, body);
+      await updateData();
+      return result;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <billToPayContext.Provider
-      value={{ updateData, billToPayData, createBillToPay, deleteBillToPay }}
+      value={{
+        updateData,
+        billToPayData,
+        createBillToPay,
+        deleteBillToPay,
+        updateBillToPayStatus,
+        updateBillToPayData,
+      }}
     >
       {children}
     </billToPayContext.Provider>

@@ -3,6 +3,7 @@ type AccountType = {
   name: string;
   text: string;
   status: number;
+  type: string;
   createdAt?: string;
 };
 

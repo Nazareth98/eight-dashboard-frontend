@@ -13,6 +13,12 @@ import { OrderContextProvider } from "./contexts/orderContext.tsx";
 import { ContactsContextProvider } from "./contexts/contactsContext.tsx";
 import { BillToPayContextProvider } from "./contexts/billToPayContext.tsx";
 
+import "@fontsource/roboto/300.css";
+import "@fontsource/roboto/400.css";
+import "@fontsource/roboto/500.css";
+import "@fontsource/roboto/700.css";
+import { AnalyticsContextProvider } from "./contexts/analyticsContext.tsx";
+
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <AuthContextProvider>
@@ -25,7 +31,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
                   <OrderContextProvider>
                     <ContactsContextProvider>
                       <BillToPayContextProvider>
-                        <App />
+                        <AnalyticsContextProvider>
+                          <App />
+                        </AnalyticsContextProvider>
                       </BillToPayContextProvider>
                     </ContactsContextProvider>
                   </OrderContextProvider>

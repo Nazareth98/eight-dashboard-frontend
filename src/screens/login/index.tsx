@@ -14,7 +14,7 @@ const Login = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [modalWarning, setModalWarning] = useState("");
-  const { signIn, error } = useContext(authContext);
+  const { signIn } = useContext(authContext);
 
   const handleKeyPress = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
@@ -41,13 +41,13 @@ const Login = () => {
 
     try {
       const result = await signIn(email, password);
-      if (result.status !== 200) {
+      if (result && result.status !== 200) {
         setModalWarning(result.message);
         setModalIsOpen(true);
       }
-    } catch (err) {
-      console.error(err);
-      setModalWarning(error);
+    } catch (error) {
+      console.error(error);
+      setModalWarning(error.response.data.message);
       setModalIsOpen(true);
     }
   };
