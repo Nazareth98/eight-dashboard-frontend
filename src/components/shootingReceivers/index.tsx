@@ -155,7 +155,7 @@ const ShootingReceivers = ({
   return (
     <div className="h-[52rem] col-span-6 row-span-12 bg-gray-900 p-6 rounded-xl border-2 border-gray-800 flex flex-col gap-4">
       <CustomSubtitle
-        icon={<IconGroups fill="fill-primary-400" width="25px" />}
+        icon={<IconGroups fill="fill-gray-500" width="25px" />}
         subtitle="Selecione os destinatários"
       />
 

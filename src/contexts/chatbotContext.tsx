@@ -70,6 +70,17 @@ const ChatbotContextProvider = ({ children }: any) => {
     }
   };
 
+  const shootingBalance = async () => {
+    try {
+      const endpoint = "/chatbot/shooting-balance";
+      const result = await postData(endpoint, {});
+      return result;
+    } catch (error) {
+      console.log(error);
+      throw new Error(error);
+    }
+  };
+
   const shootingAccount = async () => {
     try {
       const endpoint = "/chatbot/shooting-account";
@@ -143,6 +154,7 @@ const ChatbotContextProvider = ({ children }: any) => {
         updateAccount,
         addAccount,
         updateRate,
+        shootingBalance,
       }}
     >
       {children}

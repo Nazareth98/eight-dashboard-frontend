@@ -49,7 +49,7 @@ const ChatbotData = () => {
   }
 
   return (
-    <div className="col-span-6 bg-gray-900 p-6 rounded-xl border-2 border-gray-800 flex flex-col gap-4">
+    <div className="col-span-6 row-span-5 bg-gray-900 p-6 rounded-xl border border-gray-800 flex flex-col gap-4">
       <CustomSubtitle
         icon={<IconPhone fill="fill-gray-500" width="25px" />}
         subtitle="Dados do Chatbot"

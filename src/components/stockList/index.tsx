@@ -30,10 +30,10 @@ const StockList = ({ selectGroup, selectDeposit }) => {
   }, [selectDeposit]);
 
   return (
-    <div className="h-[52rem] col-span-6 row-span-12 bg-gray-900 p-6 rounded-xl border-2 border-gray-800 flex flex-col gap-4">
+    <div className="col-span-6 row-span-12 bg-gray-900 p-6 rounded-xl border-2 border-gray-800 flex flex-col gap-4">
       <div className="flex items-center justify-between">
         <CustomSubtitle
-          icon={<IconAdd fill="fill-primary-400" width="25px" />}
+          icon={<IconAdd fill="fill-gray-500" width="25px" />}
           subtitle="Produtos em Estoque"
         />
         <span className="text-primary-400 font-medium">

@@ -32,3 +32,36 @@ export function formatOrder(doc) {
 
   return numeroPedido;
 }
+
+export function getLastSixMonths() {
+  const monthNames = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+  const result = [];
+  const currentDate = new Date();
+
+  for (let i = 0; i < 6; i++) {
+    const month = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth() - i,
+      1
+    );
+    const monthName = monthNames[month.getMonth()];
+    const monthNumber = month.getMonth() + 1;
+    const year = month.getFullYear();
+    result.push({ label: monthName, number: monthNumber, year: year });
+  }
+
+  return result.reverse();
+}

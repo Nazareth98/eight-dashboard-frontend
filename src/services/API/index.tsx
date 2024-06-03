@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const baseUrl = "http://botsmoke.com.br:8030/api";
+// const baseUrl = "http://localhost:8030/api"; // desenvolvimento
+const baseUrl = "http://botsmoke.com.br:8030/api"; // produção
 
 export const getQrcode = async () => {
   try {

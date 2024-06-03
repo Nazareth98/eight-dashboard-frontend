@@ -60,7 +60,7 @@ const ChatbotAccountList = () => {
   }
 
   return (
-    <div className="col-span-3 col-start-10 bg-gray-900 p-6 rounded-xl border-2 border-gray-800 flex flex-col gap-4">
+    <div className="flex flex-col gap-4">
       <ModalAccount
         isOpen={openActiveModal}
         setIsOpen={setActiveModal}

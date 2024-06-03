@@ -12,6 +12,8 @@ const SettingsUserList = () => {
 
   const [selectUser, setSelectUser] = useState();
 
+  const [editIsOpen, setEditIsOpen] = useState(false);
+
   const [warningIsOpen, setWarningIsOpen] = useState(false);
   const [modalWarning, setModalWarning] = useState("");
 
@@ -19,6 +21,15 @@ const SettingsUserList = () => {
   const [modalConfirm, setModalConfirm] = useState(
     "Deseja mesmo deletar esse Cambista?"
   );
+
+  function handleEdit({ currentTarget }) {
+    const selectId = Number(currentTarget.id);
+    console.log(userData);
+    const currentUser = userData?.find((user) => user.id === selectId);
+    console.log(selectId, currentUser);
+    setSelectUser(currentUser);
+    setEditIsOpen(true);
+  }
 
   function handleDelete({ currentTarget }) {
     const selectId = Number(currentTarget.id);
@@ -56,7 +67,11 @@ const SettingsUserList = () => {
         icon={<IconUser fill="fill-primary-400" width="25px" />}
         subtitle="Todos os Usuários"
       />
-      <ModalEditUser userData={selectUser}></ModalEditUser>
+      <ModalEditUser
+        isOpen={editIsOpen}
+        setIsOpen={setEditIsOpen}
+        userData={selectUser}
+      />
       <div className="overflow-y-auto w-full h-full flex flex-col gap-4">
         {userData &&
           userData.map((user) => {
@@ -104,13 +119,14 @@ const SettingsUserList = () => {
                   <div className="flex items-center gap-1">
                     <IconEdit
                       id={user.id}
-                      fill="fill-primary-700 trasnsition-all hover:fill-primary-400"
+                      onClick={handleEdit}
+                      fill="fill-yellow-600 trasnsition-all hover:fill-yellow-400  cursor-pointer"
                       width="20px"
                     />
                     <IconDelete
                       id={user.id}
                       onClick={handleDelete}
-                      fill="fill-red-800 transition-all hover:fill-red-600"
+                      fill="fill-red-600 trasnsition-all hover:fill-red-500 cursor-pointer"
                       width="20px"
                     />
                   </div>

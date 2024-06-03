@@ -8,7 +8,7 @@ const ShootingBody = ({ text, setText }) => {
   return (
     <div className="h-[25rem] col-span-6 row-span-6 bg-gray-900 p-6 rounded-xl border-2 border-gray-800 flex flex-col gap-4">
       <CustomSubtitle
-        icon={<IconEdit fill="fill-primary-400" width="25px" />}
+        icon={<IconEdit fill="fill-gray-500" width="25px" />}
         subtitle="Escreva sua mensagem"
       />
       <div>

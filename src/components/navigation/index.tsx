@@ -40,25 +40,27 @@ interface OptionType {
 }
 
 const Navigation = () => {
+  const { user } = useContext(authContext);
+
   const [selectedSection, setSelectedSection] = useState<OptionType>({
     id: 10,
   });
 
   const { signOut } = useContext(authContext);
 
-  const navOptions = [
-    // {
-    //   id: 1,
-    //   name: "Visão Geral",
-    //   description: "Visão geral",
-    //   icon: (
-    //     <IconOverview
-    //       width="24px"
-    //       fill={selectedSection.id === 1 ? "fill-primary-400" : "fill-gray-400"}
-    //     />
-    //   ),
-    //   content: <Overview />,
-    // },
+  let navOptions = [
+    {
+      id: 1,
+      name: "Visão Geral",
+      description: "Visão geral",
+      icon: (
+        <IconOverview
+          width="24px"
+          fill={selectedSection.id === 1 ? "fill-primary-400" : "fill-gray-400"}
+        />
+      ),
+      content: <Overview />,
+    },
     {
       id: 10,
       name: "Chatbot",
@@ -183,6 +185,11 @@ const Navigation = () => {
     const selected = navOptions.filter((option) => option.id === id);
     setSelectedSection(selected[0]);
   };
+
+  if (user.accessLevel != 3) {
+    navOptions = navOptions.filter((option) => option.name !== "Visão Geral");
+    navOptions = navOptions.filter((option) => option.name !== "Configurações");
+  }
 
   return (
     <div className="w-full">

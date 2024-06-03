@@ -59,9 +59,9 @@ const BillToPayCreate = () => {
   }
 
   return (
-    <div className="col-span-3 row-span-9 bg-gray-900 p-6 rounded-xl border-2 border-gray-800 flex flex-col gap-4">
+    <div className="col-span-3 row-span-10 bg-gray-900 p-6 rounded-xl border-2 border-gray-800 flex flex-col gap-4">
       <CustomSubtitle
-        icon={<IconAdd fill="fill-primary-400" width="25px" />}
+        icon={<IconAdd fill="fill-gray-500" width="25px" />}
         subtitle="Adiciona Conta à Pagar"
       />
       <form className="w-full flex flex-col gap-4">

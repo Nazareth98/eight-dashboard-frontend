@@ -1,13 +1,11 @@
+import { useContext, useEffect } from "react";
+
 import ScreenContainer from "../../components/shared/screenContainer";
 import ChatbotData from "../../components/chatbotData";
 import ChatbotQrcode from "../../components/chatbotQrcode";
-import ChatbotShooting from "../../components/chatbotShooting";
-import ChatbotAccountList from "../../components/chatbotAccountList";
-
-import ChatbotUpdateRate from "../../components/chatbotUpdateRate";
-import { useContext, useEffect } from "react";
 import { chatbotContext } from "../../contexts/chatbotContext";
 import { contactsContext } from "../../contexts/contactsContext";
+import ChatbotManager from "../../components/chatbotManager";
 
 const Chatbot = () => {
   const { setInitialData } = useContext(chatbotContext);
@@ -25,9 +23,7 @@ const Chatbot = () => {
     <ScreenContainer>
       <ChatbotData />
       <ChatbotQrcode />
-      <ChatbotShooting />
-      <ChatbotAccountList />
-      <ChatbotUpdateRate />
+      <ChatbotManager />
     </ScreenContainer>
   );
 };

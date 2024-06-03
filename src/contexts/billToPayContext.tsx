@@ -5,7 +5,7 @@ import BillToPayType from "../types/billToPayType";
 
 interface BillToPayContext {
   billToPayData?: BillToPayType[];
-  updateData: () => void;
+  updateData: (month: number) => void;
   createBillToPay: (body: BillToPayType) => Promise<any> | void;
   deleteBillToPay: (id: number) => any;
   updateBillToPayStatus: (id: number) => any;
@@ -26,9 +26,9 @@ const billToPayContext = createContext<BillToPayContext>(initialState);
 const BillToPayContextProvider = ({ children }: any) => {
   const [billToPayData, setBillToPayData] = useState<BillToPayType[]>();
 
-  async function getBillToPay() {
+  async function getBillToPay(month: number) {
     try {
-      const endpoint = "/bill";
+      const endpoint = `/bill/${month}`;
       const { result } = await getData(endpoint);
       return result;
     } catch (error) {
@@ -36,9 +36,9 @@ const BillToPayContextProvider = ({ children }: any) => {
     }
   }
 
-  async function updateData() {
+  async function updateData(month: number) {
     try {
-      const data = await getBillToPay();
+      const data = await getBillToPay(month);
       console.log(data);
       setBillToPayData(data);
     } catch (error) {

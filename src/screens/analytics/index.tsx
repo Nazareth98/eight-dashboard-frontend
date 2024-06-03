@@ -22,7 +22,7 @@ const Analytics = () => {
     <ScreenContainer>
       <AnalyticsForm />
       <AnalyticsRankingList />
-      <AnalyticsSales />
+      {/* <AnalyticsSales /> */}
     </ScreenContainer>
   );
 };

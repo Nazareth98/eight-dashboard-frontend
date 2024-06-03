@@ -11,9 +11,9 @@ const CustomerList = () => {
   const { customerData } = useContext(customerContext);
 
   return (
-    <div className="h-[30rem] col-span-5 row-span-8 col-start-1 bg-gray-900 p-4 rounded-sm border-2 border-gray-800 flex flex-col gap-4">
+    <div className="col-span-5 row-span-7 col-start-1 bg-gray-900 p-6 rounded-xl border border-gray-800 flex flex-col gap-4">
       <CustomSubtitle
-        icon={<IconGroups fill="fill-primary-400" width="25px" />}
+        icon={<IconGroups fill="fill-gray-500" width="25px" />}
         subtitle="Todos os Clientes"
       />
       {customerData ? (

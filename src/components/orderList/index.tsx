@@ -43,7 +43,7 @@ const OrderList = ({ setSelectOrder, selectOrder }) => {
         <Loading />
       ) : (
         <>
-          <div className="overflow-y-auto flex flex-col gap-4 pr-4">
+          <div className="h-full overflow-y-auto flex flex-col gap-4 pr-4">
             {orderData?.map((order) => {
               return (
                 <div
@@ -130,7 +130,7 @@ const OrderList = ({ setSelectOrder, selectOrder }) => {
             })}
           </div>
 
-          <div className="w-full h-full flex items-end justify-end">
+          <div className="w-full flex items-end justify-end">
             <CustomButton type="attention" onClick={handleRefresh}>
               <IconRefresh fill="fill-yellow-600" />
               Atualizar

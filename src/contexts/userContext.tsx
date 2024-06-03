@@ -1,6 +1,6 @@
 import { createContext, useState } from "react";
 
-import { deleteData, getData, postData } from "../services/API";
+import { deleteData, getData, postData, putData } from "../services/API";
 import UserType from "../types/userType";
 
 interface UserContext {
@@ -8,6 +8,7 @@ interface UserContext {
   updateData: () => void;
   createUser: (body: UserType) => Promise<any> | void;
   deleteUser: (id: number) => any;
+  updateUser: (body: UserType) => Promise<any> | void;
 }
 
 const initialState: UserContext = {
@@ -15,6 +16,7 @@ const initialState: UserContext = {
   updateData: () => {},
   createUser: () => {},
   deleteUser: () => {},
+  updateUser: () => {},
 };
 
 const userContext = createContext<UserContext>(initialState);
@@ -41,12 +43,30 @@ const UserContextProvider = ({ children }: any) => {
     }
   };
 
+  const updateUser = async (body: UserType) => {
+    try {
+      const endpoint = `/user/${body.id}`;
+      console.log(body);
+      const response = await putData(endpoint, body);
+      setUserData(response.result);
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const createUser = async (body: UserType) => {
     try {
       const endpoint = "/user/create";
       const result = await postData(endpoint, body);
-      await updateData();
-      return result;
+      if (result.response) {
+        console.log(result.response.data);
+        return result.response.data;
+      } else {
+        console.log(result);
+        await updateData();
+        return result;
+      }
     } catch (error) {
       console.log(error);
     }
@@ -65,7 +85,7 @@ const UserContextProvider = ({ children }: any) => {
 
   return (
     <userContext.Provider
-      value={{ updateData, userData, createUser, deleteUser }}
+      value={{ updateData, userData, createUser, deleteUser, updateUser }}
     >
       {children}
     </userContext.Provider>

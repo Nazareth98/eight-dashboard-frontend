@@ -95,6 +95,14 @@ const StockByGroup = ({ setSelectGroup, setSelectDeposit }) => {
   }, [stockData, selectCondition]);
 
   function handleClick(event, d) {
+    console.log(d);
+    const selectGroup = chartOptions[d.dataIndex];
+    setSelectGroup(selectGroup);
+    setSelectDeposit(null);
+  }
+
+  function handleAxisClick(event, d) {
+    console.log(d);
     const selectGroup = chartOptions[d.dataIndex];
     setSelectGroup(selectGroup);
     setSelectDeposit(null);
@@ -105,16 +113,16 @@ const StockByGroup = ({ setSelectGroup, setSelectDeposit }) => {
   }
 
   return (
-    <div className="h-[25rem] col-span-6 row-span-6 bg-gray-900 p-6 rounded-xl border-2 border-gray-800 flex flex-col gap-4">
+    <div className="col-span-6 row-span-6 bg-gray-900 p-6 rounded-xl border-2 border-gray-800 flex flex-col gap-4">
       <div className="flex items-center justify-between">
         <CustomSubtitle
-          icon={<IconDispatches fill="fill-primary-400" width="25px" />}
+          icon={<IconDispatches fill="fill-gray-500" width="25px" />}
           subtitle="Estoque por Grupo"
         />
         <div className="flex items-center  rounded">
           <div
             id="value"
-            className={`px-4 py-2 rounded-l font-semibold font-heading transition flex flex-row items-center justify-center gap-2 cursor-pointer border${
+            className={`px-4 py-2 rounded-l font-semibold font-heading transition flex flex-row items-center justify-center gap-2 cursor-pointer border ${
               selectCondition === "value"
                 ? "border-primary-900 bg-primary-400 text-primary-800 hover:bg-primary-300"
                 : "border-primary-900 text-primary-900 hover:bg-primary-950 hover:text-primary-600 hover:border-primary-600"
@@ -142,6 +150,7 @@ const StockByGroup = ({ setSelectGroup, setSelectDeposit }) => {
         <>
           {chartData && (
             <BarChart
+              onAxisClick={handleAxisClick}
               xAxis={[{ scaleType: "band", data: labels }]}
               series={[{ data: chartData, color: "#45C93B" }]}
               onItemClick={handleClick}

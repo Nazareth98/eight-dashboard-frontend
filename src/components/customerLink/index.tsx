@@ -79,7 +79,7 @@ const CustomerLink = () => {
   };
 
   return (
-    <div className="h-[20rem] col-span-5 row-span-6 bg-gray-900 p-6 rounded-xl border-2 border-gray-800 flex flex-col gap-4">
+    <div className="col-span-5 row-span-5 bg-gray-900 p-6 rounded-xl border border-gray-800 flex flex-col gap-4">
       <ModalCustomerLink
         isOpen={activeModal}
         setIsOpen={setActiveModal}
@@ -91,7 +91,7 @@ const CustomerLink = () => {
         message={warningMessage}
       />
       <CustomSubtitle
-        icon={<IconPhone fill="fill-primary-400" width="25px" />}
+        icon={<IconPhone fill="fill-gray-500" width="25px" />}
         subtitle="Vincular Contato"
       />
       <Select options={options} onChange={handleChange} styles={customStyles} />

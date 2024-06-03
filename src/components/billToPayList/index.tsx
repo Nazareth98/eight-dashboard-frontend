@@ -1,16 +1,34 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { billToPayContext } from "../../contexts/billToPayContext";
 import CustomSubtitle from "../shared/customSubtitle";
 import IconOrders from "../../assets/svg/iconOrders";
 import IconDelete from "../../assets/svg/iconDelete";
 import IconPayments from "../../assets/svg/iconPayments";
 import ModalConfirm from "../shared/modal/modalConfirm";
-import { formatCurrency } from "../../utils/generalsUtils";
+import { formatCurrency, getLastSixMonths } from "../../utils/generalsUtils";
 import IconEdit from "../../assets/svg/iconEdit";
 import ModalBillToPay from "./modal";
+import IconArrowLeft from "../../assets/svg/iconArrowLeft";
+import IconArrowRight from "../../assets/svg/iconArrowRight";
+
+const monthNames = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+];
 
 const BillsToPayList = () => {
   const {
+    updateData,
     billToPayData,
     updateBillToPayStatus,
     deleteBillToPay,
@@ -24,6 +42,15 @@ const BillsToPayList = () => {
   const [modalMessage, setModalMessage] = useState("");
 
   const [selectedBill, setSelectBill] = useState();
+
+  const [currentPage, setCurrentPage] = useState();
+
+  useEffect(() => {
+    const currentDate = new Date();
+    const currentMonth = currentDate.getMonth() + 1;
+    setCurrentPage(currentMonth);
+    updateData(currentMonth);
+  }, []);
 
   function handleDelete({ currentTarget }) {
     const id = currentTarget.id;
@@ -70,40 +97,60 @@ const BillsToPayList = () => {
     alert(response.message);
   }
 
+  function handleNextPage() {
+    const nextPage = monthNames[currentPage];
+    console.log(currentPage);
+    console.log(nextPage);
+    if (nextPage) {
+      console.log(nextPage);
+      const newPage = currentPage + 1;
+      setCurrentPage(newPage);
+      updateData(newPage);
+    }
+  }
+
+  async function handleBackPage() {
+    const backPage = monthNames[currentPage - 2];
+    console.log(currentPage);
+    console.log(backPage);
+    if (backPage) {
+      console.log(backPage);
+      const newPage = currentPage - 1;
+      setCurrentPage(newPage);
+      updateData(newPage);
+    }
+  }
+
   return (
-    <div className="col-span-9 row-span-9 bg-gray-900 p-6 rounded-xl border-2 border-gray-800 flex flex-col gap-4">
+    <div className="col-span-9 row-span-10 bg-gray-900 p-6 rounded-xl border-2 border-gray-800 flex flex-col gap-4">
       <ModalConfirm
         isOpen={modalIsOpen}
         setIsOpen={setModalIsOpen}
         onConfirm={confirmPayment}
         message={modalMessage}
       />
-
       <ModalConfirm
         isOpen={modalDeleteIsOpen}
         setIsOpen={setModalDeleteIsOpen}
         onConfirm={confirmDelete}
         message={modalMessage}
       />
-
       <ModalBillToPay
         isOpen={modalUpdateIsOpen}
         setIsOpen={setModalUpdateIsOpen}
         data={selectedBill}
         onConfirm={confirmUpdate}
       />
-
       <CustomSubtitle
-        icon={<IconOrders fill="fill-primary-400" width="25px" />}
+        icon={<IconOrders fill="fill-gray-500" width="25px" />}
         subtitle="Contas do Mês Atual"
       />
-
       <div className="h-[35rem] overflow-y-auto flex flex-col gap-4 pr-4">
         {billToPayData?.map((bill) => {
           return (
             <div
               id={bill.id}
-              className="border-l-4 border-2 border-gray-800 border-l-primary-400 rounded-xl grid grid-cols-12 p-1 gap-2 transition-all bg-gray-950"
+              className="border-l-4 border-2 border-gray-950 border-l-primary-400 rounded grid grid-cols-12 p-1 gap-2 transition-all bg-gray-950"
             >
               <div className="flex flex-col gap-2 p-2 col-span-2">
                 <span className={`text-gray-500 text-xs font-semibold`}>
@@ -189,6 +236,19 @@ const BillsToPayList = () => {
             </div>
           );
         })}
+      </div>
+      <div className="w-full flex items-center justify-center gap-2">
+        <IconArrowLeft
+          onClick={handleBackPage}
+          fill="fill-gray-700 cursor-pointer transition-all hover:fill-primary-400 active:fill-primary-300 active:-translate-x-1"
+        />
+        <div className="p-2 text-lg text-primary-400 font-semibold">
+          {currentPage ? monthNames[currentPage - 1] : "teste"}
+        </div>
+        <IconArrowRight
+          onClick={handleNextPage}
+          fill="fill-gray-700 cursor-pointer transition-all hover:fill-primary-400 active:fill-primary-300 active:translate-x-1"
+        />
       </div>
     </div>
   );

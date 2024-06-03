@@ -44,7 +44,7 @@ const BillToPayInfo = () => {
       <DataCard
         type="alternate"
         name="Total do mês"
-        icon={<IconPayments fill="fill-gray-300" />}
+        icon={<IconPayments fill="fill-blue-300" />}
         value={`$${formatCurrency(total)}`}
       />
 

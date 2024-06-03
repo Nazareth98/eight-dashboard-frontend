@@ -98,10 +98,10 @@ const StockByDeposit = ({ selectGroup, setSelectDeposit }) => {
   }
 
   return (
-    <div className="h-[25rem] col-span-6 row-span-6 bg-gray-900 p-4 rounded-sm border-2 border-gray-800 flex flex-col gap-4">
+    <div className="col-span-6 row-span-6 bg-gray-900 p-6 rounded-xl border-2 border-gray-800 flex flex-col gap-4">
       <div className="flex items-center justify-between">
         <CustomSubtitle
-          icon={<IconDispatches fill="fill-primary-400" width="25px" />}
+          icon={<IconDispatches fill="fill-gray-500" width="25px" />}
           subtitle="Estoque por Depositos"
         />
         <div className="flex items-center rounded">

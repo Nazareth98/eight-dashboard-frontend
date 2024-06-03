@@ -7,8 +7,8 @@ const DataCard = (props) => {
   switch (props.type) {
     case "alternate":
       bgColorClass =
-        "border-2 border-gray-300 hover:bg-gray-800 active:bg-gray-700";
-      iconColorClass = "fill-gray-300";
+        "border-2 border-blue-300 hover:bg-blue-950 active:bg-blue-700";
+      iconColorClass = "fill-blue-300";
       break;
     case "danger":
       bgColorClass =
@@ -22,13 +22,13 @@ const DataCard = (props) => {
       break;
     default:
       bgColorClass =
-        "border-2 border-primary-300 hover:bg-primary-950 hover:border-primary-300 active:bg-primary-900";
+        "border-2 border-primary-400 hover:bg-primary-950 hover:border-primary-300 active:bg-primary-900";
       iconColorClass = "fill-primary-300";
       break;
   }
 
   return (
-    <div className="bg-gray-900 col-span-3 row-span-3 p-6 rounded-xl border-2 border-gray-800 flex items-center gap-4">
+    <div className="bg-gray-900 col-span-3 row-span-2 p-6 rounded-xl border border-gray-800 flex items-center gap-4">
       <div className={`p-3 rounded-full transition ${bgColorClass}`}>
         {props.icon ? (
           props.icon
@@ -38,7 +38,7 @@ const DataCard = (props) => {
       </div>
       <div>
         <span className="text-gray-400 font-medium">{props.name}</span>
-        <h3 className="text-2xl text-gray-50 font-semibold font-heading">
+        <h3 className="text-3xl text-gray-50 font-semibold font-heading">
           {props.value}
         </h3>
       </div>

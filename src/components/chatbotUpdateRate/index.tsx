@@ -27,7 +27,7 @@ const ChatbotUpdateRate = () => {
   };
 
   return (
-    <div className="col-span-3 col-start-10 bg-gray-900 p-6 rounded-xl border-2 border-gray-800 flex flex-col gap-4">
+    <div className="flex flex-col gap-4">
       <ModalWarning
         isOpen={activeModal}
         setIsOpen={setActiveModal}
@@ -37,22 +37,20 @@ const ChatbotUpdateRate = () => {
         icon={<IconExchange fill="fill-gray-500" width="25px" />}
         subtitle="Atualize a Taxa"
       />
-      <div className="w-full h-full flex flex-col gap-4">
-        <CustomInput
-          type="number"
-          inputValue={rate}
-          setValue={setRate}
-          label="Valor da Taxa:"
-        />
-        <div className="w-full h-full flex items-end justify-end self-end gap-4">
-          <CustomButton type="attention">
-            <IconClean fill="fill-yellow-600" width="25px" />
-          </CustomButton>
-          <CustomButton onClick={handleUpdateRate}>
-            <IconRefresh fill="fill-primary-700" width="25px" />
-            Atualizar
-          </CustomButton>
+
+      <div className="w-full h-full flex flex-col items-end justify-center gap-4">
+        <div className="w-full">
+          <CustomInput
+            type="number"
+            inputValue={rate}
+            setValue={setRate}
+            label="Valor da Taxa:"
+          />
         </div>
+        <CustomButton onClick={handleUpdateRate}>
+          <IconRefresh fill="fill-primary-700" width="25px" />
+          atualizar
+        </CustomButton>
       </div>
     </div>
   );
