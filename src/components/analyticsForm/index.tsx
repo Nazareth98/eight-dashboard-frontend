@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import Select from "react-select";
+import Select, { StylesConfig } from "react-select";
 
 import CustomSubtitle from "../shared/customSubtitle";
 import IconReport from "../../assets/svg/iconReport";
@@ -11,8 +11,10 @@ import {
   formataDate,
   formatCurrency,
   formatOrder,
+  getSelectStyles,
 } from "../../utils/generalsUtils";
 import Loading from "../shared/loading";
+import { FileText } from "lucide-react";
 
 const AnalyticsForm = () => {
   const { customerData } = useContext(customerContext);
@@ -54,7 +56,6 @@ const AnalyticsForm = () => {
 
     setIsLoading(true);
     const response = await getAnalyticsById(selectedOption.id, Number(period));
-    console.log(response);
     if (response.status === 200) {
       setAnalyticsData(response.result);
     } else {
@@ -63,27 +64,10 @@ const AnalyticsForm = () => {
     setIsLoading(false);
     return;
   }
-
-  const customStyles = {
-    control: (provided) => ({
-      ...provided,
-      backgroundColor: "#C2CCC2",
-      borderColor: "#494D49",
-      padding: "3px",
-    }),
-    option: (provided, state) => ({
-      ...provided,
-      color: state.isSelected ? "#45C93B" : "#929991",
-      backgroundColor: state.isSelected ? "#022300" : "#313330",
-      "&:hover": {
-        backgroundColor: "#616661",
-        color: "#DBE5DA",
-      },
-    }),
-  };
+  const customStyles: StylesConfig = getSelectStyles();
 
   return (
-    <div className="h-[30rem] col-span-6 row-span-1 bg-gray-900 p-6 rounded-xl border-2 border-gray-800 flex flex-col gap-4">
+    <div className="col-span-6 row-span-12 p-6 rounded-xl border-2 border-gray-900 flex flex-col gap-4 fade-left">
       <CustomSubtitle
         icon={<IconReport fill="fill-gray-600" width="25px" />}
         subtitle="Gerar um Relatório"
@@ -97,10 +81,7 @@ const AnalyticsForm = () => {
           setValue={setPeriod}
           placeholder="3 meses"
         />
-        <div className="w-full flex flex-col gap-1 col-span-3">
-          <label className="text-gray-200 text-sm font-medium">
-            Selecione um cliente:
-          </label>
+        <div className="w-full flex flex-col justify-end gap-1 col-span-3">
           <Select
             options={options}
             onChange={handleChange}
@@ -109,8 +90,8 @@ const AnalyticsForm = () => {
         </div>
         <div className="flex items-end justify-center col-span-2">
           <CustomButton onClick={generateAnalytics}>
-            <IconReport fill="fill-primary-700" width="25px" />
-            Gerar
+            <FileText className="size-4" />
+            gerar
           </CustomButton>
         </div>
       </div>
@@ -127,9 +108,9 @@ const AnalyticsForm = () => {
 
           {analyticsData && (
             <>
-              <div className="w-full">
+              <div className="w-full fade-left">
                 <div
-                  className={`bg-gray-950 rounded border-l-4 border-primary-400 grid grid-cols-12 p-2 gap-2 transition-all`}
+                  className={`bg-gray-950 rounded border-2 border-l-4 border-l-primary-400 border-gray-800 grid grid-cols-12 p-2 gap-2 transition-all`}
                 >
                   <div className="flex flex-col gap-2 p-2 col-span-3">
                     <span className={`text-gray-500 text-xs font-semibold`}>
@@ -158,7 +139,7 @@ const AnalyticsForm = () => {
                   </div>
                   <div className="flex flex-col gap-2 p-2 col-span-2">
                     <span className={`text-gray-500 text-xs font-semibold`}>
-                      Pagos em dia (a cada 10)
+                      Pagos em dia/10d
                     </span>
                     <p className="text-gray-100 text-lg">
                       {analyticsData.paidOnTimeAverage}
@@ -166,7 +147,7 @@ const AnalyticsForm = () => {
                   </div>
                   <div className="flex flex-col gap-2 p-2 col-span-2">
                     <span className={`text-gray-500 text-xs font-semibold`}>
-                      Total de Pedidos
+                      Nº Pedidos
                     </span>
                     <p className="text-gray-100 text-lg">
                       {analyticsData.orders.length}
@@ -175,7 +156,7 @@ const AnalyticsForm = () => {
                 </div>
               </div>
 
-              <div className="w-full h-full overflow-y-auto">
+              <div className="w-full h-full overflow-y-auto fade-left">
                 <table className="table-auto w-full">
                   <thead>
                     <tr>

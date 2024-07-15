@@ -1,10 +1,8 @@
-import { ReactElement } from "react";
+import { ReactElement, ComponentProps } from "react";
 
-interface InputProps {
-  placeholder?: string;
+interface InputProps extends ComponentProps<"input"> {
   inputValue: any;
   setValue?: (value: any) => void;
-  type?: string;
   label?: string;
   icon?: ReactElement;
   onKeyPress?: any;
@@ -29,9 +27,7 @@ const CustomInput = (props: InputProps) => {
       )}
       <input
         id={props.label}
-        className="bg-gray-800 p-2 border-2 border-gray-700 rounded text-gray-100 focus:outline-none focus:border-primary-300 focus:bg-gray-900 placeholder:italic placeholder:text-gray-400 placeholder:text-sm"
-        type={props.type}
-        placeholder={props.placeholder}
+        className="bg-gray-900 py-2 px-1.5 border-2 border-gray-800 rounded text-gray-100 focus:outline-none focus:border-primary-400 focus:bg-gray-900 placeholder:italic placeholder:text-gray-600 placeholder:text-sm"
         value={props.inputValue}
         onChange={props.onChange ? props.onChange : handleChange}
         {...props}

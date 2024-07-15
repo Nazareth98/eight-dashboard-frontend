@@ -32,7 +32,6 @@ const OrderContextProvider = ({ children }: any) => {
       result.sort((a, b) => {
         return b.id - a.id;
       });
-      console.log("aqui", result);
       setOrderData(result);
     } catch (error) {
       console.log(error);
@@ -49,7 +48,6 @@ const OrderContextProvider = ({ children }: any) => {
       response.result.sort((a, b) => {
         return b.id - a.id;
       });
-      console.log("aqui no refresh data", response.result);
       setOrderData(response.result);
       return response;
     } catch (error) {

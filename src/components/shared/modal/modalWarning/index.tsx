@@ -21,7 +21,7 @@ const ModalWarning = (props) => {
       gap: "30px",
       alignItems: "center",
       padding: "40px",
-      backgroundColor: "#1E1F1E",
+      backgroundColor: "#131413",
       border: "none",
       boxShadow:
         "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)",

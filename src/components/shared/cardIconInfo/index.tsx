@@ -7,27 +7,17 @@ interface CardIconInfoType {
 
 const CardIconInfo = (props: CardIconInfoType) => {
   return (
-    <div className="flex items-center gap-2">
-      <div
-        className={`bg-primary-950 p-2 rounded-xl border-2 ${
-          props.alternate ? "border-primary-800" : "border-primary-400"
-        } `}
-      >
+    <div className="w-full text-gray-500 flex items-center gap-2">
+      <div className="p-2 border-2 border-gray-700 rounded-lg">
         {props.icon}
       </div>
-      <div className="flex flex-col">
-        {props.label && (
-          <label className="text-sm text-gray-200 font-medium" htmlFor="">
-            {props.label}
-          </label>
-        )}
-        <span
-          className={`font-heading text-lg font-medium ${
-            props.alternate ? "text-gray-500" : "text-gray-50"
-          }`}
-        >
+      <div className="flex-1">
+        <p> {props.label}</p>
+      </div>
+      <div>
+        <h4 className="text-gray-300 font-heading text-lg font-medium">
           {props.data ? props.data : "-"}
-        </span>
+        </h4>
       </div>
     </div>
   );

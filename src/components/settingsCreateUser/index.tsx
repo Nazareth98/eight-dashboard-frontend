@@ -10,6 +10,7 @@ import ModalWarning from "../shared/modal/modalWarning";
 import UserType from "../../types/userType";
 import { userContext } from "../../contexts/userContext";
 import IconClean from "../../assets/svg/iconClean";
+import { PlusCircle } from "lucide-react";
 
 const accessLevelOptions = [1, 2, 3];
 
@@ -76,14 +77,14 @@ const SettingsCreateUser = () => {
   };
 
   return (
-    <div className="h-[52rem] col-span-4 row-span-12 bg-gray-900 p-6 rounded-xl border-2 border-gray-800 flex flex-col gap-4">
+    <div className="h-[52rem] col-span-4 row-span-12 p-6 rounded-xl border-2 border-gray-900 flex flex-col gap-4">
       <ModalWarning
         isOpen={modalIsOpen}
         setIsOpen={setModalIsOpen}
         message={modalWarning}
       />
       <CustomSubtitle
-        icon={<IconAdd fill="fill-primary-400" width="25px" />}
+        icon={<IconAdd fill="fill-gray-600" width="25px" />}
         subtitle="Criar Novo Usuário"
       />
       <form className="w-full flex flex-col gap-4">
@@ -176,13 +177,9 @@ const SettingsCreateUser = () => {
         />
       </form>
       <div className="h-full w-full flex items-end justify-end gap-4">
-        <CustomButton type="attention" onClick={cleanFields}>
-          <IconClean fill="fill-yellow-600" width="25px" />
-          Limpar
-        </CustomButton>
         <CustomButton onClick={handleCreateUser}>
-          <IconAdd fill="fill-primary-700" width="25px" />
-          Adicionar
+          <PlusCircle className="size-4" />
+          adicionar
         </CustomButton>
       </div>
     </div>

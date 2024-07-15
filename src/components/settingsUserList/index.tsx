@@ -6,6 +6,7 @@ import IconEdit from "../../assets/svg/iconEdit";
 import IconDelete from "../../assets/svg/iconDelete";
 import ModalConfirm from "../shared/modal/modalConfirm";
 import ModalEditUser from "./modalEditUser";
+import CustomIconButton from "../shared/customIconButton";
 
 const SettingsUserList = () => {
   const { userData, deleteUser } = useContext(userContext);
@@ -14,9 +15,6 @@ const SettingsUserList = () => {
 
   const [editIsOpen, setEditIsOpen] = useState(false);
 
-  const [warningIsOpen, setWarningIsOpen] = useState(false);
-  const [modalWarning, setModalWarning] = useState("");
-
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [modalConfirm, setModalConfirm] = useState(
     "Deseja mesmo deletar esse Cambista?"
@@ -24,18 +22,14 @@ const SettingsUserList = () => {
 
   function handleEdit({ currentTarget }) {
     const selectId = Number(currentTarget.id);
-    console.log(userData);
     const currentUser = userData?.find((user) => user.id === selectId);
-    console.log(selectId, currentUser);
     setSelectUser(currentUser);
     setEditIsOpen(true);
   }
 
   function handleDelete({ currentTarget }) {
     const selectId = Number(currentTarget.id);
-    console.log(userData);
     const currentUser = userData?.find((user) => user.id === selectId);
-    console.log(selectId, currentUser);
     setSelectUser(currentUser);
     setModalConfirm(`Deseja deletar o usuário '${currentUser?.name}'?`);
     setModalIsOpen(true);
@@ -43,10 +37,9 @@ const SettingsUserList = () => {
 
   async function confirmDelete() {
     try {
-      const result = await deleteUser(selectExchanger.id);
+      const result = await deleteUser(selectUser.id);
       if (result.status !== 200) {
-        setModalWarning(result.message);
-        setModalIsOpen(true);
+        alert(result.message);
       } else {
         alert(result.message);
       }
@@ -56,7 +49,7 @@ const SettingsUserList = () => {
   }
 
   return (
-    <div className="h-[52rem] col-span-8 row-span-12 col-start-5 bg-gray-900 p-6 rounded-xl border-2 border-gray-800 flex flex-col gap-4">
+    <div className="h-[52rem] col-span-8 row-span-12 col-start-5 p-6 rounded-xl border-2 border-gray-900 flex flex-col gap-4">
       <ModalConfirm
         isOpen={modalIsOpen}
         setIsOpen={setModalIsOpen}
@@ -64,7 +57,7 @@ const SettingsUserList = () => {
         message={modalConfirm}
       />
       <CustomSubtitle
-        icon={<IconUser fill="fill-primary-400" width="25px" />}
+        icon={<IconUser fill="fill-gray-600" width="25px" />}
         subtitle="Todos os Usuários"
       />
       <ModalEditUser
@@ -78,13 +71,13 @@ const SettingsUserList = () => {
             return (
               <div
                 key={user.id}
-                className="bg-gray-950 rounded grid grid-cols-12 gap-2 "
+                className="border-l-4 border-2 border-gray-900 border-l-primary-400 rounded grid grid-cols-12 p-1 gap-2 transition-all fade-left hover:bg-gray-900 fade-left"
               >
                 <div className="flex flex-col gap-2 p-2 col-span-3">
                   <span className="text-gray-500 text-xs font-semibold">
                     Nome
                   </span>
-                  <p className="text-gray-100 text-sm">
+                  <p className="text-gray-100 text-sm font-heading">
                     {user.name} {user.lastname}
                   </p>
                 </div>
@@ -92,43 +85,53 @@ const SettingsUserList = () => {
                   <span className="text-gray-500 text-xs font-semibold">
                     Cargo
                   </span>
-                  <p className="text-gray-100 text-sm">{user.position}</p>
+                  <p className="text-gray-100 text-sm font-heading">
+                    {user.position}
+                  </p>
                 </div>
                 <div className="flex flex-col gap-2 p-2 col-span-1">
                   <span className="text-gray-500 text-xs font-semibold">
                     Nivel
                   </span>
-                  <p className="text-gray-100 text-sm">{user.accessLevel}</p>
+                  <p className="text-gray-100 text-sm font-heading">
+                    {user.accessLevel}
+                  </p>
                 </div>
                 <div className="flex flex-col gap-2 p-2 col-span-3">
                   <span className="text-gray-500 text-xs font-semibold">
                     Email
                   </span>
-                  <p className="text-gray-100 text-sm">{user.email}</p>
+                  <p className="text-gray-100 text-sm font-heading">
+                    {user.email}
+                  </p>
                 </div>
                 <div className="flex flex-col gap-2 p-2 col-span-2">
                   <span className="text-gray-500 text-xs font-semibold">
                     Telefone
                   </span>
-                  <p className="text-gray-100 text-sm">{user.phone}</p>
+                  <p className="text-gray-100 text-sm font-heading">
+                    {user.phone}
+                  </p>
                 </div>
                 <div className="flex flex-col gap-2 p-2 col-span-1">
                   <span className="text-gray-500 text-xs font-semibold">
                     Ações
                   </span>
                   <div className="flex items-center gap-1">
-                    <IconEdit
+                    <CustomIconButton
                       id={user.id}
+                      theme="attention"
                       onClick={handleEdit}
-                      fill="fill-yellow-600 trasnsition-all hover:fill-yellow-400  cursor-pointer"
-                      width="20px"
-                    />
-                    <IconDelete
+                    >
+                      <IconEdit fill="fill-yellow-700" width="16px" />
+                    </CustomIconButton>
+                    <CustomIconButton
                       id={user.id}
+                      theme="danger"
                       onClick={handleDelete}
-                      fill="fill-red-600 trasnsition-all hover:fill-red-500 cursor-pointer"
-                      width="20px"
-                    />
+                    >
+                      <IconDelete fill="fill-red-700" width="16px" />
+                    </CustomIconButton>
                   </div>
                 </div>
               </div>

@@ -7,6 +7,7 @@ import AccountType from "../../types/accountType";
 import ModalAccount from "./modal";
 import IconEdit from "../../assets/svg/iconEdit";
 import CustomButton from "../shared/customButton";
+import { Edit, Edit2, Edit3 } from "lucide-react";
 
 const ChatbotAccountList = () => {
   const [openActiveModal, setActiveModal] = useState(false);
@@ -75,9 +76,9 @@ const ChatbotAccountList = () => {
         Clique em uma conta para editá-la
       </span>
       <div className="h-full flex flex-col justify-center gap-2">
-        <div className="w-full flex items-center gap-4 pb-4 border-b border-gray-800">
+        <div className="w-full flex items-center gap-4 pb-4 border-b-2 border-gray-900">
           <div className="w-[30px]">
-            <IconBalance fill="fill-primary-400" />
+            <IconBalance fill="fill-primary-800" width="25px" />
           </div>
           <div className="w-full">
             <h4 className="text-gray-100  font-heading font-medium">
@@ -85,22 +86,30 @@ const ChatbotAccountList = () => {
             </h4>
           </div>
 
-          <CustomButton id={normalAccount?.id} onClick={handleActiveAccount}>
-            <IconEdit fill="fill-primary-700" width="25px" />
+          <CustomButton
+            id={`${normalAccount?.id}`}
+            onClick={handleActiveAccount}
+            theme="alternate"
+          >
+            <Edit2 className="size-4" />
             editar
           </CustomButton>
         </div>
-        <div className="w-full flex items-center gap-4 pb-4 border-b border-gray-800">
+        <div className="w-full flex items-center gap-4 pb-4 border-b-2 border-gray-900">
           <div className="w-[30px]">
-            <IconBalance fill="fill-primary-400" />
+            <IconBalance fill="fill-primary-800" width="25px" />
           </div>
           <div className="w-full">
             <h4 className="text-gray-100  font-heading font-medium">
               {usdtAccount?.name}
             </h4>
           </div>
-          <CustomButton id={usdtAccount?.id} onClick={handleActiveAccount}>
-            <IconEdit fill="fill-primary-700" width="25px" />
+          <CustomButton
+            id={`${usdtAccount?.id}`}
+            onClick={handleActiveAccount}
+            theme="alternate"
+          >
+            <Edit2 className="size-4" />
             editar
           </CustomButton>
         </div>

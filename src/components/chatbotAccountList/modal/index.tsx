@@ -4,6 +4,8 @@ import CustomButton from "../../shared/customButton";
 import { useEffect, useState } from "react";
 import CustomInput from "../../shared/customInput";
 import CustomTextarea from "../../shared/customTextarea";
+import IconSave from "../../../assets/svg/iconSave";
+import IconBack from "../../../assets/svg/iconBack";
 Modal.setAppElement("#root");
 
 const customStyles = {
@@ -22,7 +24,7 @@ const customStyles = {
     gap: "50px",
     alignItems: "center",
     padding: "40px",
-    backgroundColor: "#1E1F1E",
+    backgroundColor: "#131413",
     border: "none",
     boxShadow: "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)",
     borderRadius: ".5rem",
@@ -56,9 +58,9 @@ const ModalAccount = (props) => {
       contentLabel="Example Modal"
     >
       <div className="w-full flex items-center gap-2">
-        <IconEdit width="40px" fill="fill-primary-300" />
+        <IconEdit width="30px" fill="fill-gray-700" />
 
-        <h3 className="font-heading font-semibold text-gray-50 text-3xl">
+        <h3 className="font-heading font-semibold text-gray-200 text-3xl">
           {props.data?.type}
         </h3>
       </div>
@@ -74,11 +76,13 @@ const ModalAccount = (props) => {
       </form>
 
       <div className="w-full flex items-center justify-end gap-8">
-        <CustomButton type="attention" onClick={closeModal}>
-          VOLTAR
+        <CustomButton theme="attention" onClick={closeModal}>
+          <IconBack fill="fill-yellow-700" width="20px" />
+          voltar
         </CustomButton>
         <CustomButton onClick={() => props.onConfirm(name, text)}>
-          SALVAR
+          <IconSave fill="fill-primary-700" width="20px" />
+          salvar
         </CustomButton>
       </div>
     </Modal>

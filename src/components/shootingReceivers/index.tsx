@@ -93,12 +93,10 @@ const ShootingReceivers = ({
         if (group.isSelected) {
           const updateSelectGroups = [...selectGroups, group];
           setSelectGroups(updateSelectGroups);
-          console.log(updateSelectGroups);
         } else {
           const updateSelectGroups = selectGroups.filter(
             (group) => group.id !== id
           );
-          console.log(updateSelectGroups);
           setSelectGroups(updateSelectGroups);
         }
       }
@@ -116,12 +114,10 @@ const ShootingReceivers = ({
         if (contact.isSelected) {
           const updateSelectContacts = [...selectContacts, contact];
           setSelectContacts(updateSelectContacts);
-          console.log(updateSelectContacts);
         } else {
           const updateSelectContacts = selectContacts.filter(
             (contact) => contact.id !== id
           );
-          console.log(updateSelectContacts);
           setSelectContacts(updateSelectContacts);
         }
       }
@@ -153,7 +149,7 @@ const ShootingReceivers = ({
   }
 
   return (
-    <div className="h-[52rem] col-span-6 row-span-12 bg-gray-900 p-6 rounded-xl border-2 border-gray-800 flex flex-col gap-4">
+    <div className="col-span-6 row-span-12 p-6 rounded-xl border-2 border-gray-900 flex flex-col gap-4 fade-left">
       <CustomSubtitle
         icon={<IconGroups fill="fill-gray-500" width="25px" />}
         subtitle="Selecione os destinatários"
@@ -179,7 +175,7 @@ const ShootingReceivers = ({
             <div className="w-1/2 flex flex-col gap-4">
               <CustomInput
                 inputValue={inputGroup}
-                icon={<IconSearch fill="fill-gray-600" />}
+                icon={<IconSearch fill="fill-gray-700" width="25px" />}
                 placeholder="Pesquise por um Grupo"
                 onChange={handleSearchGroup}
               />
@@ -199,7 +195,7 @@ const ShootingReceivers = ({
             <div className="w-1/2 flex flex-col gap-4">
               <CustomInput
                 inputValue={inputContact}
-                icon={<IconSearch fill="fill-gray-600" />}
+                icon={<IconSearch fill="fill-gray-700" width="25px" />}
                 placeholder="Pesquise por um Contato"
                 onChange={handleSearchContact}
               />

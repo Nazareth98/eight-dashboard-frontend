@@ -4,7 +4,7 @@ import { getData } from "../services/API";
 import ExchangerType from "../types/exchangerType";
 
 interface StockContext {
-  stockData?: ExchangerType[];
+  stockData?: any[];
   updateData: () => void;
 }
 
@@ -22,7 +22,6 @@ const StockContextProvider = ({ children }: any) => {
     try {
       const endpoint = "/stock";
       const { result } = await getData(endpoint);
-      console.log(result);
       return result;
     } catch (error) {
       console.log(error);

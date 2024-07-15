@@ -1,16 +1,13 @@
 import CustomSubtitle from "../shared/customSubtitle";
-import IconShooting from "../../assets/svg/iconShooting";
 import CustomButton from "../shared/customButton";
 import IconExchange from "../../assets/svg/iconExchange";
 import IconBalance from "../../assets/svg/iconBalance";
 import { useContext } from "react";
 import { chatbotContext } from "../../contexts/chatbotContext";
-import IconRefresh from "../../assets/svg/iconRefresh";
-import IconUser from "../../assets/svg/iconUser";
-import IconPhone from "../../assets/svg/iconPhone";
 import IconPayments from "../../assets/svg/iconPayments";
 import ChatbotAccountList from "../chatbotAccountList";
 import ChatbotUpdateRate from "../chatbotUpdateRate";
+import { Bot, RefreshCw, Send, Settings } from "lucide-react";
 
 const ChatbotManager = () => {
   const { shootingRate, shootingAccount, refreshData, shootingBalance } =
@@ -53,58 +50,58 @@ const ChatbotManager = () => {
   }
 
   return (
-    <div className="col-span-3 row-span-12 col-start-10 bg-gray-900 p-6 rounded-xl border border-gray-800 flex flex-col gap-8">
-      <CustomSubtitle
-        icon={<IconShooting fill="fill-gray-500" width="25px" />}
-        subtitle="Gerenciamento"
-      />
-      <div className="w-full flex flex-col gap-4">
-        <div className="w-full flex items-center gap-4 pb-4 border-b border-gray-800">
+    <div className="col-span-3 row-span-12 col-start-10 p-6 rounded-xl border-2 border-gray-900 flex flex-col justify-between gap-8 fade-left">
+      <div className="w-full flex flex-col items-between gap-4">
+        <CustomSubtitle
+          icon={<Settings className="size-6 text-gray-500" />}
+          subtitle="Gerenciamento"
+        />
+        <div className="w-full flex items-center gap-4 pb-4 border-b-2 border-gray-900">
           <div className="w-[30px]">
-            <IconExchange fill="fill-primary-400" />
+            <IconExchange fill="fill-primary-800" width="25px" />
           </div>
           <div className="w-full">
             <h4 className="text-gray-100  font-heading font-medium">Taxa</h4>
           </div>
 
-          <CustomButton onClick={handleShootingRate} type="attention">
-            <IconShooting fill="fill-yellow-600" width="25px" />
+          <CustomButton onClick={handleShootingRate} theme="attention">
+            <Send className="size-4" />
             enviar
           </CustomButton>
         </div>
-        <div className="w-full flex items-center gap-4 pb-4 border-b border-gray-800">
+        <div className="w-full flex items-center gap-4 pb-4 border-b-2 border-gray-900">
           <div className="w-[30px]">
-            <IconBalance fill="fill-primary-400" />
+            <IconBalance fill="fill-primary-800" width="25px" />
           </div>
           <div className="w-full">
             <h4 className="text-gray-100  font-heading font-medium">Conta</h4>
           </div>
-          <CustomButton onClick={handleShootingAccount} type="attention">
-            <IconShooting fill="fill-yellow-600" width="25px" />
+          <CustomButton onClick={handleShootingAccount} theme="attention">
+            <Send className="size-4" />
             enviar
           </CustomButton>
         </div>
-        <div className="w-full flex items-center gap-4 pb-4 border-b border-gray-800">
+        <div className="w-full flex items-center gap-4 pb-4 border-b-2 border-gray-900">
           <div className="w-[30px]">
-            <IconPayments fill="fill-primary-400" />
+            <IconPayments fill="fill-primary-800" width="25px" />
           </div>
           <div className="w-full">
             <h4 className="text-gray-100  font-heading font-medium">Saldo</h4>
           </div>
-          <CustomButton onClick={handleShootingBalance} type="attention">
-            <IconShooting fill="fill-yellow-600" width="25px" />
+          <CustomButton onClick={handleShootingBalance} theme="attention">
+            <Send className="size-4" />
             enviar
           </CustomButton>
         </div>
-        <div className="w-full flex items-center gap-4 pb-4 border-b border-gray-800">
+        <div className="w-full flex items-center gap-4 pb-4 border-b-2 border-gray-900">
           <div className="w-[30px]">
-            <IconPhone fill="fill-primary-400" />
+            <Bot className="size-6 text-primary-800" />
           </div>
           <div className="w-full">
             <h4 className="text-gray-100  font-heading font-medium">Chatbot</h4>
           </div>
-          <CustomButton onClick={handleRefresh}>
-            <IconRefresh fill="fill-primary-700" width="25px" />
+          <CustomButton onClick={handleRefresh} theme="alternate">
+            <RefreshCw className="size-4" />
             atualizar
           </CustomButton>
         </div>

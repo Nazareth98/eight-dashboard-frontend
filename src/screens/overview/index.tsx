@@ -6,7 +6,7 @@ import OverviewMonthlySales from "../../components/overviewMonthlySales";
 import OverviewMonthlyProfit from "../../components/overviewMonthlyProfit";
 import OverviewMonthlyPurchases from "../../components/overviewMonthlyPurchases";
 
-const Overview = () => {
+const Overview = ({ changeScreen }) => {
   const { updateData } = useContext(overviewContext);
 
   useEffect(() => {
@@ -19,14 +19,10 @@ const Overview = () => {
 
   return (
     <ScreenContainer>
-      <OverviewData />
+      <OverviewData changeScreen={changeScreen} />
       <OverviewMonthlySales />
       <OverviewMonthlyProfit />
       <OverviewMonthlyPurchases />
-
-      <div className="col-span-12 row-span-6 bg-gray-900 p-6 rounded-xl border border-gray-800 flex flex-col gap-4">
-        asdas
-      </div>
     </ScreenContainer>
   );
 };

@@ -1,9 +1,20 @@
 import { useContext, useEffect, useState } from "react";
-import CustomSubtitle from "../shared/customSubtitle";
-import IconDispatches from "../../assets/svg/iconDispatches";
-import { PieChart } from "@mui/x-charts";
+import ApexChart from "react-apexcharts";
 import { stockContext } from "../../contexts/stockContext";
 import Loading from "../shared/loading";
+import { authContext } from "../../contexts/authContext";
+import { formatCurrency } from "../../utils/generalsUtils";
+import CustomButton from "../shared/customButton";
+import IconPayments from "../../assets/svg/iconPayments";
+import IconStock from "../../assets/svg/iconStock";
+import {
+  Archive,
+  DollarSign,
+  MousePointerClick,
+  Pointer,
+  Search,
+  TextCursor,
+} from "lucide-react";
 
 function groupAndSumByStock(list, brandName) {
   const groups = {};
@@ -28,9 +39,7 @@ function groupAndSumByStock(list, brandName) {
     }
   });
 
-  const result = Object.values(groups);
-
-  return result;
+  return Object.values(groups);
 }
 
 function groupAndSumByValue(list, brandName) {
@@ -51,33 +60,41 @@ function groupAndSumByValue(list, brandName) {
           };
         }
         if (groups[deposit]) {
-          console.log(quantity, cost);
           groups[deposit].value += quantity * cost;
         }
       });
     }
   });
 
-  const result = Object.values(groups);
-
-  return result;
+  return Object.values(groups);
 }
 
 const StockByDeposit = ({ selectGroup, setSelectDeposit }) => {
   const { stockData } = useContext(stockContext);
+  const { user } = useContext(authContext);
 
   const [isLoading, setIsLoading] = useState(false);
-  const [chartData, setChartData] = useState();
-
+  const [chartLabels, setChartLabels] = useState([]);
+  const [chartData, setChartData] = useState([]);
   const [selectCondition, setSelectCondition] = useState("stock");
 
   useEffect(() => {
     function loadChartData() {
-      const groups =
+      const productGroups =
         selectCondition === "stock"
-          ? groupAndSumByStock(stockData, selectGroup.label)
-          : groupAndSumByValue(stockData, selectGroup.label);
-      setChartData(groups);
+          ? groupAndSumByStock(stockData, selectGroup)
+          : groupAndSumByValue(stockData, selectGroup);
+
+      const newLabels = [];
+      const newData = [];
+
+      for (let i = 0; i < productGroups.length; i++) {
+        newLabels.push(productGroups[i].label);
+        newData.push(productGroups[i].value); // Corrigido de 'data' para 'value'
+      }
+
+      setChartLabels(newLabels);
+      setChartData(newData);
       setTimeout(() => setIsLoading(false), 300);
     }
 
@@ -85,7 +102,94 @@ const StockByDeposit = ({ selectGroup, setSelectDeposit }) => {
       setIsLoading(true);
       loadChartData();
     }
-  }, [selectGroup, selectCondition]);
+  }, [stockData, selectGroup, selectCondition]);
+
+  const options = {
+    colors: ["#45C93B"],
+    chart: {
+      toolbar: {
+        show: false,
+      },
+      zoom: {
+        enabled: false,
+      },
+      events: {
+        dataPointSelection: (event, chartContext, config) => {
+          const selectIndex = config.dataPointIndex;
+          const depName = chartLabels[selectIndex];
+          setSelectDeposit(depName);
+        },
+
+        xAxisLabelClick: function (event, chartContext, config) {
+          const selectIndex = config.labelIndex;
+          const depName = chartLabels[selectIndex];
+          setSelectDeposit(depName);
+        },
+      },
+    },
+    dataLabels: {
+      enabled: true,
+      formatter: function (val) {
+        if (selectCondition === "value") {
+          return `$${formatCurrency(val)}`;
+        } else return val;
+      },
+    },
+    stroke: {
+      curve: "straight",
+    },
+    title: {
+      text: `Estoque por Depósito - ${selectGroup || ""}`,
+      align: "left",
+      style: {
+        fontSize: "16px",
+        fontWeight: "bold",
+        color: "#ffffff", // cor do título
+      },
+    },
+    subtitle: {
+      text: "Valores em dólar americano",
+      align: "left",
+      style: {
+        fontSize: "12px",
+        color: "#cccccc", // cor do subtítulo
+      },
+    },
+    labels: chartLabels,
+    xaxis: {
+      type: "category",
+      labels: {
+        style: {
+          colors: "#C2CCC2", // Cor das labels do eixo Y
+          fontSize: "12px",
+        },
+        formatter: function (val) {
+          return `${val.toLocaleString()}`;
+        },
+      },
+    },
+    yaxis: {
+      labels: {
+        formatter: function (val) {
+          return `${val.toLocaleString()}`;
+        },
+        style: {
+          colors: "#C2CCC2", // Cor das labels do eixo Y
+          fontSize: "12px",
+        },
+      },
+    },
+    legend: {
+      horizontalAlign: "left",
+    },
+  };
+
+  const series = [
+    {
+      name: "Estoque por Grupo",
+      data: chartData,
+    },
+  ];
 
   function handleClick(event, d) {
     const depositIndex = d.dataIndex;
@@ -98,54 +202,47 @@ const StockByDeposit = ({ selectGroup, setSelectDeposit }) => {
   }
 
   return (
-    <div className="col-span-6 row-span-6 bg-gray-900 p-6 rounded-xl border-2 border-gray-800 flex flex-col gap-4">
-      <div className="flex items-center justify-between">
-        <CustomSubtitle
-          icon={<IconDispatches fill="fill-gray-500" width="25px" />}
-          subtitle="Estoque por Depositos"
-        />
-        <div className="flex items-center rounded">
-          <div
-            id="value"
-            className={`px-4 py-2 rounded-l font-semibold font-heading transition flex flex-row items-center justify-center gap-2 cursor-pointer border ${
-              selectCondition === "value"
-                ? "border-primary-900 bg-primary-400 text-primary-800 hover:bg-primary-300"
-                : "border-primary-900 text-primary-900 hover:bg-primary-950 hover:text-primary-600 hover:border-primary-600"
-            } `}
-            onClick={toogleCondition}
-          >
-            VALOR
-          </div>
-          <div
-            id="stock"
-            className={`px-4 py-2 rounded-r font-semibold font-heading transition flex flex-row items-center justify-center gap-2 cursor-pointer border ${
-              selectCondition === "stock"
-                ? "border-primary-900 bg-primary-400 text-primary-800 hover:bg-primary-300"
-                : "border-primary-900 text-primary-900 hover:bg-primary-950 hover:text-primary-600 hover:border-primary-600"
-            } `}
-            onClick={toogleCondition}
-          >
-            PEÇAS
-          </div>
-        </div>
-      </div>
+    <div className="col-span-8 row-span-6 bg-gray-90 p-6 rounded-xl border-2 border-gray-900 flex flex-col gap-4 relative fade-left">
       {isLoading ? (
         <Loading />
       ) : (
         <>
-          {chartData && (
-            <PieChart
-              series={[{ data: chartData }]}
-              slotProps={{
-                legend: {
-                  labelStyle: {
-                    fontSize: 16,
-                    fill: "white",
-                  },
-                },
-              }}
-              onItemClick={handleClick}
-            />
+          {selectGroup ? (
+            <>
+              {user.accessLevel !== 3 ? null : (
+                <div className="flex gap-4 absolute items-center rounded right-8 z-10 fade-left">
+                  <CustomButton
+                    id="value"
+                    theme={selectCondition === "value" ? "" : "alternate"}
+                    onClick={toogleCondition}
+                  >
+                    <DollarSign className="size-4" />
+                    valor
+                  </CustomButton>
+                  <CustomButton
+                    id="stock"
+                    theme={selectCondition === "stock" ? "" : "alternate"}
+                    onClick={toogleCondition}
+                  >
+                    <Archive className="size-4" />
+                    peças
+                  </CustomButton>
+                </div>
+              )}
+              <div className="h-full">
+                <ApexChart
+                  type="bar"
+                  options={options}
+                  series={series}
+                  height={"100%"}
+                />
+              </div>
+            </>
+          ) : (
+            <div className="w-full h-full inset-0 text-gray-500 font-heading flex items-center justify-center gap-2 fade-left">
+              <MousePointerClick className="size-4" />
+              <span>Selecione um grupo</span>
+            </div>
           )}
         </>
       )}

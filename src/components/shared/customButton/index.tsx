@@ -1,45 +1,36 @@
-import { MouseEventHandler } from "react";
+import { ComponentProps } from "react";
 
-interface CustomButtonProps {
-  type?: string;
-  className?: string;
-  onClick?: (event: MouseEventHandler<HTMLButtonElement>) => void;
-  disabled?: boolean;
+interface CustomButtonProps extends ComponentProps<"button"> {
   children: any;
+  theme?: string;
 }
 
 const CustomButton = (props: CustomButtonProps) => {
   let bgColorClass = "";
-  let textColorClass = "";
 
-  switch (props.type) {
+  switch (props.theme) {
     case "alternate":
       bgColorClass =
-        "border-2 border-gray-300 hover:bg-gray-800 active:bg-gray-700";
-      textColorClass = "text-gray-300";
+        "bg-gray-900 text-gray-400 hover:bg-gray-700 hover:border-gray-800 active:text-gray-800 active:bg-gray-600 active:text-gray-800";
       break;
     case "danger":
       bgColorClass =
-        "bg-red-800 hover:bg-red-700 hover:border-red-600 active:bg-red-900";
-      textColorClass = "text-red-100";
+        "bg-red-600  text-red-950 hover:bg-red-500 hover:border-red-800 active:text-red-800 active:bg-red-600 active:text-red-800";
       break;
     case "attention":
-      bgColorClass = "bg-yellow-400 hover:bg-yellow-300 active:bg-yellow-600";
-      textColorClass = "text-yellow-900";
+      bgColorClass =
+        "bg-yellow-600  text-yellow-950 hover:bg-yellow-500 hover:border-yellow-800 active:text-yellow-800 active:bg-yellow-600 active:text-yellow-800";
       break;
     default:
       bgColorClass =
-        "bg-primary-400 hover:bg-primary-300 active:bg-primary-600";
-      textColorClass = "text-primary-900";
+        "bg-primary-600  text-primary-950 hover:bg-primary-500 hover:border-primary-800 active:text-primary-800 active:bg-primary-600 active:text-primary-800";
       break;
   }
 
   return (
     <button
-      className={`px-4 py-2 rounded font-semibold font-heading transition flex flex-row items-center justify-center gap-2 active:translate-y-1 ${bgColorClass} ${textColorClass} ${props.className}`}
-      onClick={props.onClick}
-      disabled={props.disabled ? props.disabled : false}
-      id={props.id}
+      className={`px-3 py-1.5 rounded-md font-medium font-heading transition flex flex-row items-center justify-center gap-2 active:translate-y-px ${bgColorClass}`}
+      {...props}
     >
       {props.children}
     </button>

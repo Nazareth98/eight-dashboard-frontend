@@ -1,16 +1,18 @@
 import React, { useContext, useEffect, useState } from "react";
-import { axisClasses, BarChart } from "@mui/x-charts";
+import ApexChart from "react-apexcharts";
 
-import CustomSubtitle from "../shared/customSubtitle";
-import IconDispatches from "../../assets/svg/iconDispatches";
 import { stockContext } from "../../contexts/stockContext";
+import { authContext } from "../../contexts/authContext";
+import { formatCurrency } from "../../utils/generalsUtils";
 import Loading from "../shared/loading";
-
-let labels = [];
+import CustomButton from "../shared/customButton";
+import IconPayments from "../../assets/svg/iconPayments";
+import IconStock from "../../assets/svg/iconStock";
+import { ApexOptions } from "apexcharts";
+import { Archive, DollarSign } from "lucide-react";
 
 function groupAndSumByStock(list) {
   const groups = {};
-  labels = [];
   list.forEach((item, index) => {
     const key = item["group"];
     const total = item.total;
@@ -27,16 +29,11 @@ function groupAndSumByStock(list) {
   const result = Object.values(groups);
   result.sort((a, b) => b.data - a.data);
 
-  for (let i = 0; i < result.length; i++) {
-    labels.push(result[i].label);
-  }
-
   return result;
 }
 
 function groupAndSumByValue(list) {
   const groups = {};
-  labels = [];
 
   list.forEach((item, index) => {
     const key = item["group"];
@@ -56,119 +53,173 @@ function groupAndSumByValue(list) {
   const result = Object.values(groups);
   result.sort((a, b) => b.data - a.data);
 
-  for (let i = 0; i < result.length; i++) {
-    labels.push(result[i].label);
-  }
-  console.log(result, labels);
   return result;
 }
 
 const StockByGroup = ({ setSelectGroup, setSelectDeposit }) => {
+  const { user } = useContext(authContext);
   const { stockData } = useContext(stockContext);
 
   const [isLoading, setIsLoading] = useState(false);
-  const [chartData, setChartData] = useState();
-  const [chartOptions, setChartOptions] = useState();
+
+  const [chartLabels, setChartLabels] = useState([]);
+  const [chartData, setChartData] = useState([]);
 
   const [selectCondition, setSelectCondition] = useState("stock");
 
   useEffect(() => {
     function loadChartData() {
-      groupAndSumByValue(stockData);
-      const groups =
+      const productGroups =
         selectCondition === "stock"
           ? groupAndSumByStock(stockData)
           : groupAndSumByValue(stockData);
-      setChartOptions(groups);
-      const values = [];
-      for (let i = 0; i < groups.length; i++) {
-        values.push(groups[i].data);
+      const newLabels = [];
+      const newData = [];
+
+      for (let i = 0; i < productGroups.length; i++) {
+        newLabels.push(productGroups[i].label);
+        newData.push(productGroups[i].data);
       }
-      setChartData(values);
-      setTimeout(() => setIsLoading(false), 600);
+
+      setChartLabels(newLabels);
+      setChartData(newData);
+      setTimeout(() => setIsLoading(false), 300);
     }
 
-    setIsLoading(true);
     if (stockData) {
+      setIsLoading(true);
       loadChartData();
     }
   }, [stockData, selectCondition]);
 
-  function handleClick(event, d) {
-    console.log(d);
-    const selectGroup = chartOptions[d.dataIndex];
-    setSelectGroup(selectGroup);
-    setSelectDeposit(null);
-  }
+  const options: ApexOptions = {
+    colors: ["#45C93B"],
+    chart: {
+      toolbar: {
+        show: false,
+      },
+      zoom: {
+        enabled: false,
+      },
+      events: {
+        dataPointSelection: (event, chartContext, config) => {
+          const selectIndex = config.dataPointIndex;
+          const groupName = chartLabels[selectIndex];
+          setSelectGroup(groupName);
+          setSelectDeposit();
+        },
 
-  function handleAxisClick(event, d) {
-    console.log(d);
-    const selectGroup = chartOptions[d.dataIndex];
-    setSelectGroup(selectGroup);
-    setSelectDeposit(null);
-  }
+        xAxisLabelClick: function (event, chartContext, config) {
+          const selectIndex = config.labelIndex;
+          const groupName = chartLabels[selectIndex];
+          setSelectGroup(groupName);
+          setSelectDeposit();
+        },
+      },
+    },
+    dataLabels: {
+      enabled: true,
+      formatter: function (val) {
+        if (selectCondition === "value") {
+          return `$${formatCurrency(val)}`;
+        } else return val;
+      },
+    },
+    stroke: {
+      curve: "straight",
+    },
+    title: {
+      text: "Estoque por grupo",
+      align: "left",
+      style: {
+        fontSize: "16px",
+        fontWeight: "bold",
+        color: "#ffffff", // cor do título
+      },
+    },
+    subtitle: {
+      text: "Valores em dólar americano",
+      align: "left",
+      style: {
+        fontSize: "12px",
+        color: "#cccccc", // cor do subtítulo
+      },
+    },
+    labels: chartLabels,
+    xaxis: {
+      type: "category",
+      labels: {
+        style: {
+          colors: "#C2CCC2", // Cor das labels do eixo Y
+          fontSize: "12px",
+        },
+        formatter: function (val) {
+          return `${val.toLocaleString()}`;
+        },
+      },
+    },
+    yaxis: {
+      labels: {
+        formatter: function (val) {
+          return `${val.toLocaleString()}`;
+        },
+        style: {
+          colors: "#C2CCC2", // Cor das labels do eixo Y
+          fontSize: "12px",
+        },
+      },
+    },
+    legend: {
+      horizontalAlign: "left",
+    },
+  };
 
-  function toogleCondition({ currentTarget }) {
+  const series = [
+    {
+      name: "Estoque por Grupo",
+      data: chartData,
+    },
+  ];
+
+  const toogleCondition = ({ currentTarget }) => {
     setSelectCondition(currentTarget.id);
-  }
+  };
 
   return (
-    <div className="col-span-6 row-span-6 bg-gray-900 p-6 rounded-xl border-2 border-gray-800 flex flex-col gap-4">
-      <div className="flex items-center justify-between">
-        <CustomSubtitle
-          icon={<IconDispatches fill="fill-gray-500" width="25px" />}
-          subtitle="Estoque por Grupo"
-        />
-        <div className="flex items-center  rounded">
-          <div
+    <div className="col-span-8 row-span-6 bg-gray-90 p-6 rounded-xl border-2 border-gray-900 flex flex-col gap-4 relative fade-left">
+      {user.accessLevel !== 3 ? null : (
+        <div className="flex gap-4 absolute items-center rounded right-8 z-10 fade-left">
+          <CustomButton
             id="value"
-            className={`px-4 py-2 rounded-l font-semibold font-heading transition flex flex-row items-center justify-center gap-2 cursor-pointer border ${
-              selectCondition === "value"
-                ? "border-primary-900 bg-primary-400 text-primary-800 hover:bg-primary-300"
-                : "border-primary-900 text-primary-900 hover:bg-primary-950 hover:text-primary-600 hover:border-primary-600"
-            } `}
+            theme={selectCondition === "value" ? "" : "alternate"}
             onClick={toogleCondition}
           >
-            VALOR
-          </div>
-          <div
+            <DollarSign className="size-4" />
+            valor
+          </CustomButton>
+          <CustomButton
             id="stock"
-            className={`px-4 py-2 rounded-r font-semibold font-heading transition flex flex-row items-center justify-center gap-2 cursor-pointer border ${
-              selectCondition === "stock"
-                ? "border-primary-900 bg-primary-400 text-primary-800 hover:bg-primary-300"
-                : "border-primary-900 text-primary-900 hover:bg-primary-950 hover:text-primary-600 hover:border-primary-600"
-            } `}
+            theme={selectCondition === "stock" ? "" : "alternate"}
             onClick={toogleCondition}
           >
-            PEÇAS
-          </div>
+            <Archive className="size-4" />
+            peças
+          </CustomButton>
         </div>
-      </div>
+      )}
       {isLoading ? (
         <Loading />
       ) : (
         <>
           {chartData && (
-            <BarChart
-              onAxisClick={handleAxisClick}
-              xAxis={[{ scaleType: "band", data: labels }]}
-              series={[{ data: chartData, color: "#45C93B" }]}
-              onItemClick={handleClick}
-              sx={() => ({
-                [`.${axisClasses.root}`]: {
-                  [`.${axisClasses.tick}, .${axisClasses.line}`]: {
-                    stroke: "white",
-                    strokeWidth: 3,
-                  },
-                  [`.${axisClasses.tickLabel}`]: {
-                    fill: "white",
-                  },
-                  [`.${axisClasses.label}`]: {
-                    fill: "white",
-                  },
-                },
-              })}
-            />
+            <div className="h-full">
+              <ApexChart
+                type="bar"
+                options={options}
+                series={series}
+                height={"100%"}
+              />
+            </div>
           )}
         </>
       )}

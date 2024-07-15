@@ -18,6 +18,7 @@ import CustomInput from "../../shared/customInput";
 import IconSearch from "../../../assets/svg/iconSearch";
 import CustomCheckbox from "../../shared/customCheckbox";
 import { contactsContext } from "../../../contexts/contactsContext";
+import { ArrowLeft, Link, Save, UserCircle } from "lucide-react";
 
 const customStyles = {
   overlay: {
@@ -189,47 +190,11 @@ const ModalCustomerLink = (props) => {
           Vincule os contatos de seu cliente
         </h3>
       </div>
-      <div className="w-full flex items-center gap-8">
+      <div className="w-full">
         <CardIconInfo
           label="Nome"
           data={props.data?.name}
-          icon={<IconUser width="20px" fill="fill-primary-400" />}
-        />
-        <CardIconInfo
-          label="SIGA ID"
-          data={props.data?.sigaId}
-          icon={<IconUser width="20px" fill="fill-primary-400" />}
-        />
-        <CardIconInfo
-          label="Saldo"
-          data={props.data?.balance}
-          icon={<IconPayments width="20px" fill="fill-primary-400" />}
-        />
-        <CardIconInfo
-          label="Grupo"
-          icon={
-            <IconGroups
-              width="20px"
-              fill={
-                !props.data?.group ? "fill-primary-800" : "fill-primary-400"
-              }
-            />
-          }
-          data={props.data ? props.data?.group?.name : null}
-          alternate={!props.data?.group}
-        />
-        <CardIconInfo
-          label="Contato"
-          icon={
-            <IconGroups
-              width="20px"
-              fill={
-                !props.data?.contact ? "fill-primary-800" : "fill-primary-400"
-              }
-            />
-          }
-          data={props.data ? props.data?.contact?.name : null}
-          alternate={!props.data?.contact}
+          icon={<UserCircle className="size-5" />}
         />
       </div>
       <div className="w-full flex items-center gap-8">
@@ -319,10 +284,14 @@ const ModalCustomerLink = (props) => {
         </div>
       </div>
       <div className="flex items center justify-center gap-8">
-        <CustomButton type="danger" onClick={closeModal}>
-          CANCELAR
+        <CustomButton theme="danger" onClick={closeModal}>
+          <ArrowLeft className="size-4" />
+          cancelar
         </CustomButton>
-        <CustomButton onClick={confirmLink}>COFIRMAR</CustomButton>
+        <CustomButton onClick={confirmLink}>
+          <Save className="size-4" />
+          confirmar
+        </CustomButton>
       </div>
     </Modal>
   );

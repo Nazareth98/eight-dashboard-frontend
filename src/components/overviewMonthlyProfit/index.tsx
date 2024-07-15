@@ -2,34 +2,57 @@ import React, { useContext, useEffect, useState } from "react";
 import ApexChart from "react-apexcharts";
 import { overviewContext } from "../../contexts/overviewContext";
 import { formatCurrency } from "../../utils/generalsUtils";
+import ModalWeekly from "./modalWeekly";
 
 const OverviewMonthlyProfit = () => {
-  const { mainValues } = useContext(overviewContext);
+  const { mainValues, getDailyProfit } = useContext(overviewContext);
   const [chartLabels, setChartLabels] = useState([]);
   const [chartData, setChartData] = useState([]);
+
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [weeklyData, setWeeklyData] = useState([]);
 
   useEffect(() => {
     if (mainValues) {
       const sales = mainValues.monthlyProfit;
       const newLabels = [];
       const newData = [];
-
       for (let i = 0; i < sales.length; i++) {
-        console.log(sales);
         newLabels.push(sales[i].label);
-        newData.push(sales[i].data);
+        newData.push(sales[i].value);
       }
-
       setChartLabels(newLabels);
       setChartData(newData);
     }
   }, [mainValues]);
 
+  async function handleBarClick(event, chartContext, config) {
+    const selectedMonth = mainValues.monthlyProfit[config.dataPointIndex];
+    const month = selectedMonth.number;
+    const year = selectedMonth.year;
+
+    const result = await getDailyProfit(month, year);
+
+    setWeeklyData(result);
+    setModalIsOpen(true);
+  }
+
   const options = {
     colors: ["#45C93B"],
+    plotOptions: {
+      bar: {
+        horizontal: true, // Configura as barras como horizontais
+      },
+    },
     chart: {
+      toolbar: {
+        show: false,
+      },
       zoom: {
         enabled: false,
+      },
+      events: {
+        dataPointSelection: handleBarClick,
       },
     },
     dataLabels: {
@@ -62,17 +85,13 @@ const OverviewMonthlyProfit = () => {
     xaxis: {
       type: "category",
       labels: {
-        style: {
-          colors: "#C2CCC2", // Cor das labels do eixo X
-          fontSize: "12px",
-        },
+        show: false, // Remove as labels do eixo X
       },
     },
     yaxis: {
-      opposite: true,
       labels: {
         formatter: function (val) {
-          return `$${val.toLocaleString()}`;
+          return `${val.toLocaleString()}`;
         },
         style: {
           colors: "#C2CCC2", // Cor das labels do eixo Y
@@ -93,10 +112,15 @@ const OverviewMonthlyProfit = () => {
   ];
 
   return (
-    <div className="col-span-4 row-span-4 bg-gray-900 p-6 rounded-xl border border-gray-800 flex flex-col gap-4">
+    <div className="col-span-4 row-span-6 p-6 rounded-xl border-2 border-gray-900 flex flex-col gap-4 cursor-pointer transition-all hover:bg-gray-950 active:bg-gray-900 fade-left">
+      <ModalWeekly
+        isOpen={modalIsOpen}
+        setIsOpen={setModalIsOpen}
+        data={weeklyData}
+      />
       <div className="h-full">
         <ApexChart
-          type="area"
+          type="bar"
           options={options}
           series={series}
           height={"100%"}

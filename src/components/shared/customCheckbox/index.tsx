@@ -1,7 +1,6 @@
 const CustomCheckbox = ({ label, checked, setChecked, onChange }) => {
   const handleCheckboxChange = () => {
     setChecked(!checked);
-    console.log(checked);
   };
 
   return (

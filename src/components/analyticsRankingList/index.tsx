@@ -46,41 +46,41 @@ const AnalyticsRankingList = () => {
   });
 
   return (
-    <div className="h-[30rem] col-span-6 row-span-1 bg-gray-900 p-6 rounded-xl border-2 border-gray-800 flex flex-col gap-4">
+    <div className="col-span-6 row-span-12 p-6 rounded-xl border-2 border-gray-900 flex flex-col gap-4 fade-left">
       <CustomSubtitle
         icon={<IconOrders fill="fill-gray-600" width="25px" />}
         subtitle="Ranking Geral"
       />
 
       {analyticsData && (
-        <div className="w-full h-full overflow-y-auto flex flex-col gap-2">
+        <div className="w-full h-full overflow-y-auto flex flex-col gap-2 fade-left">
           <table>
             <thead>
               <tr>
-                <th className="px-4 py-2 bg-gray-800 border border-gray-700 text-gray-300">
+                <th className="px-4 py-2 bg-gray-900 border border-gray-800 text-gray-300">
                   Codigo
                 </th>
                 <th
                   onClick={() => handleSort("customerName")}
-                  className="px-4 py-2 bg-gray-800 border border-gray-700 text-gray-300"
+                  className="px-4 py-2 bg-gray-900 border border-gray-800 text-gray-300"
                 >
                   Nome
                 </th>
                 <th
                   onClick={() => handleSort("amountPaid")}
-                  className="px-4 py-2 bg-gray-800 border border-gray-700 text-gray-300"
+                  className="px-4 py-2 bg-gray-900 border border-gray-800 text-gray-300"
                 >
                   Valor Gasto
                 </th>
                 <th
                   onClick={() => handleSort("delayAverage")}
-                  className="px-4 py-2 bg-gray-800 border border-gray-700 text-gray-300"
+                  className="px-4 py-2 bg-gray-900 border border-gray-800 text-gray-300"
                 >
                   Média de atraso
                 </th>
                 <th
                   onClick={() => handleSort("totalOrders")}
-                  className="px-4 py-2 bg-gray-800 border border-gray-700 text-gray-300"
+                  className="px-4 py-2 bg-gray-900 border border-gray-800 text-gray-300"
                 >
                   Pedidos
                 </th>
@@ -90,7 +90,7 @@ const AnalyticsRankingList = () => {
               {sortedData.map((customer) => (
                 <tr
                   key={customer.customerId}
-                  className="border border-gray-700"
+                  className="border border-gray-800"
                 >
                   <td className="px-4 py-2 text-sm text-gray-100 text-center">
                     {customer.customerId}

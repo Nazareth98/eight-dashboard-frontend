@@ -22,7 +22,7 @@ const CustomTextarea = (props: TextareaProps) => {
       </label>
       <textarea
         id={props.label}
-        className="bg-gray-800 p-2 border-2 border-gray-700 rounded text-gray-100 focus:outline-none focus:border-primary-300 focus:bg-gray-900 placeholder:italic placeholder:text-gray-400 placeholder:text-sm resize-none"
+        className="bg-gray-900 p-2 border-2 border-gray-800 rounded-lg text-gray-100 focus:outline-none focus:border-primary-300 focus:bg-gray-900 placeholder:italic placeholder:text-gray-400 placeholder:text-sm resize-none"
         placeholder={props.placeholder}
         rows={props.rows ? props.rows : 5}
         value={props.value}

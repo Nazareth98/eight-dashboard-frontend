@@ -46,7 +46,6 @@ const UserContextProvider = ({ children }: any) => {
   const updateUser = async (body: UserType) => {
     try {
       const endpoint = `/user/${body.id}`;
-      console.log(body);
       const response = await putData(endpoint, body);
       setUserData(response.result);
       return response;
@@ -60,10 +59,8 @@ const UserContextProvider = ({ children }: any) => {
       const endpoint = "/user/create";
       const result = await postData(endpoint, body);
       if (result.response) {
-        console.log(result.response.data);
         return result.response.data;
       } else {
-        console.log(result);
         await updateData();
         return result;
       }

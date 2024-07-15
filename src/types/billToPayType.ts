@@ -4,6 +4,7 @@ type BillToPayType = {
   dueDate: string;
   value: number;
   description: string;
+  categoryName: string;
   status?: number;
   repetitions?: number;
 };

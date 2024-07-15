@@ -1,7 +1,7 @@
 import axios from "axios";
 
-// const baseUrl = "http://localhost:8030/api"; // desenvolvimento
-const baseUrl = "http://botsmoke.com.br:8030/api"; // produção
+const baseUrl = "http://localhost:8030/api"; // desenvolvimento
+// const baseUrl = "http://botsmoke.com.br:8030/api"; //
 
 export const getQrcode = async () => {
   try {
@@ -34,10 +34,8 @@ export const getData = async (endpoint: string, body?: any) => {
   try {
     getToken();
     const result = await axios.get(`${baseUrl}${endpoint}`, body);
-    console.log(result.data);
     return result.data;
   } catch (error) {
-    console.log(error.response.data);
     return error.response.data;
   }
 };
@@ -48,7 +46,6 @@ export const postData = async (endpoint: string, data: any) => {
       getToken();
     }
     const result = await axios.post(`${baseUrl}${endpoint}`, data);
-    console.log(result);
     return result.data;
   } catch (error) {
     console.log(error);
@@ -59,7 +56,6 @@ export const putData = async (endpoint: string, data: any) => {
   try {
     getToken();
     const result = await axios.put(`${baseUrl}${endpoint}`, data);
-    console.log(result);
     return result.data;
   } catch (error) {
     console.log(error.response.data);

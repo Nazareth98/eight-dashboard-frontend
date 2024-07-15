@@ -1,3 +1,5 @@
+import { StylesConfig } from "react-select";
+
 export function formatCurrency(value, locale = "en-US", currency = "USD") {
   const numberValue = typeof value === "string" ? parseFloat(value) : value;
 
@@ -64,4 +66,29 @@ export function getLastSixMonths() {
   }
 
   return result.reverse();
+}
+
+export function getSelectStyles(): StylesConfig {
+  return {
+    control: (provided) => ({
+      ...provided,
+      backgroundColor: "#1d1f1d",
+      border: "2px solid #313330",
+      padding: "3px",
+      color: "#fff",
+    }),
+    option: (provided, state) => ({
+      ...provided,
+      color: state.isSelected ? "#fff" : "#929991",
+      backgroundColor: state.isSelected ? "#1d1f1d" : "#313330",
+      "&:hover": {
+        backgroundColor: "#1d1f1d",
+        color: "#fff",
+      },
+    }),
+    singleValue: (provided, state) => ({
+      ...provided,
+      color: "#aab2aa",
+    }),
+  };
 }

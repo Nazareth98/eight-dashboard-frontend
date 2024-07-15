@@ -19,6 +19,7 @@ import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import { AnalyticsContextProvider } from "./contexts/analyticsContext.tsx";
 import { OverviewContextProvider } from "./contexts/overviewContext.tsx";
+import { GoalsContextProvider } from "./contexts/goalsContext.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
@@ -34,7 +35,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
                       <BillToPayContextProvider>
                         <AnalyticsContextProvider>
                           <OverviewContextProvider>
-                            <App />
+                            <GoalsContextProvider>
+                              <App />
+                            </GoalsContextProvider>
                           </OverviewContextProvider>
                         </AnalyticsContextProvider>
                       </BillToPayContextProvider>

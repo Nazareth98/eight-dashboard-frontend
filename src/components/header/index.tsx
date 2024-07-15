@@ -32,15 +32,15 @@ const Header = (props: HeaderType) => {
     <header className="w-full h-16 p-4 grid grid-cols-12">
       <div className="col-span-3 flex items-center gap-2">
         {props.icon}
-        <h2 className="text-2xl font-medium text-gray-50">
+        <h2 className="text-2xl font-medium font-heading text-gray-100">
           {props.description}
         </h2>
       </div>
       <div className="col-span-6 flex gap-2 justify-center items-center">
-        <span className="text-gray-100 font-semibold text-sm">{date}</span>
+        <span className="text-gray-400 font-semibold text-sm">{date}</span>
       </div>
-      <div className="col-span-3 text-gray-800 text-sm flex gap-2 items-center flex items-center justify-end">
-        <IconUser width="30px" fill="fill-primary-400" />
+      <div className="col-span-3 text-gray-800 text-sm flex gap-2 items-center justify-end">
+        <IconUser width="25px" fill="fill-primary-700" />
         <div className="flex flex-col">
           <span className="font-lg font-heading font-semibold text-gray-200">{`${user?.name} ${user?.lastname}`}</span>
           <span className="text-gray-500">{user?.position}</span>

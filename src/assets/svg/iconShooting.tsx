@@ -1,16 +1,11 @@
-import SvgType from "../../types/svgType";
+import CustomSvg, { SvgProps } from "../../components/shared/customSvg";
 
-function IconShooting(props: SvgType) {
+const IconShooting = (props: SvgProps) => {
   return (
-    <svg
-      viewBox="0 0 24 24"
-      className={props.fill ? props.fill : "fill-black"}
-      height={props.width ? props.width : "30px"}
-      width={props.width ? props.width : "30px"}
-    >
-      <path d="M20 5H9c-1.1 0-2 .9-2 2v14l4-4h9c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2m0 10h-9.8L9 16.2V7h11v8M3 7c-.6 0-1 .4-1 1s.4 1 1 1h2V7H3m-1 4c-.6 0-1 .4-1 1s.4 1 1 1h3v-2H2m-1 4c-.6 0-1 .4-1 1s.4 1 1 1h4v-2H1z" />
-    </svg>
+    <CustomSvg {...props}>
+      <path d="M792-443 176-183q-20 8-38-3.5T120-220v-520q0-22 18-33.5t38-3.5l616 260q25 11 25 37t-25 37ZM200-280l474-200-474-200v140l240 60-240 60v140Zm0 0v-400 400Z" />
+    </CustomSvg>
   );
-}
+};
 
 export default IconShooting;

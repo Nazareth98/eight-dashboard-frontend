@@ -5,6 +5,9 @@ import CustomInput from "../../shared/customInput";
 import CheckboxGroup from "../../shared/customCheckboxGroup";
 import CustomButton from "../../shared/customButton";
 import { userContext } from "../../../contexts/userContext";
+import IconBack from "../../../assets/svg/iconBack";
+import IconSave from "../../../assets/svg/iconSave";
+import { ArrowLeft, Save } from "lucide-react";
 Modal.setAppElement("#root");
 
 const accessLevelOptions = [1, 2, 3];
@@ -47,7 +50,7 @@ const ModalEditUser = (props) => {
       gap: "30px",
       alignItems: "center",
       padding: "40px",
-      backgroundColor: "#1E1F1E",
+      backgroundColor: "#131413",
       border: "none",
       boxShadow:
         "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)",
@@ -90,7 +93,7 @@ const ModalEditUser = (props) => {
       contentLabel="Example Modal"
     >
       <div className="w-full flex items-center gap-2">
-        <IconNotificationImportant width="40px" fill="fill-primary-300" />
+        <IconNotificationImportant width="30px" fill="fill-gray-800" />
 
         <h3 className="font-heading font-semibold text-gray-50 text-3xl">
           {props.userData?.name}
@@ -140,10 +143,14 @@ const ModalEditUser = (props) => {
         />
       </form>
       <div className="w-full flex items-center justify-end gap-8">
-        <CustomButton type="danger" onClick={closeModal}>
-          VOLTAR
+        <CustomButton theme="attention" onClick={closeModal}>
+          <ArrowLeft className="size-4" />
+          voltar
         </CustomButton>
-        <CustomButton onClick={handleConfirmEdit}>SALVAR</CustomButton>
+        <CustomButton onClick={handleConfirmEdit}>
+          <Save className="size-4" />
+          salvar
+        </CustomButton>
       </div>
     </Modal>
   );

@@ -13,7 +13,6 @@ const ChatbotQrcode = () => {
     const updateQrcode = async () => {
       try {
         const response = await getQrcode();
-        console.log(response);
         if (response.result !== "Conectado!") {
           setQrcode(response.result);
           return false;
@@ -31,7 +30,7 @@ const ChatbotQrcode = () => {
   }, []);
 
   return (
-    <div className="col-span-3 row-span-5 bg-gray-900 p-6 rounded-xl border border-gray-800 flex flex-col gap-4">
+    <div className="col-span-3 row-span-5 p-6 rounded-xl border-2 border-gray-900 flex flex-col gap-4 fade-left">
       <CustomSubtitle
         icon={<IconQrcode fill="fill-gray-500" width="25px" />}
         subtitle="Status da Conexão"

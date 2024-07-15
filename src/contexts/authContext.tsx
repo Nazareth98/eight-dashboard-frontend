@@ -34,7 +34,6 @@ const AuthContextProvider = ({ children }) => {
         email,
         password,
       };
-      console.log("chegou aqui", body);
       const response = await postData("/auth/login", body);
 
       if (response.status === 200) {
@@ -63,7 +62,6 @@ const AuthContextProvider = ({ children }) => {
 
     if (token) {
       const decodedToken: string = decodeToken(token) as string;
-      console.log(decodedToken);
       setUser(decodedToken);
       setIsLogged(true);
     }

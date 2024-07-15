@@ -4,6 +4,8 @@ Modal.setAppElement("#root");
 import IconWarning from "../../../../assets/svg/iconWarning";
 import CustomButtom from "../../customButton";
 import IconNotificationImportant from "../../../../assets/svg/iconNotificationImportant";
+import IconBack from "../../../../assets/svg/iconBack";
+import IconVerified from "../../../../assets/svg/iconVerified";
 
 const ModalConfirm = (props) => {
   const customStyles = {
@@ -22,7 +24,7 @@ const ModalConfirm = (props) => {
       gap: "30px",
       alignItems: "center",
       padding: "40px",
-      backgroundColor: "#1E1F1E",
+      backgroundColor: "#131413",
       border: "none",
       boxShadow:
         "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)",
@@ -42,9 +44,9 @@ const ModalConfirm = (props) => {
       contentLabel="Example Modal"
     >
       <div className="w-full flex items-center gap-2">
-        <IconNotificationImportant width="40px" fill="fill-primary-300" />
+        <IconNotificationImportant width="30px" fill="fill-gray-800" />
 
-        <h3 className="font-heading font-semibold text-gray-50 text-3xl">
+        <h3 className="font-heading font-semibold text-gray-100 text-3xl">
           Ops!
         </h3>
       </div>
@@ -54,8 +56,9 @@ const ModalConfirm = (props) => {
         <p className="text-yellow-300">{props.message}</p>
       </div>
       <div className="flex items center justify-center gap-8">
-        <CustomButtom type="danger" onClick={closeModal}>
-          CANCELAR
+        <CustomButtom theme="danger" onClick={closeModal}>
+          <IconBack width="20px" fill="fill-red-700" />
+          cancelar
         </CustomButtom>
         <CustomButtom
           onClick={() => {
@@ -65,7 +68,8 @@ const ModalConfirm = (props) => {
             closeModal();
           }}
         >
-          COFIRMAR
+          <IconVerified width="20px" fill="fill-primary-700" />
+          confirmar
         </CustomButtom>
       </div>
     </Modal>

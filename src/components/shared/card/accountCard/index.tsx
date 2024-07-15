@@ -16,7 +16,6 @@ const AccountCard = ({ data }) => {
   }
 
   function activeAccount() {
-    console.log(data.id);
     setActiveModal(true);
   }
 
@@ -38,7 +37,7 @@ const AccountCard = ({ data }) => {
       <div className="flex items-center justify-between">
         <h4 className="font-semibold text-gray-100 text-lg">{data.name}</h4>
         {data.isActive ? (
-          <CustomButton type="alternate" disabled={true}>
+          <CustomButton theme="alternate" disabled={true}>
             ATIVO
           </CustomButton>
         ) : (

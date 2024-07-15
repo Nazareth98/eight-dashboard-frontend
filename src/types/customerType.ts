@@ -6,6 +6,7 @@ type CustomerType = {
   name: string;
   balance: number;
   sigaDigit: number;
+  sheetsBalance: number;
   group?: GroupType;
   contact?: ContactType;
 };

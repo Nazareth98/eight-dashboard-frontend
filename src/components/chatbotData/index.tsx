@@ -49,14 +49,14 @@ const ChatbotData = () => {
   }
 
   return (
-    <div className="col-span-6 row-span-5 bg-gray-900 p-6 rounded-xl border border-gray-800 flex flex-col gap-4">
+    <div className="col-span-6 row-span-5 p-6 rounded-xl border-2 border-gray-900 flex flex-col gap-4 fade-left">
       <CustomSubtitle
         icon={<IconPhone fill="fill-gray-500" width="25px" />}
         subtitle="Dados do Chatbot"
       />
 
       <div className="h-full w-full flex gap-4 ">
-        <div className="w-5/12 flex flex-col justify-center gap-4">
+        <div className="w-5/12 flex flex-col justify-center gap-4 fade-left">
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 flex items-center justify-center bg-primary-950 border-2 border-primary-400 rounded-lg">
               <IconContacts fill="fill-primary-400" width="25px" />

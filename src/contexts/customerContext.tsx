@@ -1,4 +1,3 @@
-// Arquivo: AuthContextProvider.js
 import { createContext, useState } from "react";
 
 import { getData } from "../services/API";
@@ -35,7 +34,6 @@ const CustomerContextProvider = ({ children }: any) => {
     try {
       const endpoint = "/customer/refresh-data";
       const { result } = await getData(endpoint);
-      console.log("aqui no refresh data", result);
       setCustomerData(result);
     } catch (error) {
       console.log(error);

@@ -70,7 +70,7 @@ const ExchangerCreate = () => {
         />
       </form>
       <div className="h-full w-full flex items-end justify-end gap-4">
-        <CustomButton type="attention" onClick={cleanFields}>
+        <CustomButton theme="attention" onClick={cleanFields}>
           <IconClean fill="fill-yellow-500" width="25px" />
           Limpar
         </CustomButton>

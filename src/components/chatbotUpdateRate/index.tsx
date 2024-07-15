@@ -8,6 +8,7 @@ import IconAdd from "../../assets/svg/iconAdd";
 import { chatbotContext } from "../../contexts/chatbotContext";
 import ModalWarning from "../shared/modal/modalWarning";
 import IconRefresh from "../../assets/svg/iconRefresh";
+import { RefreshCcwDot, RefreshCw, RefreshCwOff } from "lucide-react";
 
 const ChatbotUpdateRate = () => {
   const { updateRate } = useContext(chatbotContext);
@@ -48,7 +49,7 @@ const ChatbotUpdateRate = () => {
           />
         </div>
         <CustomButton onClick={handleUpdateRate}>
-          <IconRefresh fill="fill-primary-700" width="25px" />
+          <RefreshCw className="size-4" />
           atualizar
         </CustomButton>
       </div>

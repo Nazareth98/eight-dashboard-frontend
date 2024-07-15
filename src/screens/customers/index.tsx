@@ -6,6 +6,7 @@ import ScreenContainer from "../../components/shared/screenContainer";
 import CustomerLink from "../../components/customerLink";
 import CustomerList from "../../components/customerList";
 import { contactsContext } from "../../contexts/contactsContext";
+import CustomerInfo from "../../components/customerInfo";
 
 const Customers = () => {
   const { getCustomers } = useContext(customerContext);
@@ -22,6 +23,7 @@ const Customers = () => {
   return (
     <ScreenContainer>
       <CustomerLink />
+      <CustomerInfo />
       <CustomerList />
     </ScreenContainer>
   );

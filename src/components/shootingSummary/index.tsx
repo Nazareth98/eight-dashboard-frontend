@@ -7,6 +7,7 @@ import CardIconInfo from "../shared/cardIconInfo";
 import CustomButton from "../shared/customButton";
 import CustomSubtitle from "../shared/customSubtitle";
 import { shootingContext } from "../../contexts/shootingContext";
+import { MessageSquareShare } from "lucide-react";
 
 const ShootingSummary = ({ selectContacts, selectGroups, text }) => {
   const { shooting } = useContext(shootingContext);
@@ -34,15 +35,13 @@ const ShootingSummary = ({ selectContacts, selectGroups, text }) => {
         return;
       }
       alert(result.message);
-
-      console.log(result);
     } catch (error) {
       alert(error);
     }
   }
 
   return (
-    <div className="h-[25rem] col-span-6 row-span-6 bg-gray-900 p-6 rounded-xl border-2 border-gray-800 flex flex-col gap-4">
+    <div className="h-[25rem] col-span-6 row-span-6  p-6 rounded-xl border-2 border-gray-900 flex flex-col gap-4">
       <CustomSubtitle
         icon={<IconReport fill="fill-gray-500" width="25px" />}
         subtitle="Confirme o seu disparo"
@@ -67,8 +66,8 @@ const ShootingSummary = ({ selectContacts, selectGroups, text }) => {
 
       <div className="w-full h-full flex items-end justify-end">
         <CustomButton onClick={handleShooting}>
-          <IconShooting fill="fill-primary-700" />
-          Enviar Mensagem
+          <MessageSquareShare className="size-4" />
+          enviar
         </CustomButton>
       </div>
     </div>
