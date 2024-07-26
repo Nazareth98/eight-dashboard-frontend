@@ -1,17 +1,16 @@
-import React, { useState } from "react";
-import { PaymentType } from "../../types/paymentType";
-import { DockIcon, Printer, Receipt, Search } from "lucide-react";
+import { Printer, Receipt, Search } from "lucide-react";
+import { useContext } from "react";
+import { goalsContext } from "../../contexts/goalsContext";
 import { formatCurrency } from "../../utils/generalsUtils";
+import ComponentContainer from "../shared/componentContainer";
 import CustomSubtitle from "../shared/customSubtitle";
 
-interface GoalsReceiptProps {
-  data: PaymentType[];
-}
+const GoalsReceipt = () => {
+  const { searchData } = useContext(goalsContext);
 
-const GoalsReceipt = ({ data }: GoalsReceiptProps) => {
   return (
-    <div className="col-span-9 row-span-6 p-6 rounded-xl border-2 border-gray-900 flex flex-col gap-4 fade-left">
-      {!data ? (
+    <ComponentContainer cols="9" classToAdd="row-span-5">
+      {!searchData ? (
         <div className="w-full h-full inset-0 text-gray-500 font-heading flex items-center justify-center gap-2 fade-left">
           <Search className="size-4" />
           <span>Busque por um cliente </span>
@@ -47,7 +46,7 @@ const GoalsReceipt = ({ data }: GoalsReceiptProps) => {
                 </tr>
               </thead>
               <tbody>
-                {data.map((payment) => (
+                {searchData.map((payment) => (
                   <tr
                     key={payment.customerId}
                     className="border border-gray-800"
@@ -78,7 +77,7 @@ const GoalsReceipt = ({ data }: GoalsReceiptProps) => {
           </div>
         </>
       )}
-    </div>
+    </ComponentContainer>
   );
 };
 

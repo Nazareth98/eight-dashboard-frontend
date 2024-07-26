@@ -1,13 +1,11 @@
-import CustomSubtitle from "../shared/customSubtitle";
-import IconShipping from "../../assets/svg/iconShipping";
-import { useContext, useEffect, useState } from "react";
+import { RefreshCcw, Truck } from "lucide-react";
+import { useContext } from "react";
 import { overviewContext } from "../../contexts/overviewContext";
-import { ProviderType } from "../../types/providerType";
 import { formatCurrency } from "../../utils/generalsUtils";
-import Loading from "../shared/loading";
+import ComponentContainer from "../shared/componentContainer";
 import CustomButton from "../shared/customButton";
-import IconRefresh from "../../assets/svg/iconRefresh";
-import { RefreshCcw } from "lucide-react";
+import CustomSubtitle from "../shared/customSubtitle";
+import Loading from "../shared/loading";
 
 const ProvidersList = ({ providers, setProviders }) => {
   const { getProviders } = useContext(overviewContext);
@@ -24,10 +22,10 @@ const ProvidersList = ({ providers, setProviders }) => {
   }
 
   return (
-    <div className="col-span-9 row-span-10 p-6 rounded-xl border-2 border-gray-900 flex flex-col gap-4 fade-left">
+    <ComponentContainer cols="9" rows="10">
       <div className="w-full flex justify-between">
         <CustomSubtitle
-          icon={<IconShipping fill="fill-gray-500" width="25px" />}
+          icon={<Truck className="size-6" />}
           subtitle="Todos os Provedores"
         />
         <CustomButton theme="attention" onClick={handleUpdateProviders}>
@@ -124,7 +122,7 @@ const ProvidersList = ({ providers, setProviders }) => {
           })}
         </div>
       )}
-    </div>
+    </ComponentContainer>
   );
 };
 

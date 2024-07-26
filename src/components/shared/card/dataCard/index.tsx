@@ -1,4 +1,5 @@
 import IconReport from "../../../../assets/svg/iconReport";
+import ComponentContainer from "../../componentContainer";
 
 const DataCard = (props) => {
   let bgColorClass = "";
@@ -28,24 +29,28 @@ const DataCard = (props) => {
   }
 
   return (
-    <div
+    <ComponentContainer
+      cols="3"
+      rows="2"
       onClick={props.onClick}
-      className="col-span-3 row-span-2 p-6 rounded-xl border-2 border-gray-900 flex items-center gap-4 cursor-pointer transition-all hover:bg-gray-900 active:bg-gray-950 fade-left"
+      classToAdd="row-span-2 cursor-pointer transition-all hover:bg-gray-900 active:bg-gray-950"
     >
-      <div className={`p-3 rounded-full transition ${bgColorClass}`}>
-        {props.icon ? (
-          props.icon
-        ) : (
-          <IconReport width="30px" fill={`${iconColorClass}`} />
-        )}
+      <div className="w-full h-full flex items-center gap-4">
+        <div className={`p-3 rounded-full transition ${bgColorClass}`}>
+          {props.icon ? (
+            props.icon
+          ) : (
+            <IconReport width="30px" fill={`${iconColorClass}`} />
+          )}
+        </div>
+        <div>
+          <span className="text-gray-400 font-medium">{props.name}</span>
+          <h3 className="text-2xl text-gray-50 font-semibold font-heading fade-left">
+            {props.value}
+          </h3>
+        </div>
       </div>
-      <div>
-        <span className="text-gray-400 font-medium">{props.name}</span>
-        <h3 className="text-3xl text-gray-50 font-semibold font-heading fade-left">
-          {props.value}
-        </h3>
-      </div>
-    </div>
+    </ComponentContainer>
   );
 };
 

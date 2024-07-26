@@ -1,36 +1,61 @@
-import { createContext } from "react";
+import { createContext, useState } from "react";
 
 import { getData } from "../services/API";
+import CustomerType from "../types/customerType";
+import { PaymentType } from "../types/paymentType";
 
 interface GoalsContext {
-  getMonthlyPayments: (
-    customertId: number,
-    month: string,
-    year: string
-  ) => Promise<any[]>;
+  updateSearchData: (customertId: number, month: string, year: string) => void;
+  setCurrentCustomer: (customer: CustomerType) => void;
+  selectedCustomer: CustomerType;
+  searchData: PaymentType[];
+  cleanSearchData: () => void;
 }
 
 const initialState: GoalsContext = {
-  getMonthlyPayments: async () => [],
+  updateSearchData: async () => {},
+  setCurrentCustomer: async () => {},
+  cleanSearchData: () => {},
+  selectedCustomer: null,
+  searchData: null,
 };
 
 const goalsContext = createContext<GoalsContext>(initialState);
 
 const GoalsContextProvider = ({ children }: any) => {
-  async function getMonthlyPayments(customerId, month, year) {
+  const [selectedCustomer, setSelectedCustomer] = useState<CustomerType>();
+  const [searchData, setSearchData] = useState();
+
+  async function updateSearchData(
+    customertId: number,
+    month: string,
+    year: string
+  ) {
     try {
-      const endpoint = `/data/monthly-Payments/${customerId}?month=${month}&year=${year}`;
+      const endpoint = `/data/monthly-payments/${customertId}?month=${month}&year=${year}`;
       const { result } = await getData(endpoint);
-      return result;
+      setSearchData(result);
     } catch (error) {
       console.log(error);
     }
   }
 
+  function cleanSearchData() {
+    setSearchData(undefined);
+  }
+
+  function setCurrentCustomer(customer: CustomerType) {
+    if (customer) setSelectedCustomer(customer);
+  }
+
   return (
     <goalsContext.Provider
       value={{
-        getMonthlyPayments,
+        updateSearchData,
+        setCurrentCustomer,
+        cleanSearchData,
+        selectedCustomer,
+        searchData,
       }}
     >
       {children}

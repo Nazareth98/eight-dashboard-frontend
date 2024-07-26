@@ -6,7 +6,6 @@ interface InputProps extends ComponentProps<"input"> {
   label?: string;
   icon?: ReactElement;
   onKeyPress?: any;
-  onChange?: (props: any) => void;
   colSpan?: string;
 }
 
@@ -16,7 +15,9 @@ const CustomInput = (props: InputProps) => {
   };
 
   return (
-    <div className={`flex flex-col gap-1 relative col-span-${props.colSpan}`}>
+    <div
+      className={`w-full flex flex-col gap-1 relative col-span-${props.colSpan}`}
+    >
       {props.label && (
         <label
           className="text-gray-200 text-sm font-medium"

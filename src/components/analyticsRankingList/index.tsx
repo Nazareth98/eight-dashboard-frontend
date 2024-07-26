@@ -1,8 +1,9 @@
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import CustomSubtitle from "../shared/customSubtitle";
 import IconOrders from "../../assets/svg/iconOrders";
 import { analyticsContext } from "../../contexts/analyticsContext";
 import { formatCurrency } from "../../utils/generalsUtils";
+import ComponentContainer from "../shared/componentContainer";
 
 function compareValues(a, b, sortBy, sortOrder) {
   if (a === b) {
@@ -46,7 +47,7 @@ const AnalyticsRankingList = () => {
   });
 
   return (
-    <div className="col-span-6 row-span-12 p-6 rounded-xl border-2 border-gray-900 flex flex-col gap-4 fade-left">
+    <ComponentContainer cols="6" rows="12">
       <CustomSubtitle
         icon={<IconOrders fill="fill-gray-600" width="25px" />}
         subtitle="Ranking Geral"
@@ -113,7 +114,7 @@ const AnalyticsRankingList = () => {
           </table>
         </div>
       )}
-    </div>
+    </ComponentContainer>
   );
 };
 

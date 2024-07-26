@@ -1,20 +1,21 @@
 import { useContext, useEffect, useState } from "react";
 import Select, { StylesConfig } from "react-select";
 
-import CustomSubtitle from "../shared/customSubtitle";
+import { FileText } from "lucide-react";
 import IconReport from "../../assets/svg/iconReport";
-import CustomInput from "../shared/customInput";
-import CustomButton from "../shared/customButton";
-import { customerContext } from "../../contexts/customerContext";
 import { analyticsContext } from "../../contexts/analyticsContext";
+import { customerContext } from "../../contexts/customerContext";
 import {
   formataDate,
   formatCurrency,
   formatOrder,
   getSelectStyles,
 } from "../../utils/generalsUtils";
+import ComponentContainer from "../shared/componentContainer";
+import CustomButton from "../shared/customButton";
+import CustomInput from "../shared/customInput";
+import CustomSubtitle from "../shared/customSubtitle";
 import Loading from "../shared/loading";
-import { FileText } from "lucide-react";
 
 const AnalyticsForm = () => {
   const { customerData } = useContext(customerContext);
@@ -24,7 +25,6 @@ const AnalyticsForm = () => {
   const [options, setOptions] = useState([]);
   const [selectedOption, setSelectedOption] = useState(null);
   const [analyticsData, setAnalyticsData] = useState();
-
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -67,7 +67,7 @@ const AnalyticsForm = () => {
   const customStyles: StylesConfig = getSelectStyles();
 
   return (
-    <div className="col-span-6 row-span-12 p-6 rounded-xl border-2 border-gray-900 flex flex-col gap-4 fade-left">
+    <ComponentContainer cols="6" rows="12">
       <CustomSubtitle
         icon={<IconReport fill="fill-gray-600" width="25px" />}
         subtitle="Gerar um Relatório"
@@ -198,7 +198,7 @@ const AnalyticsForm = () => {
           )}
         </>
       )}
-    </div>
+    </ComponentContainer>
   );
 };
 

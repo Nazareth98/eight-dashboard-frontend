@@ -1,11 +1,14 @@
-import { useEffect, useState } from "react";
-import { formatCurrency } from "../../utils/generalsUtils";
-import ApexChart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
+import { Search, SearchX } from "lucide-react";
+import { Dispatch, useContext, useEffect, useState } from "react";
+import ApexChart from "react-apexcharts";
 import { PaymentType } from "../../types/paymentType";
-import { Search } from "lucide-react";
+import { formatCurrency } from "../../utils/generalsUtils";
+import ComponentContainer from "../shared/componentContainer";
+import CustomButton from "../shared/customButton";
+import { goalsContext } from "../../contexts/goalsContext";
 
-const getWeekOfYear = (date) => {
+const getWeekOfYear = (date): number => {
   const [day, month, year] = date.split("/");
   const currentDay = Number(day);
   if (currentDay <= 7) {
@@ -20,19 +23,24 @@ const getWeekOfYear = (date) => {
 };
 
 interface GoalsWeeklyProps {
-  data: PaymentType[];
   setDailyData: React.Dispatch<React.SetStateAction<PaymentType[]>>;
+  setSelectedSheetsData: React.Dispatch<React.SetStateAction<any[]>>;
 }
 
-const GoalsWeekly = ({ data, setDailyData }: GoalsWeeklyProps) => {
+const GoalsWeekly = ({
+  setDailyData,
+  setSelectedSheetsData,
+}: GoalsWeeklyProps) => {
+  const { searchData, setCurrentCustomer, cleanSearchData } =
+    useContext(goalsContext);
+
   const [chartLabels, setChartLabels] = useState([]);
   const [chartData, setChartData] = useState([]);
   const [resultData, setResultData] = useState([]);
 
   useEffect(() => {
-    if (data) {
-      console.log(data);
-      const groupedByWeek = data.reduce((acc, item) => {
+    if (searchData) {
+      const groupedByWeek = searchData.reduce((acc, item) => {
         const week = getWeekOfYear(item.payDay);
         if (!acc[week]) {
           acc[week] = {
@@ -61,7 +69,7 @@ const GoalsWeekly = ({ data, setDailyData }: GoalsWeeklyProps) => {
       setChartLabels(newLabels);
       setChartData(newData);
     }
-  }, [data]);
+  }, [searchData]);
 
   const options: ApexOptions = {
     colors: ["#45C93B"],
@@ -140,22 +148,40 @@ const GoalsWeekly = ({ data, setDailyData }: GoalsWeeklyProps) => {
     setDailyData(selectedWeek.items);
   }
 
+  function cleanData() {
+    setSelectedSheetsData(undefined);
+    setDailyData(undefined);
+    setCurrentCustomer(undefined);
+    cleanSearchData();
+  }
+
   return (
-    <div className="col-span-5 row-span-6 p-6 rounded-xl border-2 border-gray-900 flex flex-col gap-4 fade-left">
-      {data ? (
-        <ApexChart
-          className="fade-left"
-          type="bar"
-          options={options}
-          series={series}
-        />
+    <ComponentContainer cols="5" classToAdd="row-span-7 relative">
+      {searchData && (
+        <div className="absolute right-8 z-10">
+          <CustomButton theme="attention" onClick={cleanData}>
+            <SearchX className="size-5" />
+            voltar tela
+          </CustomButton>
+        </div>
+      )}
+      {searchData ? (
+        <div className="h-full">
+          <ApexChart
+            className="fade-left"
+            type="bar"
+            options={options}
+            series={series}
+            height={"100%"}
+          />
+        </div>
       ) : (
         <div className="w-full h-full inset-0 text-gray-500 font-heading flex items-center justify-center gap-2 fade-left">
           <Search className="size-4" />
           <span>Busque por um cliente </span>
         </div>
       )}
-    </div>
+    </ComponentContainer>
   );
 };
 

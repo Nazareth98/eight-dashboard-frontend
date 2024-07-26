@@ -7,6 +7,7 @@ import CustomInput from "../shared/customInput";
 import CustomButton from "../shared/customButton";
 import IconClean from "../../assets/svg/iconClean";
 import ExchangerType from "../../types/exchangerType";
+import ComponentContainer from "../shared/componentContainer";
 
 const ExchangerCreate = () => {
   const { createExchanger } = useContext(exchangerContext);
@@ -42,7 +43,7 @@ const ExchangerCreate = () => {
   }
 
   return (
-    <div className="col-span-4 row-span-4 bg-gray-900 p-4 rounded-sm border-2 border-gray-800 flex flex-col gap-4">
+    <ComponentContainer cols="4" rows="4">
       <ModalWarning
         isOpen={modalIsOpen}
         setIsOpen={setModalIsOpen}
@@ -79,7 +80,7 @@ const ExchangerCreate = () => {
           Adicionar
         </CustomButton>
       </div>
-    </div>
+    </ComponentContainer>
   );
 };
 

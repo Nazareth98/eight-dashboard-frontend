@@ -1,24 +1,23 @@
-import { useContext, useState, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import Select, { StylesConfig } from "react-select";
 
-import CustomSubtitle from "../shared/customSubtitle";
-import IconPhone from "../../assets/svg/iconPhone";
-import { customerContext } from "../../contexts/customerContext";
-import CardIconInfo from "../shared/cardIconInfo";
-import CustomButton from "../shared/customButton";
-import ModalCustomerLink from "./modal";
-import ModalWarning from "../shared/modal/modalWarning";
-import { formatCurrency, getSelectStyles } from "../../utils/generalsUtils";
 import {
   Banknote,
   Contact,
   Diff,
   Link,
-  Link2,
   MessagesSquare,
   RefreshCw,
   UserCircle,
 } from "lucide-react";
+import { customerContext } from "../../contexts/customerContext";
+import { formatCurrency, getSelectStyles } from "../../utils/generalsUtils";
+import CardIconInfo from "../shared/cardIconInfo";
+import ComponentContainer from "../shared/componentContainer";
+import CustomButton from "../shared/customButton";
+import CustomSubtitle from "../shared/customSubtitle";
+import ModalWarning from "../shared/modal/modalWarning";
+import ModalCustomerLink from "./modal";
 
 const CustomerLink = () => {
   const { customerData, refreshData } = useContext(customerContext);
@@ -69,7 +68,7 @@ const CustomerLink = () => {
   const customStyles: StylesConfig = getSelectStyles();
 
   return (
-    <div className="col-span-3 row-span-12 p-6 rounded-xl border-2 border-gray-900 flex flex-col gap-8 fade-left">
+    <ComponentContainer cols="3" rows="12">
       <ModalCustomerLink
         isOpen={activeModal}
         setIsOpen={setActiveModal}
@@ -148,7 +147,7 @@ const CustomerLink = () => {
           vincular
         </CustomButton>
       </div>
-    </div>
+    </ComponentContainer>
   );
 };
 

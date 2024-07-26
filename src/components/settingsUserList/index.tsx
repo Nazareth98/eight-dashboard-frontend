@@ -7,6 +7,8 @@ import IconDelete from "../../assets/svg/iconDelete";
 import ModalConfirm from "../shared/modal/modalConfirm";
 import ModalEditUser from "./modalEditUser";
 import CustomIconButton from "../shared/customIconButton";
+import ComponentContainer from "../shared/componentContainer";
+import { ListCheck, UserPlusIcon, Users } from "lucide-react";
 
 const SettingsUserList = () => {
   const { userData, deleteUser } = useContext(userContext);
@@ -49,7 +51,7 @@ const SettingsUserList = () => {
   }
 
   return (
-    <div className="h-[52rem] col-span-8 row-span-12 col-start-5 p-6 rounded-xl border-2 border-gray-900 flex flex-col gap-4">
+    <ComponentContainer cols="8" rows="12">
       <ModalConfirm
         isOpen={modalIsOpen}
         setIsOpen={setModalIsOpen}
@@ -57,7 +59,7 @@ const SettingsUserList = () => {
         message={modalConfirm}
       />
       <CustomSubtitle
-        icon={<IconUser fill="fill-gray-600" width="25px" />}
+        icon={<Users className="size-6" />}
         subtitle="Todos os Usuários"
       />
       <ModalEditUser
@@ -138,7 +140,7 @@ const SettingsUserList = () => {
             );
           })}
       </div>
-    </div>
+    </ComponentContainer>
   );
 };
 

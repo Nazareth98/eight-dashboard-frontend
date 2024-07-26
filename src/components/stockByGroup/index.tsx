@@ -10,6 +10,7 @@ import IconPayments from "../../assets/svg/iconPayments";
 import IconStock from "../../assets/svg/iconStock";
 import { ApexOptions } from "apexcharts";
 import { Archive, DollarSign } from "lucide-react";
+import ComponentContainer from "../shared/componentContainer";
 
 function groupAndSumByStock(list) {
   const groups = {};
@@ -186,33 +187,33 @@ const StockByGroup = ({ setSelectGroup, setSelectDeposit }) => {
   };
 
   return (
-    <div className="col-span-8 row-span-6 bg-gray-90 p-6 rounded-xl border-2 border-gray-900 flex flex-col gap-4 relative fade-left">
-      {user.accessLevel !== 3 ? null : (
-        <div className="flex gap-4 absolute items-center rounded right-8 z-10 fade-left">
-          <CustomButton
-            id="value"
-            theme={selectCondition === "value" ? "" : "alternate"}
-            onClick={toogleCondition}
-          >
-            <DollarSign className="size-4" />
-            valor
-          </CustomButton>
-          <CustomButton
-            id="stock"
-            theme={selectCondition === "stock" ? "" : "alternate"}
-            onClick={toogleCondition}
-          >
-            <Archive className="size-4" />
-            peças
-          </CustomButton>
-        </div>
-      )}
+    <ComponentContainer cols="8" rows="6" classToAdd="relative col-span-8">
       {isLoading ? (
         <Loading />
       ) : (
         <>
+          {user.accessLevel !== 3 ? null : (
+            <div className="flex gap-4 absolute items-center rounded right-8 z-10 fade-right">
+              <CustomButton
+                id="value"
+                theme={selectCondition === "value" ? "default" : "alternate"}
+                onClick={toogleCondition}
+              >
+                <DollarSign className="size-4" />
+                valor
+              </CustomButton>
+              <CustomButton
+                id="stock"
+                theme={selectCondition === "stock" ? "default" : "alternate"}
+                onClick={toogleCondition}
+              >
+                <Archive className="size-4" />
+                peças
+              </CustomButton>
+            </div>
+          )}
           {chartData && (
-            <div className="h-full">
+            <div className="h-full fade-left">
               <ApexChart
                 type="bar"
                 options={options}
@@ -223,7 +224,7 @@ const StockByGroup = ({ setSelectGroup, setSelectDeposit }) => {
           )}
         </>
       )}
-    </div>
+    </ComponentContainer>
   );
 };
 

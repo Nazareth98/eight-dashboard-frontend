@@ -37,6 +37,17 @@ body {
   animation: fade-right 0.3s ease-in-out;
 }
 
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Estilo para remover seletores de números padrão no Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
 @keyframes fade-left {
   from {
     opacity: 0;
@@ -51,7 +62,7 @@ body {
 @keyframes fade-right {
   from {
     opacity: 0;
-    translate: 20px;
+    translate: 30px;
   }
   to {
     opacity: 100;

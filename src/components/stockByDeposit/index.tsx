@@ -15,6 +15,7 @@ import {
   Search,
   TextCursor,
 } from "lucide-react";
+import ComponentContainer from "../shared/componentContainer";
 
 function groupAndSumByStock(list, brandName) {
   const groups = {};
@@ -202,7 +203,7 @@ const StockByDeposit = ({ selectGroup, setSelectDeposit }) => {
   }
 
   return (
-    <div className="col-span-8 row-span-6 bg-gray-90 p-6 rounded-xl border-2 border-gray-900 flex flex-col gap-4 relative fade-left">
+    <ComponentContainer cols="8" rows="6" classToAdd="relative">
       {isLoading ? (
         <Loading />
       ) : (
@@ -210,10 +211,12 @@ const StockByDeposit = ({ selectGroup, setSelectDeposit }) => {
           {selectGroup ? (
             <>
               {user.accessLevel !== 3 ? null : (
-                <div className="flex gap-4 absolute items-center rounded right-8 z-10 fade-left">
+                <div className="flex gap-4 absolute items-center rounded right-8 z-10 fade-right">
                   <CustomButton
                     id="value"
-                    theme={selectCondition === "value" ? "" : "alternate"}
+                    theme={
+                      selectCondition === "value" ? "default" : "alternate"
+                    }
                     onClick={toogleCondition}
                   >
                     <DollarSign className="size-4" />
@@ -221,7 +224,9 @@ const StockByDeposit = ({ selectGroup, setSelectDeposit }) => {
                   </CustomButton>
                   <CustomButton
                     id="stock"
-                    theme={selectCondition === "stock" ? "" : "alternate"}
+                    theme={
+                      selectCondition === "stock" ? "default" : "alternate"
+                    }
                     onClick={toogleCondition}
                   >
                     <Archive className="size-4" />
@@ -229,7 +234,7 @@ const StockByDeposit = ({ selectGroup, setSelectDeposit }) => {
                   </CustomButton>
                 </div>
               )}
-              <div className="h-full">
+              <div className="h-full fade-left">
                 <ApexChart
                   type="bar"
                   options={options}
@@ -246,7 +251,7 @@ const StockByDeposit = ({ selectGroup, setSelectDeposit }) => {
           )}
         </>
       )}
-    </div>
+    </ComponentContainer>
   );
 };
 

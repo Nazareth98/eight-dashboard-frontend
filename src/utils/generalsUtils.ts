@@ -92,3 +92,40 @@ export function getSelectStyles(): StylesConfig {
     }),
   };
 }
+
+export const getWeekOfYear = (date) => {
+  const [day, month, year] = date.split("/");
+  const currentDay = Number(day);
+  if (currentDay <= 7) {
+    return 1;
+  } else if (currentDay <= 14) {
+    return 2;
+  } else if (currentDay <= 21) {
+    return 3;
+  } else {
+    return 4;
+  }
+};
+
+export function getStartAndEndOfWeek() {
+  const now = new Date();
+
+  // Obter o primeiro dia da semana (segunda-feira)
+  const startOfWeek = new Date(now);
+  const dayOfWeek = now.getDay();
+  const distanceToMonday = (dayOfWeek + 6) % 7; // Ajusta para que segunda-feira seja o início da semana
+  startOfWeek.setDate(now.getDate() - distanceToMonday);
+  startOfWeek.setHours(0, 0, 0, 0); // Zera a hora para o início do dia
+
+  // Obter o último dia da semana (domingo)
+  const endOfWeek = new Date(startOfWeek);
+  endOfWeek.setDate(startOfWeek.getDate() + 6);
+  endOfWeek.setHours(23, 59, 59, 999); // Define a última hora do último dia
+
+  const week = getWeekOfYear(endOfWeek.toLocaleDateString("pt-BR"));
+  return {
+    startOfWeek: startOfWeek.toLocaleDateString("pt-BR"),
+    endOfWeek: endOfWeek.toLocaleDateString("pt-BR"),
+    week,
+  };
+}

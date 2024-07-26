@@ -1,18 +1,19 @@
-interface ComponentContainerType {
-  rows: string;
-  cols: string;
+import { ComponentProps } from "react";
+
+interface ComponentContainerType extends ComponentProps<"div"> {
+  rows?: string;
+  cols?: string;
+  classToAdd?: string;
   children: any;
 }
 
-const ComponentContainer = ({
-  rows,
-  cols,
-  children,
-}: ComponentContainerType) => {
+const ComponentContainer = (props: ComponentContainerType) => {
+  const { rows, cols, classToAdd, children } = props;
+
+  const classString = `col-span-${cols} row-span-${rows} ${classToAdd} p-6 rounded-xl border-2 border-gray-900 flex flex-col gap-10 transition-all fade-left`;
+
   return (
-    <div
-      className={`h-full col-span-${cols} row-span-${rows} bg-gray-900 p-4 rounded-sm border-2 border-gray-800 flex flex-col gap-4`}
-    >
+    <div className={classString} {...props}>
       {children}
     </div>
   );

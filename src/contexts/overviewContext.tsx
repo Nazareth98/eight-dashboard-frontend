@@ -25,12 +25,11 @@ const initialState: OverviewContext = {
   mainValues: undefined,
   updateData: () => {},
   getValuesCash: () => {},
-  getProviders: async () => {},
+  getProviders: async () => [],
   getDebtors: () => {},
   getDailyProfit: () => {},
   getDailySales: () => {},
   getDailyPurchases: () => {},
-  getMonthlyPayments: () => {},
 };
 
 const overviewContext = createContext<OverviewContext>(initialState);

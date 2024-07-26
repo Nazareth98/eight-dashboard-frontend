@@ -10,6 +10,7 @@ import ChatCard from "../shared/card/chatCard";
 import CustomInput from "../shared/customInput";
 import IconSearch from "../../assets/svg/iconSearch";
 import Loading from "../shared/loading";
+import ComponentContainer from "../shared/componentContainer";
 
 const ShootingReceivers = ({
   setSelectContacts,
@@ -149,7 +150,7 @@ const ShootingReceivers = ({
   }
 
   return (
-    <div className="col-span-6 row-span-12 p-6 rounded-xl border-2 border-gray-900 flex flex-col gap-4 fade-left">
+    <ComponentContainer cols="6" rows="12">
       <CustomSubtitle
         icon={<IconGroups fill="fill-gray-500" width="25px" />}
         subtitle="Selecione os destinatários"
@@ -215,7 +216,7 @@ const ShootingReceivers = ({
           </div>
         </>
       )}
-    </div>
+    </ComponentContainer>
   );
 };
 

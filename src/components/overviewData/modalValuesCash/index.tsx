@@ -1,4 +1,4 @@
-import Modal from "react-modal";
+import Modal, { Styles } from "react-modal";
 Modal.setAppElement("#root");
 
 import { useContext, useEffect, useState } from "react";
@@ -29,7 +29,7 @@ const ModalValuesCash = (props) => {
     loadData();
   }, []);
 
-  const customStyles = {
+  const customStyles: Styles = {
     overlay: {
       backgroundColor: "rgba(0, 0, 0, 0.7)",
     },

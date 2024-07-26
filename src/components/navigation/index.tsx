@@ -24,6 +24,7 @@ import {
   ArrowLeft,
   BotMessageSquare,
   FileBarChart,
+  FilePieChart,
   FileStack,
   Goal,
   HomeIcon,
@@ -34,6 +35,7 @@ import {
   Truck,
   Users,
 } from "lucide-react";
+import ProductAnalysis from "../../screens/productAnalysis/index.js";
 
 interface OptionType {
   id: number;
@@ -45,7 +47,6 @@ interface OptionType {
 
 const Navigation = () => {
   const { user } = useContext(authContext);
-
   const [selectedSection, setSelectedSection] = useState<OptionType>({
     id: 1000,
   });
@@ -109,84 +110,95 @@ const Navigation = () => {
     },
     {
       id: 5,
+      name: "Análise de Produtos",
+      icon: (
+        <FilePieChart
+          className={`size-5 ${
+            selectedSection.id === 5 ? "text-primary-400" : "text-gray-400"
+          }`}
+        />
+      ),
+      content: <ProductAnalysis />,
+    },
+    {
+      id: 6,
       name: "Metas",
       icon: (
         <Goal
           className={`size-5 ${
-            selectedSection.id === 5 ? "text-primary-400" : "text-gray-400"
+            selectedSection.id === 6 ? "text-primary-400" : "text-gray-400"
           }`}
         />
       ),
       content: <Goals />,
     },
     {
-      id: 6,
+      id: 7,
       name: "Estoque",
       icon: (
         <Archive
           className={`size-5 ${
-            selectedSection.id === 6 ? "text-primary-400" : "text-gray-400"
+            selectedSection.id === 7 ? "text-primary-400" : "text-gray-400"
           }`}
         />
       ),
       content: <Stock />,
     },
     {
-      id: 7,
+      id: 8,
       name: "Disparo em massa",
       icon: (
         <MessageSquareShare
           className={`size-5 ${
-            selectedSection.id === 7 ? "text-primary-400" : "text-gray-400"
+            selectedSection.id === 8 ? "text-primary-400" : "text-gray-400"
           }`}
         />
       ),
       content: <Shooting />,
     },
     {
-      id: 8,
+      id: 9,
       name: "Clientes",
       icon: (
         <Users
           className={`size-5 ${
-            selectedSection.id === 8 ? "text-primary-400" : "text-gray-400"
+            selectedSection.id === 9 ? "text-primary-400" : "text-gray-400"
           }`}
         />
       ),
       content: <Customers />,
     },
     {
-      id: 9,
+      id: 10,
       name: "Provedores",
       icon: (
         <Truck
           className={`size-5 ${
-            selectedSection.id === 9 ? "text-primary-400" : "text-gray-400"
+            selectedSection.id === 10 ? "text-primary-400" : "text-gray-400"
           }`}
         />
       ),
       content: <Providers />,
     },
     {
-      id: 10,
+      id: 11,
       name: "Pedidos",
       icon: (
         <FileStack
           className={`size-5 ${
-            selectedSection.id === 10 ? "text-primary-400" : "text-gray-400"
+            selectedSection.id === 11 ? "text-primary-400" : "text-gray-400"
           }`}
         />
       ),
       content: <Orders />,
     },
-
     {
-      id: 11,
+      id: 12,
       name: "Configurações",
       icon: (
         <Settings2
           className={`size-5 ${
-            selectedSection.id === 11 ? "text-primary-400" : "text-gray-400"
+            selectedSection.id === 12 ? "text-primary-400" : "text-gray-400"
           }`}
         />
       ),
@@ -194,9 +206,7 @@ const Navigation = () => {
     },
   ];
 
-  const handleSelectSection = ({
-    currentTarget,
-  }: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSelectSection = ({ currentTarget }) => {
     const id = Number(currentTarget.id);
     const selected = navOptions.filter((option) => option.id === id);
     setSelectedSection(selected[0]);
@@ -204,29 +214,32 @@ const Navigation = () => {
 
   switch (user.accessLevel) {
     case 1:
-      navOptions = navOptions.filter((option) => option.name !== "Visão Geral");
+      let hideToLevel1 = [
+        "Visão Geral",
+        "Configurações",
+        "Pedidos",
+        "Clientes",
+        "Chatbot",
+        "Análise de Clientes",
+        "Análise de Produtos",
+        "Disparo em massa",
+      ];
       navOptions = navOptions.filter(
-        (option) => option.name !== "Configurações"
-      );
-      navOptions = navOptions.filter((option) => option.name !== "Pedidos");
-      navOptions = navOptions.filter((option) => option.name !== "Clientes");
-      navOptions = navOptions.filter((option) => option.name !== "Chatbot");
-      navOptions = navOptions.filter(
-        (option) => option.name !== "Análise de Clientes"
-      );
-      navOptions = navOptions.filter(
-        (option) => option.name !== "Disparo em massa"
+        (option) => !hideToLevel1.includes(option.name)
       );
       break;
 
     case 2:
-      navOptions = navOptions.filter((option) => option.name !== "Visão Geral");
+      let hideToLevel2 = [
+        "Visão Geral",
+        "Análise de Produtos",
+        "Análise de Clientes",
+        "Configurações",
+      ];
       navOptions = navOptions.filter(
-        (option) => option.name !== "Análise de Clientes"
+        (option) => !hideToLevel2.includes(option.name)
       );
-      navOptions = navOptions.filter(
-        (option) => option.name !== "Configurações"
-      );
+
       break;
 
     default:

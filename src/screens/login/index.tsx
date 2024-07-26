@@ -7,6 +7,8 @@ import IconVisibilityOn from "../../assets/svg/iconVisibilityOn";
 import IconLogin from "../../assets/svg/iconLogin";
 import { authContext } from "../../contexts/authContext";
 import ModalWarning from "../../components/shared/modal/modalWarning";
+import CustomButton from "../../components/shared/customButton";
+import { LogIn } from "lucide-react";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -60,7 +62,7 @@ const Login = () => {
         message={modalWarning}
       />
 
-      <main className="bg-gray-900 w-96 p-10 rounded flex flex-col items-center gap-10 shadow-sm">
+      <main className="border-2 border-gray-900 w-96 p-10 rounded-lg flex flex-col items-center gap-10 fade-left">
         <div>
           <img className="h-24" src={fullLogo} alt="Logo Metaconfiança" />
         </div>
@@ -102,14 +104,10 @@ const Login = () => {
             }
           />
         </div>
-        <div className="w-full">
-          <button
-            onClick={handleLogin}
-            className="w-full font-heading border-2 border-primary-400 font-semibold text-lg text-primary-400 bg-primary-950 rounded px-4 py-2 transition hover:bg-primary-900 active:bg-primary-600"
-          >
-            ENTRAR
-          </button>
-        </div>
+        <CustomButton onClick={handleLogin}>
+          <LogIn className="size-4" />
+          entrar
+        </CustomButton>
       </main>
     </div>
   );

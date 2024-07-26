@@ -1,16 +1,20 @@
 import { PaymentType } from "../../types/paymentType";
 import { MousePointerClick, Search } from "lucide-react";
 import { formatCurrency } from "../../utils/generalsUtils";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import ApexChart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
+import ComponentContainer from "../shared/componentContainer";
+import { customerContext } from "../../contexts/customerContext";
+import { goalsContext } from "../../contexts/goalsContext";
 
 interface GoalsDailyProps {
-  weeklyData: PaymentType[];
   dailyData: PaymentType[];
 }
 
-const GoalsDaily = ({ weeklyData, dailyData }: GoalsDailyProps) => {
+const GoalsDaily = ({ dailyData }: GoalsDailyProps) => {
+  const { searchData } = useContext(goalsContext);
+
   const [chartLabels, setChartLabels] = useState([]);
   const [chartData, setChartData] = useState([]);
 
@@ -99,22 +103,22 @@ const GoalsDaily = ({ weeklyData, dailyData }: GoalsDailyProps) => {
   ];
 
   return (
-    <div className="col-span-4 row-span-6 p-6 rounded-xl border-2 border-gray-900 flex flex-col gap-4 fade-left">
-      {!weeklyData && !dailyData && (
+    <ComponentContainer cols="4" classToAdd="row-span-7">
+      {!searchData && !dailyData && (
         <div className="w-full h-full inset-0 text-gray-500 font-heading flex items-center justify-center gap-2 fade-left">
           <Search className="size-4" />
           <span>Busque por um cliente </span>
         </div>
       )}
 
-      {weeklyData && !dailyData && (
+      {searchData && !dailyData && (
         <div className="w-full h-full inset-0 text-gray-500 font-heading flex items-center justify-center gap-2 fade-left">
           <MousePointerClick className="size-4" />
           <span>Selecione um semana</span>
         </div>
       )}
 
-      {weeklyData && dailyData && (
+      {searchData && dailyData && (
         <div className="h-full">
           <ApexChart
             type="bar"
@@ -125,7 +129,7 @@ const GoalsDaily = ({ weeklyData, dailyData }: GoalsDailyProps) => {
           />
         </div>
       )}
-    </div>
+    </ComponentContainer>
   );
 };
 

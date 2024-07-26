@@ -58,11 +58,6 @@ const MonthlyExpensesInfo = ({ billToPayData }) => {
         icon={<IconPayments fill="fill-primary-400" />}
         value={`$${formatCurrency(paidOut)}`}
       />
-      {/* <DataCard
-        type="attention"
-        name="Contas totais"
-        value={`${billsAmount}`}
-      /> */}
     </>
   );
 };

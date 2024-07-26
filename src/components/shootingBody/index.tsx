@@ -1,14 +1,13 @@
-import { useContext } from "react";
-import IconEdit from "../../assets/svg/iconEdit";
+import { Edit } from "lucide-react";
+import ComponentContainer from "../shared/componentContainer";
 import CustomSubtitle from "../shared/customSubtitle";
 import CustomTextarea from "../shared/customTextarea";
-import { shootingContext } from "../../contexts/shootingContext";
 
 const ShootingBody = ({ text, setText }) => {
   return (
-    <div className="col-span-6 row-span-6 p-6 rounded-xl border-2 border-gray-900 flex flex-col gap-4 fade-left">
+    <ComponentContainer cols="6" rows="6">
       <CustomSubtitle
-        icon={<IconEdit fill="fill-gray-500" width="25px" />}
+        icon={<Edit className="size-6" />}
         subtitle="Escreva sua mensagem"
       />
       <div>
@@ -20,7 +19,7 @@ const ShootingBody = ({ text, setText }) => {
           rows={10}
         />
       </div>
-    </div>
+    </ComponentContainer>
   );
 };
 

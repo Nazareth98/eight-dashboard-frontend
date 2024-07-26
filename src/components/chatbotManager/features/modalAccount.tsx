@@ -6,6 +6,12 @@ import CustomInput from "../../shared/customInput";
 import CustomTextarea from "../../shared/customTextarea";
 import IconSave from "../../../assets/svg/iconSave";
 import IconBack from "../../../assets/svg/iconBack";
+import {
+  ArrowLeft,
+  ArrowLeftFromLine,
+  ArrowLeftRight,
+  Save,
+} from "lucide-react";
 Modal.setAppElement("#root");
 
 const customStyles = {
@@ -77,11 +83,11 @@ const ModalAccount = (props) => {
 
       <div className="w-full flex items-center justify-end gap-8">
         <CustomButton theme="attention" onClick={closeModal}>
-          <IconBack fill="fill-yellow-700" width="20px" />
+          <ArrowLeft className="size-4" />
           voltar
         </CustomButton>
         <CustomButton onClick={() => props.onConfirm(name, text)}>
-          <IconSave fill="fill-primary-700" width="20px" />
+          <Save className="size-4" />
           salvar
         </CustomButton>
       </div>

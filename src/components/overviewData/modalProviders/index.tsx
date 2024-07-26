@@ -14,7 +14,6 @@ function compareValues(a, b, sortBy, sortOrder) {
   if (a === b) {
     return 0;
   }
-
   if (typeof a === "string" && typeof b === "string") {
     return sortOrder === "asc" ? a.localeCompare(b) : b.localeCompare(a);
   } else if (typeof a === "number" && typeof b === "number") {

@@ -3,6 +3,7 @@ import ApexChart from "react-apexcharts";
 import { overviewContext } from "../../contexts/overviewContext";
 import { formatCurrency } from "../../utils/generalsUtils";
 import ModalWeekly from "./modalWeekly";
+import ComponentContainer from "../shared/componentContainer";
 
 const OverviewMonthlyProfit = () => {
   const { mainValues, getDailyProfit } = useContext(overviewContext);
@@ -112,7 +113,11 @@ const OverviewMonthlyProfit = () => {
   ];
 
   return (
-    <div className="col-span-4 row-span-6 p-6 rounded-xl border-2 border-gray-900 flex flex-col gap-4 cursor-pointer transition-all hover:bg-gray-950 active:bg-gray-900 fade-left">
+    <ComponentContainer
+      cols="4"
+      rows="5"
+      classToAdd="cursor-pointer transition-all hover:bg-gray-950 active:bg-gray-900"
+    >
       <ModalWeekly
         isOpen={modalIsOpen}
         setIsOpen={setModalIsOpen}
@@ -126,7 +131,7 @@ const OverviewMonthlyProfit = () => {
           height={"100%"}
         />
       </div>
-    </div>
+    </ComponentContainer>
   );
 };
 

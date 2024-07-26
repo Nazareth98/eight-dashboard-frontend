@@ -1,12 +1,12 @@
-import CustomSubtitle from "../shared/customSubtitle";
-import IconShooting from "../../assets/svg/iconShooting";
-import CustomInput from "../shared/customInput";
+import { MousePointerClick, Send, SendHorizonal } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
-import CustomButton from "../shared/customButton";
 import { orderContext } from "../../contexts/orderContext";
 import { formatCurrency } from "../../utils/generalsUtils";
+import ComponentContainer from "../shared/componentContainer";
+import CustomButton from "../shared/customButton";
+import CustomInput from "../shared/customInput";
+import CustomSubtitle from "../shared/customSubtitle";
 import Loading from "../shared/loading";
-import { Send } from "lucide-react";
 
 const OrderShooting = ({ selectOrder }) => {
   const { shootingOrder, getOrders } = useContext(orderContext);
@@ -58,9 +58,9 @@ const OrderShooting = ({ selectOrder }) => {
   }
 
   return (
-    <div className="h-[52rem] col-span-5 row-span-12 p-6 rounded-xl border-2 border-gray-900 flex flex-col gap-4">
+    <ComponentContainer cols="5" rows="12">
       <CustomSubtitle
-        icon={<IconShooting fill="fill-gray-600" width="25px" />}
+        icon={<SendHorizonal className="size-6" />}
         subtitle="Disparar Pedido"
       />
 
@@ -105,8 +105,8 @@ const OrderShooting = ({ selectOrder }) => {
               disabled
             />
           </form>
-          <div className="w-full h-[90rem] p-4 flex flex-col gap-2 overflow-y-auto rounded border-2 border-gray-900 ">
-            {products.length > 0 &&
+          <div className="w-full h-full p-4 flex flex-col gap-2 overflow-y-auto rounded-lg border-2 border-gray-900 ">
+            {products.length > 0 ? (
               products.map((product) => (
                 <div className="bg-gray-900 p-2 rounded grid grid-cols-12 gap-2 font-heading fade-left">
                   <div className="col-span-1 text-sm text-gray-200">
@@ -125,7 +125,13 @@ const OrderShooting = ({ selectOrder }) => {
                     ${formatCurrency(product.total)}
                   </div>
                 </div>
-              ))}
+              ))
+            ) : (
+              <div className="w-full h-full inset-0 text-gray-500 font-heading flex items-center justify-center gap-2 fade-left">
+                <MousePointerClick className="size-4" />
+                <span>Clique em um pedido</span>
+              </div>
+            )}
           </div>
           <div className="w-full flex gap-4">
             <div className="w-1/3 fade-left">
@@ -145,8 +151,7 @@ const OrderShooting = ({ selectOrder }) => {
               </h2>
             </div>
           </div>
-
-          <div className="w-full h-full flex items-end justify-end">
+          <div className="w-full flex items-end justify-end">
             <CustomButton onClick={handleShooting}>
               <Send className="size-4" />
               disparar
@@ -154,7 +159,7 @@ const OrderShooting = ({ selectOrder }) => {
           </div>
         </>
       )}
-    </div>
+    </ComponentContainer>
   );
 };
 

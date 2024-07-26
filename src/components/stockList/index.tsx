@@ -1,10 +1,9 @@
+import { Archive, MousePointerClick, Warehouse } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
-import CustomSubtitle from "../shared/customSubtitle";
-import IconAdd from "../../assets/svg/iconAdd";
 import { stockContext } from "../../contexts/stockContext";
+import ComponentContainer from "../shared/componentContainer";
+import CustomSubtitle from "../shared/customSubtitle";
 import Loading from "../shared/loading";
-import IconStock from "../../assets/svg/iconStock";
-import { MousePointerClick, Search } from "lucide-react";
 
 const StockList = ({ selectGroup, selectDeposit }) => {
   const { stockData } = useContext(stockContext);
@@ -31,9 +30,10 @@ const StockList = ({ selectGroup, selectDeposit }) => {
   }, [selectDeposit]);
 
   return (
-    <div className="col-span-4 row-span-12 p-6 rounded-xl border-2 border-gray-900 flex flex-col gap-8 fade-left">
+    // <div className="col-span-4 row-span-12 p-6 rounded-xl border-2 border-gray-900 flex flex-col gap-8 fade-left">
+    <ComponentContainer cols="4" rows="12">
       <CustomSubtitle
-        icon={<IconStock fill="fill-gray-500" width="25px" />}
+        icon={<Archive className="size-6" />}
         subtitle={`Produtos em Estoque`}
       />
 
@@ -42,7 +42,7 @@ const StockList = ({ selectGroup, selectDeposit }) => {
       ) : (
         <>
           <h3 className="text-primary-300 font-semibold font-heading text-lg flex items-center gap-2 fade-left">
-            <IconStock fill="fill-gray-800" width="20px" />
+            <Warehouse className="size-5 text-gray-800" />
             {selectDeposit ? selectDeposit : "-"}
           </h3>
           <div className="h-full overflow-auto flex flex-col gap-2 pr-4">
@@ -78,7 +78,7 @@ const StockList = ({ selectGroup, selectDeposit }) => {
           </div>
         </>
       )}
-    </div>
+    </ComponentContainer>
   );
 };
 

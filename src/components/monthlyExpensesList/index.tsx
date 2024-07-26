@@ -12,6 +12,7 @@ import IconArrowLeft from "../../assets/svg/iconArrowLeft";
 import IconArrowRight from "../../assets/svg/iconArrowRight";
 import CustomIconButton from "../shared/customIconButton";
 import Loading from "../shared/loading";
+import ComponentContainer from "../shared/componentContainer";
 
 const monthNames = [
   "Jan",
@@ -114,7 +115,7 @@ const MonthlyExpensesList = () => {
   }
 
   return (
-    <div className="col-span-9 row-span-10 p-6 rounded-xl border-2 border-gray-900 flex flex-col gap-4 fade-left">
+    <ComponentContainer classToAdd="col-span-9 row-span-10">
       <ModalConfirm
         isOpen={modalIsOpen}
         setIsOpen={setModalIsOpen}
@@ -264,7 +265,7 @@ const MonthlyExpensesList = () => {
           </div>
         </>
       )}
-    </div>
+    </ComponentContainer>
   );
 };
 

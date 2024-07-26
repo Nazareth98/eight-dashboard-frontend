@@ -1,7 +1,8 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import ApexChart from "react-apexcharts";
 import { overviewContext } from "../../contexts/overviewContext";
 import { formatCurrency } from "../../utils/generalsUtils";
+import ComponentContainer from "../shared/componentContainer";
 import ModalWeekly from "./modalWeekly";
 
 const OverviewMonthlyPurchases = () => {
@@ -114,7 +115,11 @@ const OverviewMonthlyPurchases = () => {
   }, [mainValues]);
 
   return (
-    <div className="col-span-4 row-span-6 p-6 rounded-xl border-2 border-gray-900 flex flex-col gap-4 cursor-pointer transition-all hover:bg-gray-950 active:bg-gray-900 fade-left">
+    <ComponentContainer
+      cols="4"
+      rows="5"
+      classToAdd="cursor-pointer transition-all hover:bg-gray-950 active:bg-gray-900"
+    >
       <ModalWeekly
         isOpen={modalIsOpen}
         setIsOpen={setModalIsOpen}
@@ -129,7 +134,7 @@ const OverviewMonthlyPurchases = () => {
           height={"100%"}
         />
       </div>
-    </div>
+    </ComponentContainer>
   );
 };
 

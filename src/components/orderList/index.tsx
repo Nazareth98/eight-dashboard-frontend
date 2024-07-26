@@ -1,12 +1,11 @@
-import CustomSubtitle from "../shared/customSubtitle";
-import IconOrders from "../../assets/svg/iconOrders";
+import { List, RefreshCcw } from "lucide-react";
 import { useContext, useState } from "react";
 import { orderContext } from "../../contexts/orderContext";
-import CustomButton from "../shared/customButton";
-import IconRefresh from "../../assets/svg/iconRefresh";
 import { formatCurrency } from "../../utils/generalsUtils";
+import ComponentContainer from "../shared/componentContainer";
+import CustomButton from "../shared/customButton";
+import CustomSubtitle from "../shared/customSubtitle";
 import Loading from "../shared/loading";
-import { List, RefreshCcw } from "lucide-react";
 
 const OrderList = ({ setSelectOrder, selectOrder }) => {
   const { orderData, getOrderById, refreshData } = useContext(orderContext);
@@ -34,7 +33,7 @@ const OrderList = ({ setSelectOrder, selectOrder }) => {
   }
 
   return (
-    <div className="h-[52rem] col-span-7 row-span-12 p-6 rounded-xl border-2 border-gray-900 flex flex-col gap-4">
+    <ComponentContainer cols="7" rows="12">
       <CustomSubtitle
         icon={<List className="size-6 text-gray-700" />}
         subtitle="Todos os pedidos"
@@ -145,7 +144,7 @@ const OrderList = ({ setSelectOrder, selectOrder }) => {
           </div>
         </>
       )}
-    </div>
+    </ComponentContainer>
   );
 };
 

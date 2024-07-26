@@ -1,6 +1,6 @@
-import React from "react";
+import React, { ComponentProps } from "react";
 
-interface TextareaProps {
+interface TextareaProps extends ComponentProps<"textarea"> {
   label: string;
   placeholder: string;
   setValue: (value: string) => void;
@@ -26,7 +26,8 @@ const CustomTextarea = (props: TextareaProps) => {
         placeholder={props.placeholder}
         rows={props.rows ? props.rows : 5}
         value={props.value}
-        onChange={handleChange}
+        onChange={props.onChange ? props.onChange : handleChange}
+        {...props}
       ></textarea>
     </div>
   );

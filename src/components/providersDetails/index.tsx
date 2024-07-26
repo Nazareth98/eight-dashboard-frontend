@@ -1,22 +1,18 @@
-import CustomSubtitle from "../shared/customSubtitle";
-import IconOrders from "../../assets/svg/iconOrders";
-import { ProviderType } from "../../types/providerType";
-import Select, { StylesConfig } from "react-select";
-import { useEffect, useState } from "react";
-import CardIconInfo from "../shared/cardIconInfo";
-import IconUser from "../../assets/svg/iconUser";
-import IconArrowRight from "../../assets/svg/iconArrowRight";
-import { formatCurrency, getSelectStyles } from "../../utils/generalsUtils";
-import Loading from "../shared/loading";
 import {
   Banknote,
-  Calendar,
-  CalendarCheck,
   CalendarClock,
   CalendarX2,
   HandCoins,
   UserCircle,
 } from "lucide-react";
+import { useEffect, useState } from "react";
+import Select, { StylesConfig } from "react-select";
+import IconOrders from "../../assets/svg/iconOrders";
+import { ProviderType } from "../../types/providerType";
+import { formatCurrency, getSelectStyles } from "../../utils/generalsUtils";
+import ComponentContainer from "../shared/componentContainer";
+import CustomSubtitle from "../shared/customSubtitle";
+import Loading from "../shared/loading";
 
 interface ProviderProps {
   providers: ProviderType[];
@@ -43,12 +39,11 @@ const ProvidersDetails = ({ providers }: ProviderProps) => {
   const customStyles: StylesConfig = getSelectStyles();
 
   return (
-    <div className="col-span-3 row-span-12 p-6 rounded-xl border-2 border-gray-900 flex flex-col gap-10 fade-left">
+    <ComponentContainer cols="3" rows="12">
       <CustomSubtitle
         icon={<IconOrders fill="fill-gray-500" width="25px" />}
         subtitle="Visualizar Detalhes"
       />
-
       {!providers ? (
         <Loading />
       ) : (
@@ -155,7 +150,7 @@ const ProvidersDetails = ({ providers }: ProviderProps) => {
           </div>
         </>
       )}
-    </div>
+    </ComponentContainer>
   );
 };
 

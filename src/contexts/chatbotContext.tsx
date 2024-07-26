@@ -1,39 +1,34 @@
 import { createContext, useState } from "react";
-
+import AccountType from "../types/accountType";
 import { getData, postData, putData } from "../services/API";
 import RateType from "../types/rateType";
-import AccountType from "../types/accountType";
 
 interface ChatbotContext {
-  currentRate: RateType | null;
-  activeAccounts: AccountType | null;
+  rate: RateType;
+  accounts: AccountType[];
+  updateData: () => void;
+  massShooting: (content: string) => void;
+  updateAccount: (account: AccountType) => void;
+  updateRate: (value: number) => void;
+  syncData: () => void;
 }
-
 const initialState: ChatbotContext = {
-  currentRate: null,
-  activeAccounts: null,
+  rate: undefined,
+  accounts: [],
+  updateData: () => {},
+  massShooting: () => {},
+  updateAccount: () => {},
+  updateRate: () => {},
+  syncData: () => {},
 };
 
 const chatbotContext = createContext<ChatbotContext>(initialState);
 
 const ChatbotContextProvider = ({ children }: any) => {
-  const [currentRate, setCurrentRate] = useState<RateType | null>();
-  const [accountsData, setAccountsData] = useState<AccountType[] | null>();
-  const [activeAccount, setActiveAccount] = useState<AccountType | null>();
+  const [rate, setRate] = useState<RateType>();
+  const [accounts, setAccounts] = useState<AccountType[]>();
 
-  const setInitialData = async () => {
-    try {
-      const accounts = await getAccount();
-      const rate = await getRate();
-      setAccountsData(accounts);
-      setCurrentRate(rate);
-    } catch (error) {
-      console.log(error);
-      throw new Error(error);
-    }
-  };
-
-  const getRate = async () => {
+  async function getRate() {
     try {
       const endpoint = "/chatbot/rate";
       const { result } = await getData(endpoint);
@@ -42,119 +37,89 @@ const ChatbotContextProvider = ({ children }: any) => {
       console.log(error);
       throw new Error(error);
     }
-  };
+  }
 
-  const getAccount = async () => {
+  async function getAccounts() {
     try {
       const endpoint = "/chatbot/account";
       const { result } = await getData(endpoint);
-      const activeResult = result.filter(
-        (account: AccountType) => account.status === 1
-      );
-      setActiveAccount(activeResult[0]);
       return result;
     } catch (error) {
       console.log(error);
       throw new Error(error);
     }
-  };
+  }
 
-  const shootingRate = async () => {
+  async function updateData() {
     try {
-      const endpoint = "/chatbot/shooting-rate";
-      const result = await postData(endpoint, {});
-      return result;
+      const updatedAccounts = await getAccounts();
+      const updatedRate = await getRate();
+      setRate(updatedRate);
+      setAccounts(updatedAccounts);
     } catch (error) {
       console.log(error);
       throw new Error(error);
     }
-  };
+  }
 
-  const shootingBalance = async () => {
+  async function massShooting(content: string) {
+    // content: "rate", "account" or  "balance"
     try {
-      const endpoint = "/chatbot/shooting-balance";
+      const endpoint = `/chatbot/shooting-${content}`; //todo: mudar função nos disparos
       const result = await postData(endpoint, {});
-      return result;
+      alert(result.message);
     } catch (error) {
       console.log(error);
       throw new Error(error);
     }
-  };
+  }
 
-  const shootingAccount = async () => {
-    try {
-      const endpoint = "/chatbot/shooting-account";
-      const result = await postData(endpoint, {});
-      return result;
-    } catch (error) {
-      console.log(error);
-      throw new Error(error);
-    }
-  };
-
-  const updateAccount = async (account: AccountType) => {
+  async function updateAccount(account: AccountType) {
     try {
       const id = account.id;
       const endpoint = `/chatbot/account/${id}`;
       const result = await putData(endpoint, account);
-      return result;
+      await updateData();
+      alert(result.message);
     } catch (error) {
       console.log(error);
       throw new Error(error);
     }
-  };
+  }
 
-  const addAccount = async (data: AccountType) => {
-    try {
-      const endpoint = `/chatbot/account`;
-      const result = await postData(endpoint, data);
-      const updatedAccounts = await getAccount();
-      setAccountsData(updatedAccounts);
-      return result;
-    } catch (error) {
-      console.log(error);
-      throw new Error(error);
-    }
-  };
-
-  const updateRate = async (value: number) => {
+  async function updateRate(value: number) {
     try {
       const endpoint = `/chatbot/rate`;
-      const result = await putData(endpoint, { value: Number(value) });
+      await putData(endpoint, { value: Number(value) });
       const updatedRate = await getRate();
-      setCurrentRate(updatedRate);
-      return result;
+      setRate(updatedRate);
+      alert("Taxa atualizada com sucesso!");
     } catch (error) {
       console.log(error);
     }
-  };
+  }
 
-  const refreshData = async () => {
+  async function syncData() {
     try {
       const endpoint = `/chatbot/refresh-data`;
       const result = await getData(endpoint);
-      return result;
+      alert(result.message);
     } catch (error) {
       console.log(error);
       throw new Error(error);
     }
-  };
+  }
 
   return (
     <chatbotContext.Provider
       value={{
-        setInitialData,
-        refreshData,
-        currentRate,
-        accountsData,
-        activeAccount,
-        shootingRate,
-        shootingAccount,
-        getAccount,
+        rate,
+        accounts,
+        updateData,
+        massShooting,
         updateAccount,
-        addAccount,
         updateRate,
-        shootingBalance,
+        syncData,
       }}
     >
       {children}

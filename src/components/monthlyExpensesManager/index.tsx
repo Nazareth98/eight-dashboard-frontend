@@ -1,16 +1,15 @@
+import { Database, PlusCircle, Wallet } from "lucide-react";
 import { useContext, useState } from "react";
-import CustomSubtitle from "../shared/customSubtitle";
-import { billToPayContext } from "../../contexts/billToPayContext";
-import IconSettings from "../../assets/svg/iconSettings";
-import CustomButton from "../shared/customButton";
-import IconOrders from "../../assets/svg/iconOrders";
-import IconPayments from "../../assets/svg/iconPayments";
 import IconAdd from "../../assets/svg/iconAdd";
+import IconPayments from "../../assets/svg/iconPayments";
+import IconSettings from "../../assets/svg/iconSettings";
+import { billToPayContext } from "../../contexts/billToPayContext";
 import { formatCurrency } from "../../utils/generalsUtils";
-import ModalCreateBill from "./modalCreateBill";
+import ComponentContainer from "../shared/componentContainer";
+import CustomButton from "../shared/customButton";
+import CustomSubtitle from "../shared/customSubtitle";
 import ModalCreateCategory from "./modalCategory";
-import IconCoin from "../../assets/svg/iconCoin";
-import { Banknote, Database, PlusCircle, Wallet } from "lucide-react";
+import ModalCreateBill from "./modalCreateBill";
 
 const MonthlyExpensesManager = () => {
   const { billResumeData, billType, toogleType } = useContext(billToPayContext);
@@ -26,7 +25,7 @@ const MonthlyExpensesManager = () => {
   }
 
   return (
-    <div className="col-span-3 row-span-12 p-6 rounded-xl border-2 border-gray-900 flex flex-col gap-6 fade-left">
+    <ComponentContainer cols="3" rows="12">
       <ModalCreateBill
         billType={billType}
         isOpen={modalBillIsOpen}
@@ -49,7 +48,7 @@ const MonthlyExpensesManager = () => {
           </span>
           <div className="w-full flex items-center justify-center gap-4 font-heading font-semibold">
             <CustomButton
-              theme={billType === "extra" ? "" : "alternate"}
+              theme={billType === "extra" ? "default" : "alternate"}
               onClick={() => toogleType("extra")}
             >
               <Wallet className="size-4" />
@@ -57,7 +56,7 @@ const MonthlyExpensesManager = () => {
             </CustomButton>
 
             <CustomButton
-              theme={billType === "fixed" ? "" : "alternate"}
+              theme={billType === "fixed" ? "default" : "alternate"}
               onClick={() => toogleType("fixed")}
             >
               <Wallet className="size-4" />
@@ -97,7 +96,7 @@ const MonthlyExpensesManager = () => {
           ))}
         </ul>
       </div>
-    </div>
+    </ComponentContainer>
   );
 };
 

@@ -1,17 +1,18 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 
 import { customerContext } from "../../contexts/customerContext";
 
-import CustomSubtitle from "../shared/customSubtitle";
 import IconGroups from "../../assets/svg/iconGroups";
 import { formatCurrency } from "../../utils/generalsUtils";
+import ComponentContainer from "../shared/componentContainer";
+import CustomSubtitle from "../shared/customSubtitle";
 import Loading from "../shared/loading";
 
 const CustomerList = () => {
   const { customerData } = useContext(customerContext);
 
   return (
-    <div className="col-span-9 row-span-10 p-6 rounded-xl border border-gray-900 flex flex-col gap-4 fade-left">
+    <ComponentContainer cols="9" rows="10">
       <CustomSubtitle
         icon={<IconGroups fill="fill-gray-500" width="25px" />}
         subtitle="Todos os Clientes"
@@ -96,7 +97,7 @@ const CustomerList = () => {
       ) : (
         <Loading />
       )}
-    </div>
+    </ComponentContainer>
   );
 };
 
