@@ -1,6 +1,5 @@
 import { createContext, useState } from "react";
 import { getData } from "../services/API";
-import { ProviderType } from "../types/providerType";
 
 interface MainValuesType {
   valueCash: number;
@@ -12,10 +11,9 @@ interface MainValuesType {
 
 interface OverviewContext {
   mainValues?: MainValuesType;
-  updateData: () => void;
+  updateOverviewData: () => void;
   getValuesCash: () => void;
-  getProviders: () => Promise<ProviderType[]>;
-  getDebtors: () => void;
+  getDebtors: () => Promise<any[]>;
   getDailyProfit: (month: number, year: number) => void;
   getDailySales: (month: number, year: number) => void;
   getDailyPurchases: (month: number, year: number) => void;
@@ -23,10 +21,9 @@ interface OverviewContext {
 
 const initialState: OverviewContext = {
   mainValues: undefined,
-  updateData: () => {},
+  updateOverviewData: () => {},
   getValuesCash: () => {},
-  getProviders: async () => [],
-  getDebtors: () => {},
+  getDebtors: async () => [],
   getDailyProfit: () => {},
   getDailySales: () => {},
   getDailyPurchases: () => {},
@@ -57,20 +54,10 @@ const OverviewContextProvider = ({ children }: any) => {
     }
   }
 
-  async function updateData() {
+  async function updateOverviewData() {
     try {
       const mainValuesResult = await getMainValues();
       setMainValues(mainValuesResult);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  async function getProviders(): Promise<ProviderType[]> {
-    try {
-      const endpoint = "/data/providers";
-      const { result } = await getData(endpoint);
-      return result;
     } catch (error) {
       console.log(error);
     }
@@ -119,10 +106,9 @@ const OverviewContextProvider = ({ children }: any) => {
   return (
     <overviewContext.Provider
       value={{
-        updateData,
+        updateOverviewData,
         mainValues,
         getValuesCash,
-        getProviders,
         getDebtors,
         getDailyProfit,
         getDailySales,

@@ -9,19 +9,17 @@ import GoalsForm from "./goalsForm";
 interface GoalsDetailsProps {
   setSelectedSheetsData: Dispatch<React.SetStateAction<any>>;
   selectedSheetsData: ChargeType;
-  charges: ChargeType[];
 }
 
 const GoalsDetails = ({
   setSelectedSheetsData,
   selectedSheetsData,
-  charges,
 }: GoalsDetailsProps) => {
-  const { searchData } = useContext(goalsContext);
+  const { searchData, charges } = useContext(goalsContext);
 
   return (
     <ComponentContainer cols="3" classToAdd="row-span-12">
-      {searchData ? (
+      {searchData && (
         <>
           <GoalsForm
             charges={charges}
@@ -32,11 +30,6 @@ const GoalsDetails = ({
 
           <Details selectedSheetsData={selectedSheetsData} />
         </>
-      ) : (
-        <div className="w-full h-full text-gray-500 font-heading flex items-center justify-center gap-2 fade-left">
-          <MousePointerClick className="size-4" />
-          <span>Selecione um cliente </span>
-        </div>
       )}
     </ComponentContainer>
   );

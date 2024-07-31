@@ -1,6 +1,6 @@
-import React, { Dispatch } from "react";
+import React, { Dispatch, useEffect, useState } from "react";
 import Modal, { Styles } from "react-modal";
-import { formatCurrency } from "../../utils/generalsUtils";
+import { formatCurrency, sortTableData } from "../../utils/generalsUtils";
 import { List, Table } from "lucide-react";
 Modal.setAppElement("#root");
 
@@ -37,8 +37,34 @@ interface ModalTableProps {
 }
 
 const ModalTable = ({ setIsOpen, isOpen, modalData }: ModalTableProps) => {
+  const [sortBy, setSortBy] = useState(null);
+  const [sortOrder, setSortOrder] = useState("asc");
+  const [chartData, setChartData] = useState<any[]>();
+
+  useEffect(() => {
+    if (modalData) {
+      setChartData(modalData);
+    }
+  }, [modalData]);
+
+  useEffect(() => {
+    if (sortBy) {
+      const sortedProviders = sortTableData([...modalData], sortBy, sortOrder);
+      setChartData(sortedProviders);
+    }
+  }, [sortBy, sortOrder]);
+
   function closeModal() {
     setIsOpen(false);
+  }
+
+  function handleSort(columnName) {
+    if (sortBy === columnName) {
+      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+    } else {
+      setSortBy(columnName);
+      setSortOrder("asc");
+    }
   }
 
   return (
@@ -55,25 +81,34 @@ const ModalTable = ({ setIsOpen, isOpen, modalData }: ModalTableProps) => {
             <table>
               <thead>
                 <tr>
-                  <th className="px-4 py-2 bg-gray-900 border border-gray-800 text-gray-300">
+                  <th
+                    onClick={() => handleSort("classif")}
+                    className="px-4 py-2 bg-gray-900 border border-gray-800 text-gray-300"
+                  >
                     Grupo
                   </th>
-                  <th className="px-4 py-2 bg-gray-900 border border-gray-800 text-gray-300">
+                  <th
+                    onClick={() => handleSort("description")}
+                    className="px-4 py-2 bg-gray-900 border border-gray-800 text-gray-300"
+                  >
                     Descrição
                   </th>
-                  <th className="px-4 py-2 bg-gray-900 border border-gray-800 text-gray-300">
+                  <th
+                    onClick={() => handleSort("saleValue")}
+                    className="px-4 py-2 bg-gray-900 border border-gray-800 text-gray-300"
+                  >
                     Valor Venda
                   </th>
-                  <th className="px-4 py-2 bg-gray-900 border border-gray-800 text-gray-300">
-                    Valor Lucro
-                  </th>
-                  <th className="px-4 py-2 bg-gray-900 border border-gray-800 text-gray-300">
+                  <th
+                    onClick={() => handleSort("amount")}
+                    className="px-4 py-2 bg-gray-900 border border-gray-800 text-gray-300"
+                  >
                     Quantidade
                   </th>
                 </tr>
               </thead>
               <tbody>
-                {modalData.map((row) => (
+                {chartData?.map((row) => (
                   <tr key={row.classif} className="border border-gray-800">
                     <td className="px-4 py-2 text-sm text-gray-100 text-center">
                       {row.classif}
@@ -83,9 +118,6 @@ const ModalTable = ({ setIsOpen, isOpen, modalData }: ModalTableProps) => {
                     </td>
                     <td className="px-4 py-2 text-sm text-gray-100 text-center">
                       ${formatCurrency(row.saleValue)}
-                    </td>
-                    <td className="px-4 py-2 text-sm text-gray-100 text-center">
-                      ${formatCurrency(row.profitValue)}
                     </td>
 
                     <td className="px-4 py-2 text-sm text-gray-100 text-center">

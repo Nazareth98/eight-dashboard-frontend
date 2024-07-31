@@ -1,16 +1,15 @@
 import { createContext, useState } from "react";
 
 import { getData } from "../services/API";
-import ExchangerType from "../types/exchangerType";
 
 interface StockContext {
   stockData?: any[];
-  updateData: () => void;
+  updateStock: () => void;
 }
 
 const initialState: StockContext = {
   stockData: undefined,
-  updateData: () => {},
+  updateStock: () => {},
 };
 
 const stockContext = createContext<StockContext>(initialState);
@@ -28,7 +27,7 @@ const StockContextProvider = ({ children }: any) => {
     }
   }
 
-  async function updateData() {
+  async function updateStock() {
     try {
       const data = await getStock();
       setStockData(data);
@@ -38,7 +37,7 @@ const StockContextProvider = ({ children }: any) => {
   }
 
   return (
-    <stockContext.Provider value={{ updateData, stockData }}>
+    <stockContext.Provider value={{ updateStock, stockData }}>
       {children}
     </stockContext.Provider>
   );

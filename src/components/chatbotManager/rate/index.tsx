@@ -1,20 +1,14 @@
 import {
   ArrowLeftCircle,
-  BadgeDollarSign,
   CircleDollarSign,
-  DollarSign,
   Edit,
-  Radio,
   RefreshCcw,
-  Settings,
-  Settings2,
 } from "lucide-react";
-import React, { useContext, useEffect, useState } from "react";
-import CustomInput from "../../shared/customInput";
-import CustomButton from "../../shared/customButton";
-import { formatCurrency } from "../../../utils/generalsUtils";
+import { useContext, useState } from "react";
 import { chatbotContext } from "../../../contexts/chatbotContext";
-import RateType from "../../../types/rateType";
+import { formatCurrency } from "../../../utils/generalsUtils";
+import CustomButton from "../../shared/customButton";
+import CustomInput from "../../shared/customInput";
 
 const Rate = () => {
   const { updateRate, rate } = useContext(chatbotContext);
@@ -44,42 +38,40 @@ const Rate = () => {
         <CircleDollarSign className="size-4" />
         Taxa
       </h3>
-      <div className="flex gap-2 items-center">
-        <div>
-          <CircleDollarSign className="size-8 text-primary-400" />
+      {openInputRate ? (
+        <>
+          <div className="w-full flex gap-2 fade-left">
+            <CustomInput
+              type="number"
+              placeholder="0,00"
+              inputValue={inputRate}
+              setValue={setInputRate}
+            />
+            <CustomButton onClick={handleUpdateRate}>
+              <RefreshCcw className="size-5" />
+            </CustomButton>
+          </div>
+        </>
+      ) : (
+        <div className="flex gap-2 items-center fade-left">
+          <div>
+            <CircleDollarSign className="size-8 text-primary-400" />
+          </div>
+          <h3 className="text-gray-100 text-3xl font-semibold">
+            ${rate ? formatCurrency(rate.value, "pt-BR", "BRL") : null}
+          </h3>
+          <div>
+            <Edit
+              onClick={handleOpenInputRate}
+              className="size-4 text-gray-600 cursor-pointer transition-all hover:text-gray-400"
+            />
+          </div>
         </div>
-        {openInputRate ? (
-          <>
-            <div className="w-full flex gap-2">
-              <CustomInput
-                type="number"
-                placeholder="0,00"
-                inputValue={inputRate}
-                setValue={setInputRate}
-              />
-              <CustomButton onClick={handleUpdateRate}>
-                <RefreshCcw className="size-5" />
-              </CustomButton>
-            </div>
-          </>
-        ) : (
-          <>
-            <h3 className="text-gray-100 text-3xl font-semibold">
-              ${rate ? formatCurrency(rate.value, "pt-BR", "BRL") : null}
-            </h3>
-            <div>
-              <Edit
-                onClick={handleOpenInputRate}
-                className="size-4 text-gray-600 cursor-pointer transition-all hover:text-gray-400"
-              />
-            </div>
-          </>
-        )}
-      </div>
+      )}
       {openInputRate && (
         <div
           onClick={handleCloseInputRate}
-          className="flex items-center gap-2 text-gray-700 cursor-pointer transition-all hover:text-gray-400 text-sm"
+          className="flex items-center gap-2 text-gray-700 cursor-pointer transition-all hover:text-gray-400 text-sm fade-left"
         >
           <ArrowLeftCircle className="size-4" />
           Voltar

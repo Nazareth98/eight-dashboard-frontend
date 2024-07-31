@@ -5,13 +5,13 @@ import OrderList from "../../components/orderList";
 import OrderShooting from "../../components/orderShooting";
 
 const Orders = () => {
-  const { getOrders } = useContext(orderContext);
+  const { updateOrders } = useContext(orderContext);
 
   const [selectOrder, setSelectOrder] = useState();
 
   useEffect(() => {
     const loadData = async () => {
-      await getOrders();
+      await updateOrders();
     };
     loadData();
   }, []);

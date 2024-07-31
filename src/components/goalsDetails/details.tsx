@@ -1,19 +1,57 @@
-import React, { useContext } from "react";
-import CustomSubtitle from "../shared/customSubtitle";
-import { Banknote, BarChart2, Diff, Goal, UserCircle2 } from "lucide-react";
-import { PaymentType } from "../../types/paymentType";
+import {
+  ArrowLeftCircle,
+  Banknote,
+  BarChart2,
+  Diff,
+  Edit,
+  Goal,
+  RefreshCcw,
+  UserCircle2,
+} from "lucide-react";
+import { useContext, useEffect, useState } from "react";
+import { goalsContext } from "../../contexts/goalsContext";
 import { ChargeType } from "../../types/chargeType";
 import { formatCurrency } from "../../utils/generalsUtils";
-import { goalsContext } from "../../contexts/goalsContext";
+import CustomSubtitle from "../shared/customSubtitle";
+import CustomInput from "../shared/customInput";
+import CustomButton from "../shared/customButton";
+import { customerContext } from "../../contexts/customerContext";
+import CustomerType from "../../types/customerType";
 
 interface DetailsProps {
   selectedSheetsData: ChargeType;
 }
 
 const Details = ({ selectedSheetsData }: DetailsProps) => {
-  const { selectedCustomer } = useContext(goalsContext);
+  const { selectedCustomer, updateGoal, updateCharges, cleanSearchData } =
+    useContext(goalsContext);
+  const [openInputGoal, setOpenInputGoal] = useState<boolean>(false);
+  const [inputGoal, setInputGoal] = useState<number>();
 
-  console.log("selectedSheetsData", selectedSheetsData);
+  function handleOpenInputGoal() {
+    setOpenInputGoal(true);
+  }
+  function handleCloseInputGoal() {
+    setOpenInputGoal(false);
+  }
+
+  const handleUpdateGoal = async () => {
+    if (!inputGoal) {
+      alert("O valor da Taxa é obrigatório.");
+      return;
+    }
+    await updateGoal(inputGoal, selectedCustomer.id);
+    await updateCharges();
+
+    cleanSearchData();
+
+    // let updatedCurrentCustomer: CustomerType = selectedCustomer;
+    // updatedCurrentCustomer.goal = inputGoal;
+    // setCurrentCustomer(updatedCurrentCustomer);
+    // setInputGoal(null);
+    // setOpenInputGoal(false);
+  };
+
   return (
     <>
       <CustomSubtitle
@@ -33,14 +71,14 @@ const Details = ({ selectedSheetsData }: DetailsProps) => {
               <div className="w-full h-full flex items-end justify-end fade-right">
                 <h2
                   className={`text-4xl font-heading font-semibold ${
-                    selectedSheetsData.balance > 0
+                    selectedCustomer.balance > 0
                       ? "text-primary-500"
-                      : selectedSheetsData.balance < 0
+                      : selectedCustomer.balance < 0
                       ? "text-red-500"
                       : "text-gray-600"
                   }`}
                 >
-                  ${formatCurrency(selectedSheetsData.balance)}
+                  ${formatCurrency(selectedCustomer.balance)}
                 </h2>
               </div>
             </div>
@@ -49,18 +87,50 @@ const Details = ({ selectedSheetsData }: DetailsProps) => {
             <div className="w-full h-full flex-1 flex flex-col">
               <div className="flex items-center gap-2">
                 <Goal className="size-4 text-gray-700" />
-
                 <span className="w-1/2 text-gray-500 font-heading text-sm">
                   Meta semanal
                 </span>
               </div>
-              <div className="w-full h-full flex items-end justify-end fade-right">
-                <h2
-                  className={`text-xl font-heading font-semibold text-gray-200`}
+              {openInputGoal ? (
+                <>
+                  <div className="w-full flex gap-2 mt-2 fade-left">
+                    <CustomInput
+                      type="number"
+                      placeholder="0,00"
+                      inputValue={inputGoal}
+                      setValue={setInputGoal}
+                    />
+                    <CustomButton onClick={handleUpdateGoal}>
+                      <RefreshCcw className="size-5" />
+                    </CustomButton>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="w-full h-full flex items-end justify-end fade-right">
+                    <div className="flex items-center gap-2">
+                      <h2
+                        className={`text-xl font-heading font-semibold text-gray-200`}
+                      >
+                        ${formatCurrency(selectedSheetsData.goal)}
+                      </h2>{" "}
+                      <Edit
+                        onClick={handleOpenInputGoal}
+                        className="size-4 text-gray-600 cursor-pointer transition-all hover:text-gray-400"
+                      />
+                    </div>
+                  </div>
+                </>
+              )}
+              {openInputGoal && (
+                <div
+                  onClick={handleCloseInputGoal}
+                  className="flex items-center gap-2 text-gray-700 cursor-pointer transition-all hover:text-gray-400 text-sm mt-1 fade-left"
                 >
-                  ${formatCurrency(selectedSheetsData.goal)}
-                </h2>
-              </div>
+                  <ArrowLeftCircle className="size-4" />
+                  Voltar
+                </div>
+              )}
             </div>
 
             <div className="w-24 m-auto h-[2px] bg-gray-900" />
@@ -108,7 +178,7 @@ const Details = ({ selectedSheetsData }: DetailsProps) => {
               <div className="w-full h-full flex items-end justify-end fade-right">
                 <h2
                   className={`text-xl font-heading font-semibold ${
-                    selectedSheetsData.goal === 0
+                    selectedCustomer.goal === 0
                       ? "text-gray-600"
                       : selectedSheetsData.percentageOfTarget > 66
                       ? "text-primary-600"
@@ -117,13 +187,7 @@ const Details = ({ selectedSheetsData }: DetailsProps) => {
                       : "text-red-600"
                   }`}
                 >
-                  %
-                  {selectedSheetsData.goal !== 0
-                    ? (
-                        (selectedSheetsData.payment / selectedSheetsData.goal) *
-                        100
-                      ).toFixed()
-                    : 0}
+                  {selectedSheetsData.percentageOfTarget.toFixed()}%
                 </h2>
               </div>
             </div>

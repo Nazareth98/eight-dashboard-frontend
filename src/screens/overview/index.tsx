@@ -7,11 +7,11 @@ import OverviewMonthlyProfit from "../../components/overviewMonthlyProfit";
 import OverviewMonthlyPurchases from "../../components/overviewMonthlyPurchases";
 
 const Overview = ({ changeScreen }) => {
-  const { updateData } = useContext(overviewContext);
+  const { updateOverviewData } = useContext(overviewContext);
 
   useEffect(() => {
     async function lodaData() {
-      await updateData();
+      await updateOverviewData();
     }
 
     lodaData();

@@ -1,7 +1,10 @@
-import React, { Dispatch } from "react";
+import React, { Dispatch, useEffect, useState } from "react";
 import Modal, { Styles } from "react-modal";
-import { formatCurrency } from "../../utils/generalsUtils";
-import { List, Table } from "lucide-react";
+import { formatCurrency, sortTableData } from "../../utils/generalsUtils";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
+import { Printer, Table } from "lucide-react";
+import CustomButton from "../shared/customButton";
 Modal.setAppElement("#root");
 
 const customStyles: Styles = {
@@ -37,9 +40,79 @@ interface ModalTableProps {
 }
 
 const ModalTable = ({ setIsOpen, isOpen, modalData }: ModalTableProps) => {
+  const [sortBy, setSortBy] = useState(null);
+  const [sortOrder, setSortOrder] = useState("asc");
+  const [chartData, setChartData] = useState<any[]>();
+
+  useEffect(() => {
+    if (modalData) {
+      setChartData(modalData);
+    }
+  }, [modalData]);
+
+  useEffect(() => {
+    if (sortBy) {
+      const sortedProviders = sortTableData([...modalData], sortBy, sortOrder);
+      setChartData(sortedProviders);
+    }
+  }, [sortBy, sortOrder]);
+
   function closeModal() {
     setIsOpen(false);
   }
+
+  function handleSort(columnName) {
+    if (sortBy === columnName) {
+      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+    } else {
+      setSortBy(columnName);
+      setSortOrder("asc");
+    }
+  }
+
+  const exportPDF = () => {
+    const doc = new jsPDF();
+
+    // Obtenha a data atual no formato brasileiro
+    const today = new Date();
+    const formattedDate = `${today.getDate().toString().padStart(2, "0")}/${(
+      today.getMonth() + 1
+    )
+      .toString()
+      .padStart(2, "0")}/${today.getFullYear()}`;
+    const formattedTime = `${today
+      .getHours()
+      .toString()
+      .padStart(2, "0")}:${today
+      .getMinutes()
+      .toString()
+      .padStart(2, "0")}:${today.getSeconds().toString().padStart(2, "0")}`;
+
+    // Adiciona o cabeçalho com a data e a hora
+    doc.setFontSize(12);
+    doc.text(`${formattedDate} - ${formattedTime}`, 14, 15);
+
+    // Adiciona o título
+    doc.setFontSize(18);
+    doc.text("Vendas por Produtos", 14, 30);
+
+    // Adiciona a tabela
+    doc.autoTable({
+      startY: 40,
+      head: [["Dígito", "Descrição", "Valor Venda", "Quantidade"]],
+      body: chartData?.map((row) => [
+        row.digit,
+        row.description,
+        `$${formatCurrency(row.saleValue)}`,
+        row.amount.toLocaleString(),
+      ]),
+      theme: "grid",
+      headStyles: { fillColor: [40, 40, 40] },
+      margin: { horizontal: 10 },
+    });
+
+    doc.save(`vendas-produtos-${formattedDate}-${formattedTime}.pdf`);
+  };
 
   return (
     <Modal isOpen={isOpen} onRequestClose={closeModal} style={customStyles}>
@@ -51,29 +124,41 @@ const ModalTable = ({ setIsOpen, isOpen, modalData }: ModalTableProps) => {
               Todos os Produtos
             </h3>
           </div>
-          <div className="w-full h-full overflow-y-auto flex flex-col gap-2">
+          <div
+            id="table-to-export"
+            className="w-full h-full overflow-y-auto flex flex-col gap-2"
+          >
             <table>
               <thead>
                 <tr>
-                  <th className="px-4 py-2 bg-gray-900 border border-gray-800 text-gray-300">
+                  <th
+                    onClick={() => handleSort("digit")}
+                    className="px-4 py-2 bg-gray-900 border border-gray-800 text-gray-300"
+                  >
                     Dígito
                   </th>
-                  <th className="px-4 py-2 bg-gray-900 border border-gray-800 text-gray-300">
+                  <th
+                    onClick={() => handleSort("description")}
+                    className="px-4 py-2 bg-gray-900 border border-gray-800 text-gray-300"
+                  >
                     Descrição
                   </th>
-                  <th className="px-4 py-2 bg-gray-900 border border-gray-800 text-gray-300">
+                  <th
+                    onClick={() => handleSort("saleValue")}
+                    className="px-4 py-2 bg-gray-900 border border-gray-800 text-gray-300"
+                  >
                     Valor Venda
                   </th>
-                  <th className="px-4 py-2 bg-gray-900 border border-gray-800 text-gray-300">
-                    Valor Lucro
-                  </th>
-                  <th className="px-4 py-2 bg-gray-900 border border-gray-800 text-gray-300">
+                  <th
+                    onClick={() => handleSort("amount")}
+                    className="px-4 py-2 bg-gray-900 border border-gray-800 text-gray-300"
+                  >
                     Quantidade
                   </th>
                 </tr>
               </thead>
               <tbody>
-                {modalData.map((row) => (
+                {chartData?.map((row) => (
                   <tr key={row.id} className="border border-gray-800">
                     <td className="px-4 py-2 text-sm text-gray-100 text-center">
                       {row.digit}
@@ -84,9 +169,6 @@ const ModalTable = ({ setIsOpen, isOpen, modalData }: ModalTableProps) => {
                     <td className="px-4 py-2 text-sm text-gray-100 text-center">
                       ${formatCurrency(row.saleValue)}
                     </td>
-                    <td className="px-4 py-2 text-sm text-gray-100 text-center">
-                      ${formatCurrency(row.profitValue)}
-                    </td>
 
                     <td className="px-4 py-2 text-sm text-gray-100 text-center">
                       {row.amount.toLocaleString()}
@@ -96,6 +178,10 @@ const ModalTable = ({ setIsOpen, isOpen, modalData }: ModalTableProps) => {
               </tbody>
             </table>
           </div>
+          <CustomButton onClick={exportPDF}>
+            <Printer className="size-4" />
+            imprimir
+          </CustomButton>
         </>
       )}
     </Modal>

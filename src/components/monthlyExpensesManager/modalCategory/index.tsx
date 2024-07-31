@@ -104,7 +104,7 @@ const ModalCreateCategory = ({ isOpen, setIsOpen, billType }) => {
 
       <ul className="bg-gray-950 rounded h-64 overflow-y-auto w-full flex flex-col gap-4">
         {categoriesData?.map((category) => (
-          <li>
+          <li key={category.name}>
             <div className="bg-gray-900 p-3 flex rounded-lg items-center justify-between">
               <p className="text-gray-200 font-semibold">{category.name}</p>
               <div className="flex items-center gap-2">

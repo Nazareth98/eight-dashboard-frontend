@@ -9,13 +9,13 @@ import { contactsContext } from "../../contexts/contactsContext";
 import CustomerInfo from "../../components/customerInfo";
 
 const Customers = () => {
-  const { getCustomers } = useContext(customerContext);
-  const { updateData } = useContext(contactsContext);
+  const { updateCustomers } = useContext(customerContext);
+  const { updateContacts } = useContext(contactsContext);
 
   useEffect(() => {
     const loadData = async () => {
-      await getCustomers();
-      await updateData();
+      await updateCustomers();
+      await updateContacts();
     };
     loadData();
   }, []);

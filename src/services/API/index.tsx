@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseUrl = "http://localhost:8030/api"; // desenvolvimento
+const baseUrl = "http://localhost:8030/api"; // desenvolvimento;
 // const baseUrl = "http://botsmoke.com.br:8030/api"; // produção
 
 export const getQrcode = async () => {
@@ -52,6 +52,18 @@ export const postData = async (endpoint: string, data: any) => {
     return error;
   }
 };
+
+export const patchData = async (endpoint: string, data: any) => {
+  try {
+    getToken();
+    const result = await axios.patch(`${baseUrl}${endpoint}`, data);
+    return result.data;
+  } catch (error) {
+    console.log(error.response.data);
+    return error.response.data;
+  }
+};
+
 export const putData = async (endpoint: string, data: any) => {
   try {
     getToken();

@@ -7,13 +7,13 @@ import GroupType from "../types/groupType";
 interface ContactsContext {
   contactData?: ContactType[];
   groupData?: GroupType[];
-  updateData: () => void;
+  updateContacts: () => void;
 }
 
 const initialState: ContactsContext = {
   contactData: undefined,
   groupData: undefined,
-  updateData: () => {},
+  updateContacts: () => {},
 };
 
 const contactsContext = createContext<ContactsContext>(initialState);
@@ -42,7 +42,7 @@ const ContactsContextProvider = ({ children }: any) => {
     }
   }
 
-  async function updateData() {
+  async function updateContacts() {
     try {
       const groupResult = await getGroups();
       setGroupData(groupResult);
@@ -54,7 +54,9 @@ const ContactsContextProvider = ({ children }: any) => {
   }
 
   return (
-    <contactsContext.Provider value={{ updateData, groupData, contactData }}>
+    <contactsContext.Provider
+      value={{ updateContacts, groupData, contactData }}
+    >
       {children}
     </contactsContext.Provider>
   );

@@ -5,7 +5,7 @@ import {
   HandCoins,
   UserCircle,
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Select, { StylesConfig } from "react-select";
 import IconOrders from "../../assets/svg/iconOrders";
 import { ProviderType } from "../../types/providerType";
@@ -13,12 +13,11 @@ import { formatCurrency, getSelectStyles } from "../../utils/generalsUtils";
 import ComponentContainer from "../shared/componentContainer";
 import CustomSubtitle from "../shared/customSubtitle";
 import Loading from "../shared/loading";
+import { providersContext } from "../../contexts/providersContext";
 
-interface ProviderProps {
-  providers: ProviderType[];
-}
+const ProvidersDetails = () => {
+  const { providers } = useContext(providersContext);
 
-const ProvidersDetails = ({ providers }: ProviderProps) => {
   const [selectedOption, setSelectedOption] = useState<ProviderType>();
   const [options, setOptions] = useState([]);
 

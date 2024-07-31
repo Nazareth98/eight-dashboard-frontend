@@ -9,7 +9,7 @@ interface BillToPayContext {
   categoriesData?: any[];
   billType: string;
   toogleType: (type: string) => void;
-  updateData: (month: number, type: string) => void;
+  updateBills: (month: number, type: string) => void;
   createBillToPay: (body: BillToPayType, type: string) => Promise<any> | void;
   createCategory: (body: any, type: string) => Promise<any> | void;
   deleteBillToPay: (body: BillToPayType, type: string) => any;
@@ -20,7 +20,8 @@ interface BillToPayContext {
 
 const initialState: BillToPayContext = {
   billToPayData: undefined,
-  updateData: () => {},
+  billType: "extra",
+  updateBills: () => {},
   toogleType: () => {},
   createBillToPay: () => {},
   createCategory: () => {},
@@ -62,11 +63,10 @@ const BillToPayContextProvider = ({ children }: any) => {
     }
   }
 
-  async function updateData(month: number, type: string) {
+  async function updateBills(month: number, type: string) {
     try {
       const { data, resume } = await getBillToPay(month, type);
       const categories = await getCategories(type);
-      console.log(data);
       setCategoriesData(categories);
       setBillToPayData(data);
       setBillResumeData(resume);
@@ -81,7 +81,7 @@ const BillToPayContextProvider = ({ children }: any) => {
       const currentMonth = currentDate.getMonth() + 1;
       const endpoint = `/bill/${type}/category`;
       const result = await postData(endpoint, body);
-      await updateData(currentMonth, type);
+      await updateBills(currentMonth, type);
       return result;
     } catch (error) {
       console.log(error);
@@ -94,7 +94,7 @@ const BillToPayContextProvider = ({ children }: any) => {
       const currentMonth = currentDate.getMonth() + 1;
       const endpoint = `/bill/${type}`;
       const result = await postData(endpoint, body);
-      await updateData(currentMonth, type);
+      await updateBills(currentMonth, type);
       return result;
     } catch (error) {
       console.log(error);
@@ -107,7 +107,7 @@ const BillToPayContextProvider = ({ children }: any) => {
       const result = await deleteData(endpoint);
       const currentDate = new Date();
       const currentMonth = currentDate.getMonth() + 1;
-      await updateData(currentMonth, type);
+      await updateBills(currentMonth, type);
       return result;
     } catch (error) {
       console.log(error);
@@ -120,7 +120,7 @@ const BillToPayContextProvider = ({ children }: any) => {
       const result = await deleteData(endpoint);
       const currentDate = new Date();
       const currentMonth = currentDate.getMonth() + 1;
-      await updateData(currentMonth, type);
+      await updateBills(currentMonth, type);
       return result;
     } catch (error) {
       console.log(error);
@@ -133,7 +133,7 @@ const BillToPayContextProvider = ({ children }: any) => {
       const currentMonth = currentDate.getMonth() + 1;
       const endpoint = `/bill/${type}/pay/${id}`;
       const result = await putData(endpoint, {});
-      await updateData(currentMonth, type);
+      await updateBills(currentMonth, type);
       return result;
     } catch (error) {
       console.log(error);
@@ -151,7 +151,7 @@ const BillToPayContextProvider = ({ children }: any) => {
 
       const currentDate = new Date();
       const currentMonth = currentDate.getMonth() + 1;
-      await updateData(currentMonth, type);
+      await updateBills(currentMonth, type);
       return result;
     } catch (error) {
       console.log(error);
@@ -161,7 +161,7 @@ const BillToPayContextProvider = ({ children }: any) => {
   return (
     <billToPayContext.Provider
       value={{
-        updateData,
+        updateBills,
         billToPayData,
         createBillToPay,
         deleteBillToPay,

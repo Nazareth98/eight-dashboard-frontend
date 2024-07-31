@@ -1,37 +1,18 @@
 import { useContext, useEffect, useState } from "react";
-import Modal from "react-modal";
+import Modal, { Styles } from "react-modal";
 Modal.setAppElement("#root");
 
-import CustomButton from "../../shared/customButton";
-import { overviewContext } from "../../../contexts/overviewContext";
-import IconClip from "../../../assets/svg/iconClip";
-import { formatCurrency } from "../../../utils/generalsUtils";
-import IconBack from "../../../assets/svg/iconBack";
 import { ArrowLeft } from "lucide-react";
-
-function compareValues(a, b, sortBy, sortOrder) {
-  if (a === b) {
-    return 0;
-  }
-
-  if (typeof a === "string" && typeof b === "string") {
-    return sortOrder === "asc" ? a.localeCompare(b) : b.localeCompare(a);
-  } else if (typeof a === "number" && typeof b === "number") {
-    return sortOrder === "asc" ? a - b : b - a;
-  } else {
-    const valueA = String(a);
-    const valueB = String(b);
-    return sortOrder === "asc"
-      ? valueA.localeCompare(valueB)
-      : valueB.localeCompare(valueA);
-  }
-}
+import IconClip from "../../../assets/svg/iconClip";
+import { overviewContext } from "../../../contexts/overviewContext";
+import { formatCurrency, sortTableData } from "../../../utils/generalsUtils";
+import CustomButton from "../../shared/customButton";
 
 const ModalDebtors = (props) => {
   const { getDebtors } = useContext(overviewContext);
   const [sortBy, setSortBy] = useState(null);
   const [sortOrder, setSortOrder] = useState("asc");
-  const [debtors, setDebtors] = useState();
+  const [debtors, setDebtors] = useState<any[]>();
   const [total, setTotal] = useState(0);
 
   useEffect(() => {
@@ -44,12 +25,19 @@ const ModalDebtors = (props) => {
     loadData();
   }, []);
 
+  useEffect(() => {
+    if (sortBy) {
+      const sortedDebtors = sortTableData([...debtors], sortBy, sortOrder);
+      setDebtors(sortedDebtors);
+    }
+  }, [sortBy, sortOrder]);
+
   const calculateTotal = (data) => {
     const totalSaldo = data.reduce((acc, provider) => acc + provider.saldo, 0);
     setTotal(totalSaldo);
   };
 
-  const customStyles = {
+  const customStyles: Styles = {
     overlay: {
       backgroundColor: "rgba(0, 0, 0, 0.7)",
     },
@@ -87,15 +75,6 @@ const ModalDebtors = (props) => {
     }
   };
 
-  const sortedData = debtors?.slice().sort((a, b) => {
-    if (sortBy) {
-      const valueA = a[sortBy];
-      const valueB = b[sortBy];
-      return compareValues(valueA, valueB, sortBy, sortOrder);
-    }
-    return 0;
-  });
-
   return (
     <Modal
       isOpen={props.isOpen}
@@ -110,9 +89,6 @@ const ModalDebtors = (props) => {
           Clientes a Cobrar
         </h3>
       </div>
-      {/* Informacoes necessarias a ser mostrado.
-
-      DIGITO,NOME,VENCENDO,VENCIDO,SALDO DEVEDOR */}
       {debtors && (
         <div className="w-full h-full overflow-y-auto flex flex-col gap-2">
           <table>
@@ -151,7 +127,7 @@ const ModalDebtors = (props) => {
               </tr>
             </thead>
             <tbody>
-              {sortedData.map((debtor) => (
+              {debtors.map((debtor) => (
                 <tr key={debtor.cliente} className="border border-gray-800">
                   <td className="px-4 py-2 text-sm text-gray-100 text-center">
                     {debtor.digito}

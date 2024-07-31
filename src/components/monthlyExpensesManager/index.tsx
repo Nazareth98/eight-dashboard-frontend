@@ -84,7 +84,10 @@ const MonthlyExpensesManager = () => {
       <div className="h-full overflow-y-auto border-2 border-gray-900 rounded-lg">
         <ul className="p-4 ">
           {billResumeData?.map((item) => (
-            <li className="py-2  text-gray-100  font-heading flex items-center gap-2 fade-left">
+            <li
+              key={item.categoryName}
+              className="py-2  text-gray-100  font-heading flex items-center gap-2 fade-left"
+            >
               <div>
                 <IconPayments width="18px" fill="fill-gray-700" />
               </div>

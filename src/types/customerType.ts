@@ -7,6 +7,7 @@ type CustomerType = {
   balance: number;
   sigaDigit: number;
   sheetsBalance: number;
+  goal: number;
   group?: GroupType;
   contact?: ContactType;
 };

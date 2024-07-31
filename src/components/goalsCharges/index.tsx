@@ -1,38 +1,45 @@
-import { useContext, useEffect, useState } from "react";
+import jsPDF from "jspdf";
 import {
-  formatCurrency,
-  getStartAndEndOfWeek,
-} from "../../utils/generalsUtils";
-import CustomSubtitle from "../shared/customSubtitle";
-import {
-  Check,
   CheckCircle,
   Circle,
   MousePointerClick,
   NotebookPen,
+  Printer,
   RefreshCcw,
   Sheet,
 } from "lucide-react";
-import { ChargeType } from "../../types/chargeType";
-import { sheetsContext } from "../../contexts/sheetsContext";
-import Loading from "../shared/loading";
-import ComponentContainer from "../shared/componentContainer";
-import { goalsContext } from "../../contexts/goalsContext";
-import CustomButton from "../shared/customButton";
+import { useContext, useEffect, useState } from "react";
 import { customerContext } from "../../contexts/customerContext";
+import { goalsContext } from "../../contexts/goalsContext";
+import { ChargeType } from "../../types/chargeType";
 import CustomerType from "../../types/customerType";
+import {
+  formatCurrency,
+  getStartAndEndOfWeek,
+} from "../../utils/generalsUtils";
+import ComponentContainer from "../shared/componentContainer";
+import CustomButton from "../shared/customButton";
+import CustomSubtitle from "../shared/customSubtitle";
+import Loading from "../shared/loading";
 
-const GoalsCharges = ({ setSelectedSheetsData, charges, setCharges }) => {
-  const { updateSearchData, setCurrentCustomer } = useContext(goalsContext);
-  const { getCharges } = useContext(sheetsContext);
+const GoalsCharges = ({ setSelectedSheetsData }) => {
+  const { updateSearchData, setCurrentCustomer, updateCharges, charges } =
+    useContext(goalsContext);
   const { customerData } = useContext(customerContext);
-
   const [currentWeek, setCurrentWeek] = useState<any>();
   const [chargesToShow, setChargesToShow] = useState<ChargeType[]>();
-  const [isFiltered, setIsFiltered] = useState<boolean>(false);
+  const [isFiltered, setIsFiltered] = useState<boolean>(true);
 
   useEffect(() => {
-    setChargesToShow(charges);
+    function loadData() {
+      const filteredCharges = charges?.filter(
+        (charge: ChargeType) => charge.balance != 0
+      );
+      setChargesToShow(filteredCharges);
+    }
+    if (charges) {
+      loadData();
+    }
   }, [charges]);
 
   useEffect(() => {
@@ -41,9 +48,7 @@ const GoalsCharges = ({ setSelectedSheetsData, charges, setCharges }) => {
   }, []);
 
   async function updateData() {
-    setCharges([]);
-    const result = await getCharges();
-    setCharges(result);
+    await updateCharges();
   }
 
   function toogleFiltered() {
@@ -75,11 +80,57 @@ const GoalsCharges = ({ setSelectedSheetsData, charges, setCharges }) => {
     updateSearchData(digit, month, year);
   }
 
+  const exportPDF = () => {
+    const doc = new jsPDF();
+
+    // Obtenha a data atual no formato brasileiro
+    const today = new Date();
+    const formattedDate = `${today.getDate().toString().padStart(2, "0")}/${(
+      today.getMonth() + 1
+    )
+      .toString()
+      .padStart(2, "0")}/${today.getFullYear()}`;
+    const formattedTime = `${today
+      .getHours()
+      .toString()
+      .padStart(2, "0")}:${today
+      .getMinutes()
+      .toString()
+      .padStart(2, "0")}:${today.getSeconds().toString().padStart(2, "0")}`;
+
+    // Adiciona o cabeçalho com a data e a hora
+    doc.setFontSize(12);
+    doc.text(`${formattedDate} - ${formattedTime}`, 14, 15);
+
+    // Adiciona o título
+    doc.setFontSize(18);
+    doc.text("Planilha de cobranças", 14, 30);
+
+    // Adiciona a tabela
+    doc.autoTable({
+      startY: 40,
+      head: [["Cliente", "Saldo", "Meta", "Pagamentos", "Restante"]],
+      body: chargesToShow?.map((row) => [
+        row.customerName,
+        `$${formatCurrency(row.balance)}`,
+        `$${formatCurrency(row.goal)}`,
+        `$${formatCurrency(row.payment)}`,
+        `$${formatCurrency(row.diff)}`,
+        `${row.percentageOfTarget}%`,
+      ]),
+      theme: "grid",
+      headStyles: { fillColor: [40, 40, 40] },
+      margin: { horizontal: 10 },
+    });
+
+    doc.save(`vendas-produtos-${formattedDate}-${formattedTime}.pdf`);
+  };
+
   return (
     <ComponentContainer classToAdd="col-span-9 row-span-12">
       <div className="w-full flex items-center justify-between gap-2">
         <CustomSubtitle
-          icon={<Sheet className="size-6 text-gray-600" />}
+          icon={<Sheet className="size-6" />}
           subtitle="Planilha de Cobranças"
         />
         {currentWeek && (
@@ -87,10 +138,16 @@ const GoalsCharges = ({ setSelectedSheetsData, charges, setCharges }) => {
             <p className="text-gray-200 font-heading font-medium text-sm">{`Semana ${currentWeek.week} - De ${currentWeek.startOfWeek} à ${currentWeek.endOfWeek}`}</p>
           </div>
         )}
-        <CustomButton theme="attention" onClick={updateData}>
-          <RefreshCcw className="size-4" />
-          atualizar
-        </CustomButton>
+        <div className="flex gap-2">
+          <CustomButton theme="alternate" onClick={exportPDF}>
+            <Printer className="size-4" />
+            imprimir
+          </CustomButton>
+          <CustomButton theme="attention" onClick={updateData}>
+            <RefreshCcw className="size-4" />
+            atualizar
+          </CustomButton>
+        </div>
       </div>
 
       {!chargesToShow ? (
@@ -126,29 +183,6 @@ const GoalsCharges = ({ setSelectedSheetsData, charges, setCharges }) => {
                   className="border-l-4 border-2 border-gray-900 border-l-primary-400 rounded p-2 cursor-pointer transition-all hover:bg-gray-900 active:bg-gray-950 fade-left"
                 >
                   <div className="grid grid-cols-12 gap-2 fade-left">
-                    <div className="flex flex-col gap-2 p-1 col-span-1">
-                      <span className=" text-gray-500 text-xs font-semibold">
-                        Curva ABC
-                      </span>
-                      <p
-                        className={`text-xl font-semibold font-heading ${
-                          charge.goal === 0
-                            ? "text-gray-600"
-                            : charge.percentageOfTarget > 66
-                            ? "text-primary-600"
-                            : charge.percentageOfTarget > 33
-                            ? "text-yellow-400"
-                            : "text-red-600"
-                        }`}
-                      >
-                        {charge.percentageOfTarget > 66
-                          ? "A"
-                          : charge.percentageOfTarget > 33
-                          ? "B"
-                          : "C"}
-                      </p>
-                    </div>
-
                     <div className="flex flex-col gap-2 p-1 col-span-2">
                       <span className="text-gray-500 text-xs font-semibold">
                         Cliente
@@ -232,6 +266,28 @@ const GoalsCharges = ({ setSelectedSheetsData, charges, setCharges }) => {
 
                     <div className="flex flex-col gap-2 p-1 col-span-1">
                       <span className=" text-gray-500 text-xs font-semibold">
+                        Curva ABC
+                      </span>
+                      <p
+                        className={`text-xl font-semibold font-heading ${
+                          charge.goal === 0
+                            ? "text-gray-600"
+                            : charge.percentageOfTarget > 66
+                            ? "text-primary-600"
+                            : charge.percentageOfTarget > 33
+                            ? "text-yellow-400"
+                            : "text-red-600"
+                        }`}
+                      >
+                        {charge.percentageOfTarget > 66
+                          ? "A"
+                          : charge.percentageOfTarget > 33
+                          ? "B"
+                          : "C"}
+                      </p>
+                    </div>
+                    <div className="flex flex-col gap-2 p-1 col-span-1">
+                      <span className=" text-gray-500 text-xs font-semibold">
                         % meta alcançada
                       </span>
                       <p
@@ -245,10 +301,10 @@ const GoalsCharges = ({ setSelectedSheetsData, charges, setCharges }) => {
                             : "text-red-600"
                         }`}
                       >
-                        %
                         {charge.goal !== 0
                           ? charge.percentageOfTarget.toFixed()
                           : 0}
+                        %
                       </p>
                     </div>
                   </div>

@@ -21,7 +21,6 @@ const GoalsForm = ({ setSelectedSheetsData, charges }: GoalsFormProps) => {
   const [selectYear, setSelectYear] = useState<number>();
 
   async function handleGetData() {
-    console.log("selectedCustomer", selectedCustomer);
     if (!selectedCustomer) {
       alert("É necessário ter um cliente selecionado.");
       return;
@@ -86,8 +85,8 @@ const GoalsForm = ({ setSelectedSheetsData, charges }: GoalsFormProps) => {
       </div>
       <div className="w-full flex justify-end">
         <CustomButton onClick={handleGetData}>
+          <SearchCheck className="size-4" />
           buscar
-          <SearchCheck className="size-5" />
         </CustomButton>
       </div>
     </div>

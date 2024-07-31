@@ -6,14 +6,14 @@ import StockByDeposit from "../../components/stockByDeposit";
 import StockByGroup from "../../components/stockByGroup";
 
 const Stock = () => {
-  const { updateData } = useContext(stockContext);
+  const { updateStock } = useContext(stockContext);
 
   const [selectGroup, setSelectGroup] = useState();
   const [selectDeposit, setSelectDeposit] = useState();
 
   useEffect(() => {
     const loadData = async () => {
-      await updateData();
+      await updateStock();
     };
     loadData();
   }, []);

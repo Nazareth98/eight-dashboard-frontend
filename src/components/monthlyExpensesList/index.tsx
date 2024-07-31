@@ -147,7 +147,8 @@ const MonthlyExpensesList = () => {
             {billToPayData?.map((bill) => {
               return (
                 <div
-                  id={bill.id}
+                  id={bill.id.toString()}
+                  key={bill.description}
                   className="border-l-4 border-2 border-gray-900 border-l-primary-400 rounded grid grid-cols-12 p-1 gap-2 transition-all fade-left hover:bg-gray-900"
                 >
                   <div className="flex flex-col gap-2 p-2 col-span-2">

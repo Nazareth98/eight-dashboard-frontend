@@ -1,34 +1,25 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import ProvidersDetails from "../../components/providersDetails";
 import ProvidersInfo from "../../components/providersInfo";
 import ProvidersList from "../../components/providersList";
 import ScreenContainer from "../../components/shared/screenContainer";
-import { overviewContext } from "../../contexts/overviewContext";
-import { ProviderType } from "../../types/providerType";
+import { providersContext } from "../../contexts/providersContext";
 
 const Providers = () => {
-  const { getProviders } = useContext(overviewContext);
-
-  const [providers, setProviders] = useState<ProviderType[]>();
+  const { updateProviders } = useContext(providersContext);
 
   useEffect(() => {
     async function loadData() {
-      const result = await getProviders();
-      setProviders(result);
+      await updateProviders();
     }
     loadData();
   }, []);
 
-  async function handleUpdateData() {
-    const result = await getProviders();
-    setProviders(result);
-  }
-
   return (
     <ScreenContainer>
-      <ProvidersDetails providers={providers} />
-      <ProvidersInfo providers={providers} />
-      <ProvidersList providers={providers} setProviders={setProviders} />
+      <ProvidersDetails />
+      <ProvidersInfo />
+      <ProvidersList />
     </ScreenContainer>
   );
 };

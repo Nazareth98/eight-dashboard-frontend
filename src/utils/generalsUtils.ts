@@ -129,3 +129,25 @@ export function getStartAndEndOfWeek() {
     week,
   };
 }
+
+export function sortTableData(data: any[], propName: string, order: string) {
+  if (order === "asc") {
+    return data.sort((a, b) => {
+      if (typeof a[propName] === "string" && typeof b[propName] === "string") {
+        return a[propName].localeCompare(b[propName]);
+      }
+      return a[propName] - b[propName];
+    });
+  }
+
+  if (order === "desc") {
+    return data.sort((a, b) => {
+      if (typeof a[propName] === "string" && typeof b[propName] === "string") {
+        return b[propName].localeCompare(a[propName]);
+      }
+      return b[propName] - a[propName];
+    });
+  }
+
+  return data;
+}

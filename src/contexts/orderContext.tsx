@@ -6,7 +6,7 @@ import OrderType from "../types/orderType";
 
 interface OrderContext {
   orderData?: OrderType[];
-  getOrders: () => void;
+  updateOrders: () => void;
   refreshData: () => void;
   getOrderById: (id: number) => Promise<void> | Promise<OrderType>;
   shootingOrder: (id: number, shipping: number) => Promise<void>;
@@ -14,7 +14,7 @@ interface OrderContext {
 
 const initialState: OrderContext = {
   orderData: undefined,
-  getOrders: () => {},
+  updateOrders: () => {},
   refreshData: () => {},
   getOrderById: async () => {},
   shootingOrder: async () => {},
@@ -25,7 +25,7 @@ const orderContext = createContext<OrderContext>(initialState);
 const OrderContextProvider = ({ children }: any) => {
   const [orderData, setOrderData] = useState<OrderType[]>();
 
-  const getOrders = async () => {
+  const updateOrders = async () => {
     try {
       const endpoint = "/order";
       const { result } = await getData(endpoint);
@@ -83,7 +83,13 @@ const OrderContextProvider = ({ children }: any) => {
 
   return (
     <orderContext.Provider
-      value={{ orderData, getOrders, refreshData, getOrderById, shootingOrder }}
+      value={{
+        orderData,
+        updateOrders,
+        refreshData,
+        getOrderById,
+        shootingOrder,
+      }}
     >
       {children}
     </orderContext.Provider>

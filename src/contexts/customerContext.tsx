@@ -5,13 +5,13 @@ import CustomerType from "../types/customerType";
 
 interface CustomerContext {
   customerData?: CustomerType[];
-  getCustomers: () => void;
+  updateCustomers: () => void;
   refreshData: () => void;
 }
 
 const initialState: CustomerContext = {
   customerData: undefined,
-  getCustomers: () => {},
+  updateCustomers: () => {},
   refreshData: () => {},
 };
 
@@ -20,7 +20,7 @@ const customerContext = createContext<CustomerContext>(initialState);
 const CustomerContextProvider = ({ children }: any) => {
   const [customerData, setCustomerData] = useState<CustomerType[]>();
 
-  const getCustomers = async () => {
+  const updateCustomers = async () => {
     try {
       const endpoint = "/customer";
       const { result } = await getData(endpoint);
@@ -42,7 +42,7 @@ const CustomerContextProvider = ({ children }: any) => {
 
   return (
     <customerContext.Provider
-      value={{ customerData, getCustomers, refreshData }}
+      value={{ customerData, updateCustomers, refreshData }}
     >
       {children}
     </customerContext.Provider>

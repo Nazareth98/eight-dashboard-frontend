@@ -6,21 +6,19 @@ import ComponentContainer from "../shared/componentContainer";
 import CustomButton from "../shared/customButton";
 import CustomSubtitle from "../shared/customSubtitle";
 import Loading from "../shared/loading";
+import { providersContext } from "../../contexts/providersContext";
 
-const ProvidersList = ({ providers, setProviders }) => {
-  const { getProviders } = useContext(overviewContext);
+const ProvidersList = () => {
+  const { updateProviders, providers } = useContext(providersContext);
 
   async function handleUpdateProviders() {
     try {
-      setProviders();
-      const result = await getProviders();
-      setProviders(result);
+      await updateProviders();
     } catch (error) {
       console.log(error);
       alert(error.message);
     }
   }
-
   return (
     <ComponentContainer cols="9" rows="10">
       <div className="w-full flex justify-between">
@@ -38,9 +36,12 @@ const ProvidersList = ({ providers, setProviders }) => {
         <Loading />
       ) : (
         <div className="overflow-y-auto flex flex-col gap-4 ">
-          {providers?.map((provider) => {
+          {providers.map((provider) => {
             return (
-              <div className="border-l-4 border-2 border-gray-900 border-l-primary-400 rounded grid grid-cols-12 p-1 gap-2 transition-all fade-left hover:bg-gray-900 fade-left">
+              <div
+                key={`${provider.id}-${provider.name}`}
+                className="border-l-4 border-2 border-gray-900 border-l-primary-400 rounded grid grid-cols-12 p-1 gap-2 cursor-pointer transition-all fade-left hover:bg-gray-900 fade-left"
+              >
                 <div className="flex flex-col gap-2 p-1 col-span-1">
                   <span className="text-gray-500 text-xs font-semibold">
                     Código

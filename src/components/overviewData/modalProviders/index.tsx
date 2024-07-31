@@ -1,58 +1,45 @@
-import { ProviderProps, useContext, useEffect, useState } from "react";
-import Modal from "react-modal";
+import { useContext, useEffect, useState } from "react";
+import Modal, { Styles } from "react-modal";
 Modal.setAppElement("#root");
 
-import CustomButton from "../../shared/customButton";
-import { overviewContext } from "../../../contexts/overviewContext";
-import IconClip from "../../../assets/svg/iconClip";
-import { formatCurrency } from "../../../utils/generalsUtils";
-import { ProviderType } from "../../../types/providerType";
-import IconBack from "../../../assets/svg/iconBack";
 import { ArrowLeft } from "lucide-react";
-
-function compareValues(a, b, sortBy, sortOrder) {
-  if (a === b) {
-    return 0;
-  }
-  if (typeof a === "string" && typeof b === "string") {
-    return sortOrder === "asc" ? a.localeCompare(b) : b.localeCompare(a);
-  } else if (typeof a === "number" && typeof b === "number") {
-    return sortOrder === "asc" ? a - b : b - a;
-  } else {
-    const valueA = String(a);
-    const valueB = String(b);
-    return sortOrder === "asc"
-      ? valueA.localeCompare(valueB)
-      : valueB.localeCompare(valueA);
-  }
-}
+import IconClip from "../../../assets/svg/iconClip";
+import { overviewContext } from "../../../contexts/overviewContext";
+import { ProviderType } from "../../../types/providerType";
+import { formatCurrency, sortTableData } from "../../../utils/generalsUtils";
+import CustomButton from "../../shared/customButton";
+import { providersContext } from "../../../contexts/providersContext";
 
 const ModalProviders = (props) => {
-  const { getProviders } = useContext(overviewContext);
+  const { providers, updateProviders } = useContext(providersContext);
+
+  const [orderedProviders, setOrderedProviders] = useState<ProviderType[]>();
   const [sortBy, setSortBy] = useState(null);
   const [sortOrder, setSortOrder] = useState("asc");
-  const [providers, setProviders] = useState<ProviderType[]>();
   const [total, setTotal] = useState(0);
 
   useEffect(() => {
     async function loadData() {
-      const currentValues = await getProviders();
-      setProviders(currentValues);
-      calculateTotal(currentValues);
+      await updateProviders();
     }
-
     loadData();
   }, []);
 
-  const calculateTotal = (data: ProviderType[]) => {
-    const totalSaldo = data.reduce(
-      (acc, provider) => acc + provider.balance,
-      0
-    );
-    setTotal(totalSaldo);
-  };
+  useEffect(() => {
+    if (providers) {
+      calculateTotal(providers);
+      setOrderedProviders(providers);
+    }
+  }, [providers]);
 
-  const customStyles = {
+  useEffect(() => {
+    if (sortBy) {
+      const sortedProviders = sortTableData([...providers], sortBy, sortOrder);
+      setOrderedProviders(sortedProviders);
+    }
+  }, [sortBy, sortOrder]);
+
+  const customStyles: Styles = {
     overlay: {
       backgroundColor: "rgba(0, 0, 0, 0.7)",
     },
@@ -76,6 +63,14 @@ const ModalProviders = (props) => {
     },
   };
 
+  const calculateTotal = (data: ProviderType[]) => {
+    const totalSaldo = data.reduce(
+      (acc, provider) => acc + provider.balance,
+      0
+    );
+    setTotal(totalSaldo);
+  };
+
   function closeModal() {
     props.setIsOpen(false);
   }
@@ -88,15 +83,6 @@ const ModalProviders = (props) => {
       setSortOrder("asc");
     }
   };
-
-  const sortedData = providers?.slice().sort((a, b) => {
-    if (sortBy) {
-      const valueA = a[sortBy];
-      const valueB = b[sortBy];
-      return compareValues(valueA, valueB, sortBy, sortOrder);
-    }
-    return 0;
-  });
 
   return (
     <Modal
@@ -113,7 +99,7 @@ const ModalProviders = (props) => {
         </h3>
       </div>
 
-      {providers && (
+      {orderedProviders && (
         <div className="w-full h-full overflow-y-auto flex flex-col gap-2">
           <table>
             <thead>
@@ -134,7 +120,7 @@ const ModalProviders = (props) => {
                   Nome
                 </th>
                 <th
-                  onClick={() => handleSort("saldo")}
+                  onClick={() => handleSort("balance")}
                   className="px-4 py-2 bg-gray-900 border border-gray-800 text-gray-300"
                 >
                   Saldo
@@ -142,7 +128,7 @@ const ModalProviders = (props) => {
               </tr>
             </thead>
             <tbody>
-              {sortedData.map((provider) => (
+              {orderedProviders.map((provider) => (
                 <tr key={provider.id} className="border border-gray-800">
                   <td className="px-4 py-2 text-sm text-gray-100 text-center">
                     {provider.id}

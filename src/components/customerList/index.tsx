@@ -21,7 +21,10 @@ const CustomerList = () => {
         <div className="overflow-y-auto flex flex-col gap-4 pr-4">
           {customerData.map((customer) => {
             return (
-              <div className="border-l-4 border-2 border-gray-900 border-l-primary-400 rounded grid grid-cols-12 p-1 gap-2 transition-all fade-left hover:bg-gray-900 fade-left">
+              <div
+                key={`${customer.id}-${customer.name}`}
+                className="border-l-4 border-2 border-gray-900 border-l-primary-400 rounded grid grid-cols-12 p-1 gap-2 transition-all fade-left hover:bg-gray-900 fade-left"
+              >
                 <div className="flex flex-col gap-2 p-1 col-span-3">
                   <span className="text-gray-500 text-xs font-semibold">
                     Nome

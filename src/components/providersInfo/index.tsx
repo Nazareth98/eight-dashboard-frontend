@@ -1,10 +1,13 @@
 import DataCard from "../shared/card/dataCard";
 import IconPayments from "../../assets/svg/iconPayments";
 import { formatCurrency } from "../../utils/generalsUtils";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ProviderType } from "../../types/providerType";
+import { providersContext } from "../../contexts/providersContext";
 
-const ProvidersInfo = ({ providers }) => {
+const ProvidersInfo = () => {
+  const { providers } = useContext(providersContext);
+
   const [systemBalance, setSystemBalance] = useState<number>(0);
   const [sheetsBalance, setSheetsBalance] = useState<number>(0);
   const [balanceDiff, setBalanceDiff] = useState<number>(0);
@@ -15,16 +18,12 @@ const ProvidersInfo = ({ providers }) => {
       let sheetsTotal = 0;
 
       providers.forEach((provider: ProviderType) => {
-        console.log(provider.sheetsBalance);
         systemTotal += provider.balance;
 
         if (provider.sheetsBalance) {
           sheetsTotal += provider.sheetsBalance;
         }
       });
-
-      console.log(sheetsTotal, systemTotal);
-
       setSystemBalance(systemTotal);
       setSheetsBalance(sheetsTotal);
       setBalanceDiff(systemTotal - sheetsTotal);

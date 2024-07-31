@@ -6,13 +6,13 @@ import { billToPayContext } from "../../contexts/billToPayContext";
 import MonthlyExpensesManager from "../../components/monthlyExpensesManager";
 
 const MonthlyExpenses = () => {
-  const { updateData, billToPayData, billType } = useContext(billToPayContext);
+  const { updateBills, billToPayData, billType } = useContext(billToPayContext);
 
   useEffect(() => {
     async function loadData() {
       const currentDate = new Date();
       const currentMonth = currentDate.getMonth() + 1;
-      await updateData(currentMonth, billType);
+      await updateBills(currentMonth, billType);
     }
 
     loadData();

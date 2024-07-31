@@ -33,7 +33,6 @@ const ProductsByGroup = () => {
       newDataProfit.push(sales[i].profitValue);
       newDataAmount.push(sales[i].amount);
     }
-    console.log("labels", newLabels);
     setValueData(newDataValue);
     setProfitData(newDataProfit);
     setAmountData(newDataAmount);
