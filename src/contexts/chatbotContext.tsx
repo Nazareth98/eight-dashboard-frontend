@@ -2,23 +2,31 @@ import { createContext, useState } from "react";
 import AccountType from "../types/accountType";
 import { getData, postData, putData } from "../services/API";
 import RateType from "../types/rateType";
+import ContactType from "../types/contactType";
+import GroupType from "../types/groupType";
 
 interface ChatbotContext {
   rate: RateType;
   accounts: AccountType[];
+  contacts: ContactType[];
+  groups: GroupType[];
   updateData: () => void;
-  massShooting: (content: string) => void;
+  massShooting: (content: string, data?: any) => void;
   updateAccount: (account: AccountType) => void;
   updateRate: (value: number) => void;
+  updateContacts: () => void;
   syncData: () => void;
 }
 const initialState: ChatbotContext = {
   rate: undefined,
+  contacts: undefined,
+  groups: undefined,
   accounts: [],
   updateData: () => {},
   massShooting: () => {},
   updateAccount: () => {},
   updateRate: () => {},
+  updateContacts: () => {},
   syncData: () => {},
 };
 
@@ -27,6 +35,9 @@ const chatbotContext = createContext<ChatbotContext>(initialState);
 const ChatbotContextProvider = ({ children }: any) => {
   const [rate, setRate] = useState<RateType>();
   const [accounts, setAccounts] = useState<AccountType[]>();
+
+  const [contacts, setContacts] = useState<ContactType[]>();
+  const [groups, setGroups] = useState<GroupType[]>();
 
   async function getRate() {
     try {
@@ -62,11 +73,12 @@ const ChatbotContextProvider = ({ children }: any) => {
     }
   }
 
-  async function massShooting(content: string) {
-    // content: "rate", "account" or  "balance"
+  async function massShooting(content: string, data?: any) {
+    // content: "rate", "account", "balance" or "all"
     try {
-      const endpoint = `/chatbot/shooting-${content}`; //todo: mudar função nos disparos
-      const result = await postData(endpoint, {});
+      const body = data ? data : {};
+      const endpoint = `/chatbot/shooting-${content}`;
+      const result = await postData(endpoint, body);
       alert(result.message);
     } catch (error) {
       console.log(error);
@@ -109,6 +121,34 @@ const ChatbotContextProvider = ({ children }: any) => {
       throw new Error(error);
     }
   }
+  async function getGroups() {
+    try {
+      const endpoint = "/chatbot/groups";
+      const { result } = await getData(endpoint);
+      setGroups(result);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function getContacts() {
+    try {
+      const endpoint = "/chatbot/contacts";
+      const { result } = await getData(endpoint);
+      setContacts(result);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function updateContacts() {
+    try {
+      await getGroups();
+      await getContacts();
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <chatbotContext.Provider
@@ -120,6 +160,9 @@ const ChatbotContextProvider = ({ children }: any) => {
         updateAccount,
         updateRate,
         syncData,
+        updateContacts,
+        contacts,
+        groups,
       }}
     >
       {children}

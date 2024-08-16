@@ -106,6 +106,18 @@ const GoalsCharges = ({ setSelectedSheetsData }) => {
     doc.setFontSize(18);
     doc.text("Planilha de cobranças", 14, 30);
 
+    // Calcula as somas dos valores desejados
+    const totalBalance = chargesToShow.reduce(
+      (sum, row) => sum + row.balance,
+      0
+    );
+    const totalGoal = chargesToShow.reduce((sum, row) => sum + row.goal, 0);
+    const totalPayment = chargesToShow.reduce(
+      (sum, row) => sum + row.payment,
+      0
+    );
+    const totalDiff = chargesToShow.reduce((sum, row) => sum + row.diff, 0);
+
     // Adiciona a tabela
     doc.autoTable({
       startY: 40,
@@ -122,6 +134,18 @@ const GoalsCharges = ({ setSelectedSheetsData }) => {
       headStyles: { fillColor: [40, 40, 40] },
       margin: { horizontal: 10 },
     });
+
+    // Adiciona as somas ao final da tabela
+    const finalY = doc.previousAutoTable.finalY;
+    doc.setFontSize(12);
+    doc.text(`Total Saldo: $${formatCurrency(totalBalance)}`, 14, finalY + 10);
+    doc.text(`Total Meta: $${formatCurrency(totalGoal)}`, 14, finalY + 20);
+    doc.text(
+      `Total Pagamentos: $${formatCurrency(totalPayment)}`,
+      14,
+      finalY + 30
+    );
+    doc.text(`Total Restante: $${formatCurrency(totalDiff)}`, 14, finalY + 40);
 
     doc.save(`vendas-produtos-${formattedDate}-${formattedTime}.pdf`);
   };

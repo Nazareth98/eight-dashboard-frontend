@@ -21,7 +21,7 @@ const AnalyticsContextProvider = ({ children }: any) => {
 
   async function getAnalytics() {
     try {
-      const endpoint = "/analytics";
+      const endpoint = "/customer/analytics";
       const { result } = await getData(endpoint);
       return result;
     } catch (error) {
@@ -40,7 +40,7 @@ const AnalyticsContextProvider = ({ children }: any) => {
 
   async function getAnalyticsById(id: number, period: number) {
     try {
-      const endpoint = `/analytics/${id}?period=${period}`;
+      const endpoint = `/customer/analytics/${id}?period=${period}`;
       const result = await getData(endpoint);
       return result;
     } catch (error) {

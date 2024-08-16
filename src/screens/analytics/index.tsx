@@ -1,17 +1,17 @@
 import { useContext, useEffect } from "react";
-import ScreenContainer from "../../components/shared/screenContainer";
 import AnalyticsForm from "../../components/analyticsForm";
-import { customerContext } from "../../contexts/customerContext";
 import AnalyticsRankingList from "../../components/analyticsRankingList";
+import ScreenContainer from "../../components/shared/screenContainer";
 import { analyticsContext } from "../../contexts/analyticsContext";
+import { customerContext } from "../../contexts/customerContext";
 
 const Analytics = () => {
-  const { getCustomers } = useContext(customerContext);
+  const { updateCustomers } = useContext(customerContext);
   const { updateData } = useContext(analyticsContext);
 
   useEffect(() => {
     async function loadData() {
-      await getCustomers();
+      await updateCustomers();
       await updateData();
     }
     loadData();

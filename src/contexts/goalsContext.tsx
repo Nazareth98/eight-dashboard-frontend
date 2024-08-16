@@ -40,7 +40,7 @@ const GoalsContextProvider = ({ children }: any) => {
     year: string
   ) {
     try {
-      const endpoint = `/data/monthly-payments/${customertId}?month=${month}&year=${year}`;
+      const endpoint = `/customer/payments/${customertId}?month=${month}&year=${year}`;
       const { result } = await getData(endpoint);
       setSearchData(result);
     } catch (error) {

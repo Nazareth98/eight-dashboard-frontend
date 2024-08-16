@@ -1,4 +1,9 @@
-const CustomCheckbox = ({ label, checked, setChecked, onChange }) => {
+const CustomCheckbox = ({
+  label,
+  checked,
+  setChecked = null,
+  onChange = null,
+}) => {
   const handleCheckboxChange = () => {
     setChecked(!checked);
   };
@@ -11,7 +16,7 @@ const CustomCheckbox = ({ label, checked, setChecked, onChange }) => {
         onChange={onChange ? onChange : handleCheckboxChange}
       />
       <label
-        className="text-gray-300 text-sm font-medium"
+        className="text-gray-500 text-sm font-heading"
         style={{ marginRight: "8px" }}
       >
         {label}

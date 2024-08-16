@@ -17,8 +17,8 @@ import { customerContext } from "../../../contexts/customerContext";
 import CustomInput from "../../shared/customInput";
 import IconSearch from "../../../assets/svg/iconSearch";
 import CustomCheckbox from "../../shared/customCheckbox";
-import { contactsContext } from "../../../contexts/contactsContext";
 import { ArrowLeft, Link, Save, UserCircle } from "lucide-react";
+import { chatbotContext } from "../../../contexts/chatbotContext";
 
 const customStyles = {
   overlay: {
@@ -44,8 +44,8 @@ const customStyles = {
 };
 
 const ModalCustomerLink = (props) => {
-  const { contactData, groupData } = useContext(contactsContext);
-  const { getCustomers } = useContext(customerContext);
+  const { contacts, groups } = useContext(chatbotContext);
+  const { updateCustomers } = useContext(customerContext);
 
   const [groupOptions, setGroupOptions] = useState<GroupType[]>();
   const [contactOptions, setContactOptions] = useState<ContactType[]>();
@@ -60,8 +60,8 @@ const ModalCustomerLink = (props) => {
   const [deleteGroup, setDeleteGroup] = useState(false);
 
   const resetSelection = () => {
-    if (contactData) {
-      const updatedContacts = contactData.map((contact) => {
+    if (contacts) {
+      const updatedContacts = contacts.map((contact) => {
         contact.isSelected = false;
         return contact;
       });
@@ -70,8 +70,8 @@ const ModalCustomerLink = (props) => {
       setSelectContact(null);
     }
 
-    if (groupData) {
-      const updatedGroups = groupData.map((group) => {
+    if (groups) {
+      const updatedGroups = groups.map((group) => {
         group.isSelected = false;
         return group;
       });
@@ -146,7 +146,7 @@ const ModalCustomerLink = (props) => {
           : props.data.group,
       };
       const result = await putData(endpoint, data);
-      await getCustomers();
+      await updateCustomers();
       alert(result.message);
     } catch (error) {
       console.error(error);
@@ -158,7 +158,7 @@ const ModalCustomerLink = (props) => {
     const textoDigitado = e.target.value;
     setInputGroup(textoDigitado);
 
-    const resultadosFiltrados = groupData?.filter((group) => {
+    const resultadosFiltrados = groups?.filter((group) => {
       return group.name.toLowerCase().includes(textoDigitado.toLowerCase());
     });
 
@@ -169,7 +169,7 @@ const ModalCustomerLink = (props) => {
     const textoDigitado = e.target.value;
     setInputContact(textoDigitado);
 
-    const resultadosFiltrados = contactData?.filter((contact) =>
+    const resultadosFiltrados = contacts?.filter((contact) =>
       contact.name.toLowerCase().includes(textoDigitado.toLowerCase())
     );
 

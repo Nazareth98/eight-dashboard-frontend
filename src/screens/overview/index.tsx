@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import ScreenContainer from "../../components/shared/screenContainer";
 import OverviewData from "../../components/overviewData";
 import { overviewContext } from "../../contexts/overviewContext";

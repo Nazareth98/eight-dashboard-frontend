@@ -14,7 +14,6 @@ const ProductsByBrand = () => {
   const [modalData, setModalData] = useState<any[]>();
 
   const [valueData, setValueData] = useState<number[]>();
-  const [profitData, setProfitData] = useState<number[]>();
   const [amountData, setAmountData] = useState<number[]>();
 
   const [labels, setLabels] = useState<string[]>();
@@ -35,7 +34,6 @@ const ProductsByBrand = () => {
     }
 
     setValueData(newDataValue);
-    setProfitData(newDataProfit);
     setAmountData(newDataAmount);
     setLabels(newLabels);
   }
@@ -125,11 +123,6 @@ const ProductsByBrand = () => {
         },
         {
           formatter: function (val) {
-            return `$${formatCurrency(val)}`;
-          },
-        },
-        {
-          formatter: function (val) {
             return `${val.toLocaleString()} un`;
           },
         },
@@ -142,11 +135,6 @@ const ProductsByBrand = () => {
       name: "Valor",
       type: "bar",
       data: valueData,
-    },
-    {
-      name: "Lucro",
-      type: "bar",
-      data: profitData,
     },
     {
       name: "Quantidade",

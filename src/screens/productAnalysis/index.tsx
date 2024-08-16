@@ -15,25 +15,25 @@ const ProductAnalysis = () => {
   return (
     <ScreenContainer>
       <TopSellingProducts />
-      {salesByBrand && (
+      {salesByBrand.length > 0 && (
         <DataCard
-          value={salesByBrand[0].brandName}
+          value={salesByBrand[0].brandName || "-"}
           name="Marca mais vendida"
           type="alternate"
           icon={<Tag className="size-6 text-blue-300" />}
         />
       )}
-      {salesByGroup && (
+      {salesByGroup.length > 0 && (
         <DataCard
-          value={salesByGroup[0].description}
+          value={salesByGroup[0].description || "-"}
           name="Grupo mais vendido"
           type="attention"
           icon={<Boxes className="size-6 text-yellow-300" />}
         />
       )}
-      {salesByProduct && (
+      {salesByProduct.length > 0 && (
         <DataCard
-          value={salesByProduct[0].description}
+          value={salesByProduct[0]?.description || "-"}
           name="Produto mais vendido"
           type="danger"
           icon={<Flame className="size-6 text-red-500" />}

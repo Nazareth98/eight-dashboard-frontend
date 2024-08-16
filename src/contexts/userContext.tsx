@@ -26,7 +26,7 @@ const UserContextProvider = ({ children }: any) => {
 
   const getUsers = async () => {
     try {
-      const endpoint = "/user";
+      const endpoint = "/users";
       const { result } = await getData(endpoint);
       return result;
     } catch (error) {
@@ -45,7 +45,7 @@ const UserContextProvider = ({ children }: any) => {
 
   const updateUser = async (body: UserType) => {
     try {
-      const endpoint = `/user/${body.id}`;
+      const endpoint = `/users/${body.id}`;
       const response = await putData(endpoint, body);
       setUserData(response.result);
       return response;
@@ -56,7 +56,7 @@ const UserContextProvider = ({ children }: any) => {
 
   const createUser = async (body: UserType) => {
     try {
-      const endpoint = "/user/create";
+      const endpoint = "/users/create";
       const result = await postData(endpoint, body);
       if (result.response) {
         return result.response.data;
@@ -71,7 +71,7 @@ const UserContextProvider = ({ children }: any) => {
 
   async function deleteUser(id: number) {
     try {
-      const endpoint = `/user/${id}`;
+      const endpoint = `/users/${id}`;
       const result = await deleteData(endpoint);
       await updateData();
       return result;

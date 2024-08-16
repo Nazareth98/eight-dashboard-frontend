@@ -109,7 +109,10 @@ const ModalTable = ({ setIsOpen, isOpen, modalData }: ModalTableProps) => {
               </thead>
               <tbody>
                 {chartData?.map((row) => (
-                  <tr key={row.classif} className="border border-gray-800">
+                  <tr
+                    key={`${row.classif}-${row.saleValue}`}
+                    className="border border-gray-800"
+                  >
                     <td className="px-4 py-2 text-sm text-gray-100 text-center">
                       {row.classif}
                     </td>

@@ -1,12 +1,9 @@
 import { useContext, useState } from "react";
 
-import IconLogout from "../../assets/svg/iconLogout";
-
 import Overview from "../../screens/overview";
 import Settings from "../../screens/settings";
 import Analytics from "../../screens/analytics/index.js";
 import Stock from "../../screens/stock/index.js";
-import Shooting from "../../screens/shooting/index.js";
 import Customers from "../../screens/customers/index.js";
 import Orders from "../../screens/orders/index.js";
 import Chatbot from "../../screens/chatbot/index.js";
@@ -16,7 +13,6 @@ import CustomButton from "../shared/customButton";
 import fullLogo from "../../assets/images/full_logo.png";
 import { authContext } from "../../contexts/authContext";
 import ExtraBills from "../../screens/monthlyExpenses/index.js";
-import IconArrowLeft from "../../assets/svg/iconArrowLeft.js";
 import Goals from "../../screens/goals/index.js";
 import Providers from "../../screens/providers/index.js";
 import {
@@ -146,59 +142,47 @@ const Navigation = () => {
     },
     {
       id: 8,
-      name: "Disparo em massa",
-      icon: (
-        <MessageSquareShare
-          className={`size-5 ${
-            selectedSection.id === 8 ? "text-primary-400" : "text-gray-400"
-          }`}
-        />
-      ),
-      content: <Shooting />,
-    },
-    {
-      id: 9,
       name: "Clientes",
       icon: (
         <Users
           className={`size-5 ${
-            selectedSection.id === 9 ? "text-primary-400" : "text-gray-400"
+            selectedSection.id === 8 ? "text-primary-400" : "text-gray-400"
           }`}
         />
       ),
       content: <Customers />,
     },
     {
-      id: 10,
+      id: 9,
       name: "Provedores",
       icon: (
         <Truck
           className={`size-5 ${
-            selectedSection.id === 10 ? "text-primary-400" : "text-gray-400"
+            selectedSection.id === 9 ? "text-primary-400" : "text-gray-400"
           }`}
         />
       ),
       content: <Providers />,
     },
     {
-      id: 11,
+      id: 10,
       name: "Pedidos",
       icon: (
         <FileStack
           className={`size-5 ${
-            selectedSection.id === 11 ? "text-primary-400" : "text-gray-400"
+            selectedSection.id === 10 ? "text-primary-400" : "text-gray-400"
           }`}
         />
       ),
       content: <Orders />,
     },
     {
-      id: 12,
+      id: 11,
       name: "Configurações",
       icon: (
         <Settings2
           className={`size-5 ${
-            selectedSection.id === 12 ? "text-primary-400" : "text-gray-400"
+            selectedSection.id === 11 ? "text-primary-400" : "text-gray-400"
           }`}
         />
       ),

@@ -217,6 +217,7 @@ const GoalsResume = () => {
             </div>
           </div>
         </div>
+
         <div className="w-24 m-auto h-[2px] bg-gray-900" />
         <div className="w-full h-full flex-1 flex flex-col">
           <div className="flex items-center gap-2">

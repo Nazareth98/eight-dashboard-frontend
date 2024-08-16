@@ -113,11 +113,7 @@ const OverviewMonthlyProfit = () => {
   ];
 
   return (
-    <ComponentContainer
-      cols="4"
-      rows="5"
-      classToAdd="cursor-pointer transition-all hover:bg-gray-950 active:bg-gray-900"
-    >
+    <ComponentContainer classToAdd="col-span-4 row-span-7">
       <ModalWeekly
         isOpen={modalIsOpen}
         setIsOpen={setModalIsOpen}

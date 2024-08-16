@@ -4,6 +4,7 @@ import { overviewContext } from "../../contexts/overviewContext";
 import { formatCurrency } from "../../utils/generalsUtils";
 import ModalWeekly from "./modalWeekly";
 import ComponentContainer from "../shared/componentContainer";
+import { ApexOptions } from "apexcharts";
 
 const OverviewMonthlySales = () => {
   const { mainValues, getDailySales } = useContext(overviewContext);
@@ -24,11 +25,11 @@ const OverviewMonthlySales = () => {
     setModalIsOpen(true);
   }
 
-  const options = {
+  const options: ApexOptions = {
     colors: ["#4A99F2"],
     plotOptions: {
       bar: {
-        horizontal: true, // Configura as barras como horizontais
+        horizontal: true,
       },
     },
     chart: {
@@ -114,7 +115,7 @@ const OverviewMonthlySales = () => {
   }, [mainValues]);
 
   return (
-    <ComponentContainer cols="4" rows="5">
+    <ComponentContainer classToAdd="col-span-4 row-span-7">
       <ModalWeekly
         isOpen={modalIsOpen}
         setIsOpen={setModalIsOpen}

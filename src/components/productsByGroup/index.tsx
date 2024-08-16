@@ -14,14 +14,12 @@ const ProductsByGroup = () => {
   const [modalData, setModalData] = useState<any[]>();
 
   const [valueData, setValueData] = useState<number[]>();
-  const [profitData, setProfitData] = useState<number[]>();
   const [amountData, setAmountData] = useState<number[]>();
 
   const [labels, setLabels] = useState<string[]>();
 
   function updateChartData(sales) {
     const newDataValue = [];
-    const newDataProfit = [];
     const newDataAmount = [];
 
     const newLabels = [];
@@ -30,11 +28,9 @@ const ProductsByGroup = () => {
     for (let i = 0; i < sales.length; i++) {
       newLabels.push(sales[i].description);
       newDataValue.push(sales[i].saleValue);
-      newDataProfit.push(sales[i].profitValue);
       newDataAmount.push(sales[i].amount);
     }
     setValueData(newDataValue);
-    setProfitData(newDataProfit);
     setAmountData(newDataAmount);
     setLabels(newLabels);
   }
@@ -123,11 +119,6 @@ const ProductsByGroup = () => {
         },
         {
           formatter: function (val) {
-            return `$${formatCurrency(val)}`;
-          },
-        },
-        {
-          formatter: function (val) {
             return `${val.toLocaleString()} un`;
           },
         },
@@ -140,11 +131,6 @@ const ProductsByGroup = () => {
       name: "Valor",
       type: "bar",
       data: valueData,
-    },
-    {
-      name: "Lucro",
-      type: "bar",
-      data: profitData,
     },
     {
       name: "Quantidade",

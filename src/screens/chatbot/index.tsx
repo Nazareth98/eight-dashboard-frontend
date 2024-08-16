@@ -2,15 +2,15 @@ import { useContext, useEffect } from "react";
 
 import ScreenContainer from "../../components/shared/screenContainer";
 import ChatbotManager from "../../components/chatbotManager";
+import MassShooting from "../../components/massShooting";
 import { chatbotContext } from "../../contexts/chatbotContext";
-import { contactsContext } from "../../contexts/contactsContext";
 
 const Chatbot = () => {
-  const { updateData } = useContext(contactsContext);
+  const { updateContacts } = useContext(chatbotContext);
 
   useEffect(() => {
     const loadData = async () => {
-      await updateData();
+      await updateContacts();
     };
     loadData();
   }, []);
@@ -18,6 +18,7 @@ const Chatbot = () => {
   return (
     <ScreenContainer>
       <ChatbotManager />
+      <MassShooting />
     </ScreenContainer>
   );
 };

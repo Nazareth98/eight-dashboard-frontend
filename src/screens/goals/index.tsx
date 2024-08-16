@@ -1,5 +1,4 @@
 import { useContext, useEffect, useState } from "react";
-import GoalsCharges from "../../components/goalsCharges";
 import GoalsDaily from "../../components/goalsDaily";
 import GoalsDetails from "../../components/goalsDetails";
 import GoalsResume from "../../components/goalsDetails/goalsResume";
@@ -9,6 +8,7 @@ import ScreenContainer from "../../components/shared/screenContainer";
 import { customerContext } from "../../contexts/customerContext";
 import { goalsContext } from "../../contexts/goalsContext";
 import { PaymentType } from "../../types/paymentType";
+import GoalsCharges from "../../components/goalsCharges";
 
 const Goals = () => {
   const { searchData, updateCharges } = useContext(goalsContext);

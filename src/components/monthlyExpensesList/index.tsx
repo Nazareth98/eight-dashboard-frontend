@@ -31,12 +31,12 @@ const monthNames = [
 
 const MonthlyExpensesList = () => {
   const {
-    updateData,
     billToPayData,
     updateBillToPayStatus,
     deleteBillToPay,
     updateBillToPayData,
     billType,
+    updateBills,
   } = useContext(billToPayContext);
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -51,7 +51,7 @@ const MonthlyExpensesList = () => {
     const currentDate = new Date();
     const currentMonth = currentDate.getMonth() + 1;
     setCurrentPage(currentMonth);
-    updateData(currentMonth, billType);
+    updateBills(currentMonth, billType);
   }, []);
 
   function handleDelete({ currentTarget }) {
@@ -101,7 +101,7 @@ const MonthlyExpensesList = () => {
     if (nextPage) {
       const newPage = currentPage + 1;
       setCurrentPage(newPage);
-      updateData(newPage, billType);
+      updateBills(newPage, billType);
     }
   }
 
@@ -110,7 +110,7 @@ const MonthlyExpensesList = () => {
     if (backPage) {
       const newPage = currentPage - 1;
       setCurrentPage(newPage);
-      updateData(newPage, billType);
+      updateBills(newPage, billType);
     }
   }
 
