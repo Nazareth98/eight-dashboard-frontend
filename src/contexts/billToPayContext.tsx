@@ -65,6 +65,9 @@ const BillToPayContextProvider = ({ children }: any) => {
 
   async function updateBills(month: number, type: string) {
     try {
+      setCategoriesData(undefined);
+      setBillToPayData(undefined);
+      setBillResumeData(undefined);
       const { data, resume } = await getBillToPay(month, type);
       const categories = await getCategories(type);
       setCategoriesData(categories);

@@ -26,12 +26,14 @@ import {
   HomeIcon,
   LogOut,
   MessageSquareShare,
+  PieChart,
   Receipt,
   Settings2,
   Truck,
   Users,
 } from "lucide-react";
 import ProductAnalysis from "../../screens/productAnalysis/index.js";
+import InventoryTurnover from "../../screens/inventoryTurnover/index.js";
 
 interface OptionType {
   id: number;
@@ -178,11 +180,23 @@ const Navigation = () => {
     },
     {
       id: 11,
+      name: "Giro de Estoque",
+      icon: (
+        <PieChart
+          className={`size-5 ${
+            selectedSection.id === 11 ? "text-primary-400" : "text-gray-400"
+          }`}
+        />
+      ),
+      content: <InventoryTurnover />,
+    },
+    {
+      id: 12,
       name: "Configurações",
       icon: (
         <Settings2
           className={`size-5 ${
-            selectedSection.id === 11 ? "text-primary-400" : "text-gray-400"
+            selectedSection.id === 12 ? "text-primary-400" : "text-gray-400"
           }`}
         />
       ),
@@ -236,7 +250,7 @@ const Navigation = () => {
         <div className="fade-left">
           <img src={fullLogo} alt="Logo Principal" />
         </div>
-        <ul className="w-full flex flex-col gap-1">
+        <ul className="w-full overflow-y-auto overflow-x-hidden flex flex-col gap-1">
           {navOptions.map((item) => (
             <li
               id={item.id.toString()}

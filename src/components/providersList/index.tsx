@@ -89,7 +89,6 @@ const ProvidersList = () => {
                     ${formatCurrency(provider.sheetsBalance)}
                   </p>
                 </div>
-
                 <div className="flex flex-col gap-2 p-1 col-span-2">
                   <span className="text-gray-500 text-xs font-semibold">
                     Diferença

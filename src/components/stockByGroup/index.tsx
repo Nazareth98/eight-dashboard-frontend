@@ -1,16 +1,13 @@
-import React, { useContext, useEffect, useState } from "react";
-import ApexChart from "react-apexcharts";
-
-import { stockContext } from "../../contexts/stockContext";
-import { authContext } from "../../contexts/authContext";
-import { formatCurrency } from "../../utils/generalsUtils";
-import Loading from "../shared/loading";
-import CustomButton from "../shared/customButton";
-import IconPayments from "../../assets/svg/iconPayments";
-import IconStock from "../../assets/svg/iconStock";
 import { ApexOptions } from "apexcharts";
 import { Archive, DollarSign } from "lucide-react";
+import { useContext, useEffect, useState } from "react";
+import ApexChart from "react-apexcharts";
+import { authContext } from "../../contexts/authContext";
+import { stockContext } from "../../contexts/stockContext";
+import { formatCurrency } from "../../utils/generalsUtils";
 import ComponentContainer from "../shared/componentContainer";
+import CustomButton from "../shared/customButton";
+import Loading from "../shared/loading";
 
 function groupAndSumByStock(list) {
   const groups = {};
@@ -51,6 +48,7 @@ function groupAndSumByValue(list) {
     }
     groups[key].data += totalCost;
   });
+
   const result = Object.values(groups);
   result.sort((a, b) => b.data - a.data);
 
@@ -123,7 +121,7 @@ const StockByGroup = ({ setSelectGroup, setSelectDeposit }) => {
       formatter: function (val) {
         if (selectCondition === "value") {
           return `$${formatCurrency(val)}`;
-        } else return val;
+        } else return `${val}`;
       },
     },
     stroke: {

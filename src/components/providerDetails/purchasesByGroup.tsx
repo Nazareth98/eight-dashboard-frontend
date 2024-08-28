@@ -1,46 +1,48 @@
-import { useContext, useEffect, useState } from "react";
-import ComponentContainer from "../shared/componentContainer";
-import CustomSubtitle from "../shared/customSubtitle";
-import { FileText } from "lucide-react";
-import { providersContext } from "../../contexts/providersContext";
 import { ApexOptions } from "apexcharts";
+import { useContext, useEffect, useState } from "react";
 import ApexChart from "react-apexcharts";
-import { formatCurrency } from "../../utils/generalsUtils";
+import { providersContext } from "../../contexts/providersContext";
+import ComponentContainer from "../shared/componentContainer";
 
-const PurchaseByProducts = () => {
+const PurchasesByGroup = () => {
   const { providerPurchases } = useContext(providersContext);
 
   const [chartLabels, setChartLabels] = useState([]);
   const [chartData, setChartData] = useState([]);
 
   useEffect(() => {
-    if (providerPurchases) {
-      const productTotals = {};
+    if (!providerPurchases) return;
 
-      providerPurchases.forEach((purchase) => {
+    const productTotals = providerPurchases.reduce((acc, month) => {
+      month.purchases.forEach((purchase) => {
         purchase.products.forEach((product) => {
-          if (!productTotals[product.description]) {
-            productTotals[product.description] = 0;
-          }
-          productTotals[product.description] += product.amount;
+          acc[product.group] = (acc[product.group] || 0) + product.amount;
         });
       });
+      return acc;
+    }, {});
 
-      const sortedProducts = Object.entries(productTotals)
-        .map(([description, total]) => ({ description, total }))
-        .sort((a, b) => b.total - a.total)
-        .slice(0, 10);
+    const sortedProducts = Object.entries(productTotals)
+      .map(([description, total]) => ({ description, total }))
+      .sort((a, b) => b.total - a.total)
+      .slice(0, 10);
 
-      setChartLabels(sortedProducts.map((product) => product.description));
-      setChartData(sortedProducts.map((product) => product.total));
-    }
+    setChartLabels(sortedProducts.map((product) => product.description));
+    setChartData(sortedProducts.map((product) => product.total));
   }, [providerPurchases]);
 
   const options: ApexOptions = {
     chart: {
-      type: "pie",
       toolbar: {
         show: false,
+      },
+    },
+    tooltip: {
+      enabled: true,
+      y: {
+        formatter: function (val) {
+          return `${val.toLocaleString()} peças`;
+        },
       },
     },
     dataLabels: {
@@ -50,7 +52,7 @@ const PurchaseByProducts = () => {
       },
     },
     title: {
-      text: "10 Produtos Mais Comprados",
+      text: "Ranking por Grupo",
       align: "left",
       style: {
         fontSize: "16px",
@@ -77,11 +79,11 @@ const PurchaseByProducts = () => {
   const series = chartData;
 
   return (
-    <ComponentContainer classToAdd="row-span-5 col-span-5">
+    <ComponentContainer classToAdd="row-span-6 col-span-4">
       <div className="h-full">
         <ApexChart
           className="fade-left"
-          type="polarArea"
+          type="pie"
           options={options}
           series={series}
           height={"100%"}
@@ -91,4 +93,4 @@ const PurchaseByProducts = () => {
   );
 };
 
-export default PurchaseByProducts;
+export default PurchasesByGroup;

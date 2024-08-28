@@ -5,6 +5,7 @@ import { overviewContext } from "../../contexts/overviewContext";
 import OverviewMonthlySales from "../../components/overviewMonthlySales";
 import OverviewMonthlyProfit from "../../components/overviewMonthlyProfit";
 import OverviewMonthlyPurchases from "../../components/overviewMonthlyPurchases";
+import AnnualComparison from "../../components/annualComparison";
 
 const Overview = ({ changeScreen }) => {
   const { updateOverviewData } = useContext(overviewContext);
@@ -17,12 +18,15 @@ const Overview = ({ changeScreen }) => {
     lodaData();
   }, []);
 
+  // TODO: Continuar construindo gráficos de comparativo anual
+
   return (
     <ScreenContainer>
       <OverviewData changeScreen={changeScreen} />
       <OverviewMonthlySales />
       <OverviewMonthlyProfit />
       <OverviewMonthlyPurchases />
+      <AnnualComparison />
     </ScreenContainer>
   );
 };

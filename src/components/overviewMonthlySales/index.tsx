@@ -79,7 +79,11 @@ const OverviewMonthlySales = () => {
     yaxis: {
       labels: {
         formatter: function (val) {
-          return `${val.toLocaleString()}`;
+          if (Number(val)) {
+            return `$${formatCurrency(val)}`;
+          } else {
+            return `${val}`;
+          }
         },
         style: {
           colors: "#C2CCC2", // Cor das labels do eixo Y

@@ -1,203 +1,111 @@
 import { useContext, useEffect, useState } from "react";
-import Select, { StylesConfig } from "react-select";
-
-import { FileText } from "lucide-react";
-import IconReport from "../../assets/svg/iconReport";
-import { analyticsContext } from "../../contexts/analyticsContext";
-import { customerContext } from "../../contexts/customerContext";
+import { BarChart2 } from "lucide-react";
 import {
-  formataDate,
-  formatCurrency,
-  formatOrder,
-  getSelectStyles,
-} from "../../utils/generalsUtils";
+  AbcAnalysisType,
+  analyticsContext,
+} from "../../contexts/analyticsContext";
 import ComponentContainer from "../shared/componentContainer";
-import CustomButton from "../shared/customButton";
-import CustomInput from "../shared/customInput";
 import CustomSubtitle from "../shared/customSubtitle";
-import Loading from "../shared/loading";
+import { formatCurrency, sortTableData } from "../../utils/generalsUtils";
 
 const AnalyticsForm = () => {
-  const { customerData } = useContext(customerContext);
-  const { getAnalyticsById } = useContext(analyticsContext);
+  const { abcAnalysisData } = useContext(analyticsContext);
 
-  const [period, setPeriod] = useState();
-  const [options, setOptions] = useState([]);
-  const [selectedOption, setSelectedOption] = useState(null);
-  const [analyticsData, setAnalyticsData] = useState();
-  const [isLoading, setIsLoading] = useState(false);
+  const [sortBy, setSortBy] = useState(null);
+  const [sortOrder, setSortOrder] = useState("asc");
+
+  const [tableData, setTableData] = useState<AbcAnalysisType[]>();
 
   useEffect(() => {
-    if (customerData) {
-      const updatedOptions = customerData?.map((customer) => {
-        customer.value = customer.id;
-        customer.label = `#${customer.id} - ${customer.name}`;
-
-        return customer;
-      });
-      setOptions(updatedOptions);
+    if (abcAnalysisData) {
+      setTableData(abcAnalysisData);
     }
-  }, [customerData]);
+  }, [abcAnalysisData]);
 
-  const handleChange = (selectedOption) => {
-    setSelectedOption(selectedOption);
-  };
-
-  async function generateAnalytics() {
-    if (!selectedOption) {
-      alert("É necessário selecionar um cliente!");
-      return;
+  useEffect(() => {
+    if (sortBy) {
+      const sortedOrders = sortTableData(
+        [...abcAnalysisData],
+        sortBy,
+        sortOrder
+      );
+      setTableData(sortedOrders);
     }
+  }, [sortBy, sortOrder]);
 
-    if (!period) {
-      alert("É necessário definir um período!");
-      return;
-    }
-
-    setIsLoading(true);
-    const response = await getAnalyticsById(selectedOption.id, Number(period));
-    if (response.status === 200) {
-      setAnalyticsData(response.result);
+  function handleSort(columnName: string) {
+    if (sortBy === columnName) {
+      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
     } else {
-      alert(response.message);
+      setSortBy(columnName);
+      setSortOrder("asc");
     }
-    setIsLoading(false);
-    return;
   }
-  const customStyles: StylesConfig = getSelectStyles();
 
   return (
-    <ComponentContainer cols="6" rows="12">
+    <ComponentContainer cols="6" rows="6">
       <CustomSubtitle
-        icon={<IconReport fill="fill-gray-600" width="25px" />}
-        subtitle="Gerar um Relatório"
+        icon={<BarChart2 className="size-6" />}
+        subtitle="Todos os Clientes"
       />
-      <div className="w-full gap-4 flex ">
-        <CustomInput
-          colSpan="1"
-          label="Período em meses"
-          type="number"
-          inputValue={period}
-          setValue={setPeriod}
-          placeholder="3 meses"
-        />
-        <div className="w-full flex flex-col justify-end gap-1 col-span-3">
-          <Select
-            options={options}
-            onChange={handleChange}
-            styles={customStyles}
-          />
-        </div>
-        <div className="flex items-end justify-center col-span-2">
-          <CustomButton onClick={generateAnalytics}>
-            <FileText className="size-4" />
-            gerar
-          </CustomButton>
-        </div>
-      </div>
-
-      {isLoading ? (
-        <Loading />
-      ) : (
-        <>
-          <div className="w-full">
-            <h3 className="text-gray-100 text-2xl font-heading">
-              {analyticsData ? `Em ${analyticsData.period} meses...` : null}
-            </h3>
-          </div>
-
-          {analyticsData && (
-            <>
-              <div className="w-full fade-left">
-                <div
-                  className={`bg-gray-950 rounded border-2 border-l-4 border-l-primary-400 border-gray-800 grid grid-cols-12 p-2 gap-2 transition-all`}
+      <div className="w-full h-full overflow-y-auto font-heading flex flex-col gap-2 fade-left">
+        <table>
+          <thead>
+            <tr>
+              <th
+                onClick={() => handleSort("doc")}
+                className="px-4 py-2 bg-gray-900 border border-gray-800 text-gray-300"
+              >
+                Cliente
+              </th>
+              <th
+                onClick={() => handleSort("date")}
+                className="px-4 py-2 bg-gray-900 border border-gray-800 text-gray-300"
+              >
+                Valor
+              </th>
+              <th
+                onClick={() => handleSort("amountPaid")}
+                className="px-4 py-2 bg-gray-900 border border-gray-800 text-gray-300"
+              >
+                % Individual
+              </th>
+              <th
+                onClick={() => handleSort("profit")}
+                className="px-4 py-2 bg-gray-900 border border-gray-800 text-gray-300"
+              >
+                Classificação
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {tableData?.map((customer) => (
+              <tr key={customer.customerId} className="border border-gray-800">
+                <td className="px-4 py-2 text-sm text-gray-100 text-center">
+                  {customer.customerName}
+                </td>
+                <td className="px-4 py-2 text-sm text-gray-100 text-center">
+                  ${formatCurrency(customer.abcAnalysis.totalPurchasedValue)}
+                </td>
+                <td className="px-4 py-2 text-sm text-gray-100 text-center">
+                  {customer.abcAnalysis.abcPercentage}%
+                </td>
+                <td
+                  className={`px-4 py-2 text-lg text-center font-semibold  ${
+                    customer.abcAnalysis.abcNote === "A"
+                      ? "text-primary-400"
+                      : customer.abcAnalysis.abcNote === "B"
+                      ? "text-yellow-500"
+                      : "text-red-500"
+                  }`}
                 >
-                  <div className="flex flex-col gap-2 p-2 col-span-3">
-                    <span className={`text-gray-500 text-xs font-semibold`}>
-                      Valor Gasto
-                    </span>
-                    <p className="text-gray-100 text-lg">
-                      ${formatCurrency(analyticsData.amountPaid)}
-                    </p>
-                  </div>
-
-                  <div className="flex flex-col gap-2 p-2 col-span-3">
-                    <span className={`text-gray-500 text-xs font-semibold`}>
-                      Valor Médio/Pedido
-                    </span>
-                    <p className="text-gray-100 text-lg">
-                      ${formatCurrency(analyticsData.valueByOrderAverage)}
-                    </p>
-                  </div>
-                  <div className="flex flex-col gap-2 p-2 col-span-2">
-                    <span className={`text-gray-500 text-xs font-semibold`}>
-                      Média de atraso
-                    </span>
-                    <p className="text-yellow-400 text-lg">
-                      {analyticsData.delayAverage}
-                    </p>
-                  </div>
-                  <div className="flex flex-col gap-2 p-2 col-span-2">
-                    <span className={`text-gray-500 text-xs font-semibold`}>
-                      Pagos em dia/10d
-                    </span>
-                    <p className="text-gray-100 text-lg">
-                      {analyticsData.paidOnTimeAverage}
-                    </p>
-                  </div>
-                  <div className="flex flex-col gap-2 p-2 col-span-2">
-                    <span className={`text-gray-500 text-xs font-semibold`}>
-                      Nº Pedidos
-                    </span>
-                    <p className="text-gray-100 text-lg">
-                      {analyticsData.orders.length}
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="w-full h-full overflow-y-auto fade-left">
-                <table className="table-auto w-full">
-                  <thead>
-                    <tr>
-                      <th className="px-4 py-2 bg-gray-800 border border-gray-700 text-gray-300">
-                        Doc
-                      </th>
-                      <th className="px-4 py-2 bg-gray-800 border border-gray-700 text-gray-300">
-                        Data
-                      </th>
-                      <th className="px-4 py-2 bg-gray-800 border border-gray-700 text-gray-300">
-                        Valor
-                      </th>
-                      <th className="px-4 py-2 bg-gray-800 border border-gray-700 text-gray-300">
-                        Dias de atraso
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {analyticsData.orders.map((order) => (
-                      <tr key={order.id} className="border border-gray-700">
-                        <td className="px-4 py-2 text-sm text-gray-100 text-center">
-                          {formatOrder(order.doc)}
-                        </td>
-                        <td className="px-4 py-2 text-sm text-gray-100 text-center">
-                          {formataDate(order.date)}
-                        </td>
-                        <td className="px-4 py-2 text-sm text-gray-100 text-center">
-                          ${formatCurrency(order.value)}
-                        </td>
-                        <td className="px-4 py-2 text-sm text-gray-100 text-center">
-                          {order.delayedDays}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </>
-          )}
-        </>
-      )}
+                  {customer.abcAnalysis.abcNote}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </ComponentContainer>
   );
 };

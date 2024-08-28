@@ -14,6 +14,7 @@ import { GoalsContextProvider } from "./goalsContext";
 import { ProductAnalysisProvider } from "./productsAnalysisContext";
 import { ProvidersContextProvider } from "./providersContext";
 import { AuthContextProvider } from "./authContext";
+import { InventoryTurnoverProvider } from "./InventoryTurnoverContext";
 
 const AllProviders: React.FC<{ children: React.ReactNode }> = ({
   children,
@@ -32,7 +33,9 @@ const AllProviders: React.FC<{ children: React.ReactNode }> = ({
                         <GoalsContextProvider>
                           <ProductAnalysisProvider>
                             <ProvidersContextProvider>
-                              {children}
+                              <InventoryTurnoverProvider>
+                                {children}
+                              </InventoryTurnoverProvider>
                             </ProvidersContextProvider>
                           </ProductAnalysisProvider>
                         </GoalsContextProvider>

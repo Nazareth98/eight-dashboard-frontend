@@ -1,5 +1,5 @@
 interface SubtitlePropsType {
-  icon: JSX.Element;
+  icon?: JSX.Element;
   subtitle: string;
 }
 

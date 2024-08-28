@@ -66,7 +66,7 @@ const TopSellingProducts = () => {
   }, [salesByProduct]);
 
   const options: ApexOptions = {
-    colors: ["#4A99F2", "#45C93B", "#CEAF09"],
+    colors: ["#45C93B", "#4A99F2", "#CEAF09"],
     chart: {
       toolbar: {
         show: false,

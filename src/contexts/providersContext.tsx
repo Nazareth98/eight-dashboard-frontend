@@ -5,6 +5,8 @@ import { getData } from "../services/API";
 interface ProductType {
   product: number;
   description: string;
+  brand: string;
+  group: string;
   amount: number;
   price: number;
   totalPrice: number;
@@ -22,16 +24,13 @@ interface ProviderPurchasesType {
 interface ProviderPurchasesMonth {
   value: number;
   month: string;
+  payments: number;
   purchases: ProviderPurchasesType[];
 }
 
 interface ProvidersContext {
   updateProviders: () => void;
-  selectProvider: (
-    provider: ProviderType,
-    month: number | string,
-    year: number
-  ) => void;
+  selectProvider: (provider: ProviderType) => void;
   cleanSearchData: () => void;
   providers: ProviderType[];
   currentProvider: ProviderType;
@@ -51,7 +50,6 @@ const providersContext = createContext<ProvidersContext>(initialState);
 
 const ProvidersContextProvider = ({ children }: any) => {
   const [providers, setProviders] = useState<ProviderType[]>();
-
   const [currentProvider, setCurrentProvider] = useState<ProviderType>();
   const [providerPurchases, setProviderPurchases] =
     useState<ProviderPurchasesMonth[]>();
@@ -77,13 +75,9 @@ const ProvidersContextProvider = ({ children }: any) => {
     setProviders(undefined);
   }
 
-  async function getProviderPurchases(
-    id: number,
-    month: number | string,
-    year: number
-  ) {
+  async function getProviderPurchases(id: number) {
     try {
-      const endpoint = `/providers/purchases/${id}?month=${month}&year=${year}`;
+      const endpoint = `/providers/purchases/${id}`;
       const { result } = await getData(endpoint);
       return result;
     } catch (error) {
@@ -91,13 +85,9 @@ const ProvidersContextProvider = ({ children }: any) => {
     }
   }
 
-  async function selectProvider(
-    provider: ProviderType,
-    month: number | string,
-    year: number
-  ) {
+  async function selectProvider(provider: ProviderType) {
     try {
-      const purchases = await getProviderPurchases(provider.id, month, year);
+      const purchases = await getProviderPurchases(provider.id);
       setProviderPurchases(purchases);
       setCurrentProvider(provider);
       console.log(purchases);

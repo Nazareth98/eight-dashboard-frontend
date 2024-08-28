@@ -7,15 +7,16 @@ import ComponentContainer from "../shared/componentContainer";
 import CustomButton from "../shared/customButton";
 import { SearchX } from "lucide-react";
 
-const PurchasesByMonth = ({ setSelectWeek }) => {
+const PurchasesByMonth = () => {
   const { providerPurchases, cleanSearchData } = useContext(providersContext);
 
   const [chartLabels, setChartLabels] = useState([]);
-  const [chartData, setChartData] = useState([]);
+  const [purchaseData, setPurchaseData] = useState<number[]>([]);
+  const [paymentData, setPaymentData] = useState<number[]>([]);
   const [purchasesByMonth, setPurchasesByMonth] = useState([]);
 
   const options: ApexOptions = {
-    colors: ["#45C93B"],
+    colors: ["#45C93B", "#4A99F2"],
     plotOptions: {
       bar: {
         horizontal: true,
@@ -28,10 +29,6 @@ const PurchasesByMonth = ({ setSelectWeek }) => {
       zoom: {
         enabled: false,
       },
-      events: {
-        dataPointSelection: handleBarClick,
-        xAxisLabelClick: handleLabelClick,
-      },
     },
     dataLabels: {
       enabled: true,
@@ -43,7 +40,7 @@ const PurchasesByMonth = ({ setSelectWeek }) => {
       curve: "straight",
     },
     title: {
-      text: "Compras por mês",
+      text: "Visualização por mês",
       align: "left",
       style: {
         fontSize: "16px",
@@ -68,6 +65,13 @@ const PurchasesByMonth = ({ setSelectWeek }) => {
     },
     yaxis: {
       labels: {
+        formatter: function (val) {
+          if (Number(val)) {
+            return `$${formatCurrency(val)}`;
+          } else {
+            return `${val}`;
+          }
+        },
         style: {
           colors: "#C2CCC2", // Cor das labels do eixo Y
           fontSize: "12px",
@@ -82,49 +86,39 @@ const PurchasesByMonth = ({ setSelectWeek }) => {
   const series = [
     {
       name: "Compras",
-      data: chartData,
+      data: purchaseData,
+    },
+    {
+      name: "Pagamentos",
+      data: paymentData,
     },
   ];
 
   useEffect(() => {
     if (providerPurchases) {
       const newLabels = [];
-      const newData = [];
+      const newPurchaseData = [];
+      const newPaymentData = [];
 
       for (let i = 0; i < providerPurchases.length; i++) {
         newLabels.push(providerPurchases[i].month);
-        newData.push(providerPurchases[i].value);
+        newPurchaseData.push(providerPurchases[i].value);
+        newPaymentData.push(providerPurchases[i].payments);
       }
       setPurchasesByMonth(providerPurchases);
 
       setChartLabels(newLabels);
-      setChartData(newData);
+      setPurchaseData(newPurchaseData);
+      setPaymentData(newPaymentData);
     }
   }, [providerPurchases]);
-
-  function handleBarClick(e, chart, options) {
-    const selectIndex = options.dataPointIndex;
-    const currentWeek = purchasesByMonth[selectIndex];
-    console.log(currentWeek);
-    if (currentWeek) {
-      setSelectWeek(currentWeek);
-    }
-  }
-  function handleLabelClick(e, chart, options) {
-    const selectIndex = options.labelIndex;
-    const currentWeek = purchasesByMonth[selectIndex];
-    console.log(currentWeek);
-    if (currentWeek) {
-      setSelectWeek(currentWeek);
-    }
-  }
 
   function cleanData() {
     cleanSearchData();
   }
 
   return (
-    <ComponentContainer classToAdd="row-span-7 col-span-5 relative">
+    <ComponentContainer classToAdd="row-span-12 col-span-5 relative">
       {providerPurchases && (
         <>
           <div className="absolute right-8 z-10">
