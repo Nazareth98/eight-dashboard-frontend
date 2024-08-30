@@ -11,19 +11,19 @@ const TurnoverInfo = () => {
   return (
     <>
       <DataCard
-        value={dataByProduct[0].description || "-"}
+        value={dataByProduct ? dataByProduct[0].description : "-"}
         name="Produto com maior giro"
         type="danger"
         icon={<Flame className="size-6 text-red-500" />}
       />
       <DataCard
-        value={dataByGroup[0].description || "-"}
+        value={dataByGroup ? dataByGroup[0].description : "-"}
         name="Grupo com maior giro"
         type="attention"
         icon={<Boxes className="size-6 text-yellow-300" />}
       />
       <DataCard
-        value={dataByBrand[0].description || "-"}
+        value={dataByBrand ? dataByBrand[0]?.description : "-"}
         name="Marca com maior giro"
         type="alternate"
         icon={<Tag className="size-6 text-blue-300" />}

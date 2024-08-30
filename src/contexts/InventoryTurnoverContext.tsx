@@ -2,7 +2,7 @@ import { createContext, useState } from "react";
 import { getData } from "../services/API";
 
 export interface InventoryTurnoverDataType {
-  group: string;
+  id: number | string;
   description: string;
   initialBalance: number;
   finalBalance: number;

@@ -29,11 +29,13 @@ import {
   PieChart,
   Receipt,
   Settings2,
+  ShoppingBasket,
   Truck,
   Users,
 } from "lucide-react";
 import ProductAnalysis from "../../screens/productAnalysis/index.js";
 import InventoryTurnover from "../../screens/inventoryTurnover/index.js";
+import PurchaseSuggestion from "../../screens/purchaseSuggestion/index.js";
 
 interface OptionType {
   id: number;
@@ -192,11 +194,23 @@ const Navigation = () => {
     },
     {
       id: 12,
+      name: "Sugestão de Compra",
+      icon: (
+        <ShoppingBasket
+          className={`size-5 ${
+            selectedSection.id === 12 ? "text-primary-400" : "text-gray-400"
+          }`}
+        />
+      ),
+      content: <PurchaseSuggestion />,
+    },
+    {
+      id: 13,
       name: "Configurações",
       icon: (
         <Settings2
           className={`size-5 ${
-            selectedSection.id === 12 ? "text-primary-400" : "text-gray-400"
+            selectedSection.id === 13 ? "text-primary-400" : "text-gray-400"
           }`}
         />
       ),

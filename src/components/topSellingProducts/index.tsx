@@ -175,7 +175,6 @@ const TopSellingProducts = () => {
       alert("É necessário selecionar um ano.");
       return;
     }
-    console.log(selectedQuarter);
     const month =
       selectedQuarter > 10 ? `${selectedQuarter}` : `0${selectedQuarter}`;
     const year = `${selectYear}`;

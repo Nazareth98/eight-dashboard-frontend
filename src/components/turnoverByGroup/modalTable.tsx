@@ -75,7 +75,7 @@ const ModalTable = ({ setIsOpen, isOpen, modalData }: ModalTableProps) => {
         <div className="w-full flex items-center gap-2">
           <Table className="size-6 text-gray-600" />
           <h3 className="text-2xl font-heading font-semibold text-gray-100">
-            Todos os Produtos
+            Todos os Grupos
           </h3>
         </div>
         <div

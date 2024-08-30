@@ -35,7 +35,7 @@ const AnalyticsRankingList = () => {
       </div>
 
       {analyticsData ? (
-        <div className="overflow-y-auto flex flex-col gap-4 ">
+        <div className="overflow-y-auto flex flex-col gap-4">
           {analyticsData.map((customer) => {
             return (
               <div

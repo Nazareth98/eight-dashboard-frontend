@@ -5,12 +5,15 @@ import { ApexOptions } from "apexcharts";
 import ApexChart from "react-apexcharts";
 import CustomButton from "../shared/customButton";
 import { PlusCircle } from "lucide-react";
+import ModalTable from "./modalTable";
 
 const TurnoverByGroup = () => {
   const { dataByGroup } = useContext(inventoryTurnoverContext);
 
   const [chartData, setChartData] = useState<number[]>();
   const [chartLabels, setChartLabels] = useState<string[]>();
+
+  const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
 
   useEffect(() => {
     if (!dataByGroup) return;
@@ -48,7 +51,7 @@ const TurnoverByGroup = () => {
       },
     },
     dataLabels: {
-      enabled: false,
+      enabled: true,
     },
     stroke: {
       show: false, // Remove a borda das barras
@@ -112,8 +115,13 @@ const TurnoverByGroup = () => {
 
   return (
     <ComponentContainer classToAdd="row-span-6 col-span-6 relative">
+      <ModalTable
+        isOpen={modalIsOpen}
+        setIsOpen={setModalIsOpen}
+        modalData={dataByGroup}
+      />
       <div className="absolute right-8 z-10">
-        <CustomButton theme="alternate">
+        <CustomButton theme="alternate" onClick={() => setModalIsOpen(true)}>
           <PlusCircle className="size-4" />
           ver detalhes
         </CustomButton>
