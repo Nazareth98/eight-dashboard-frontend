@@ -165,7 +165,7 @@ const SuggestionList = ({ data }: SuggestionListProps) => {
   };
 
   return (
-    <ComponentContainer classToAdd="row-span-12 col-span-9 relative">
+    <ComponentContainer classToAdd="row-span-12 col-span-8 relative">
       {data ? (
         <>
           <div className="absolute right-8">

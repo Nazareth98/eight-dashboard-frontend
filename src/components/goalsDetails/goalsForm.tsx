@@ -47,9 +47,10 @@ const GoalsForm = ({ setSelectedSheetsData, charges }: GoalsFormProps) => {
         : `${Number(selectMonth)}`;
     const year = selectYear.toString();
     const currentSheetsData = charges.find(
-      (charge: ChargeType) => charge.customerId == selectedCustomer.id
+      (charge) => charge.id == selectedCustomer.id
     );
     setSelectedSheetsData(currentSheetsData);
+    console.log(currentSheetsData);
     await updateSearchData(selectedCustomer.id, month, year);
   }
 

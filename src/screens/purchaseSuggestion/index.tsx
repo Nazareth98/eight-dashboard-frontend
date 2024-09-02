@@ -2,7 +2,7 @@ import { useState } from "react";
 import ScreenContainer from "../../components/shared/screenContainer";
 import SugesttionForm from "../../components/suggestionForm";
 import SuggestionList from "../../components/suggestionList";
-import SuggestionResume from "../../components/suggestionResume";
+import SuggestionCbm from "../../components/suggestionCbm";
 
 export interface SuggestionDataType {
   product: number;
@@ -24,7 +24,7 @@ const PurchaseSuggestion = () => {
     <ScreenContainer>
       <SugesttionForm setSuggestionData={setSuggestionData} />
       <SuggestionList data={suggestionData} />
-      <SuggestionResume data={suggestionData} />
+      <SuggestionCbm />
     </ScreenContainer>
   );
 };

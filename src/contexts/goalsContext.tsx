@@ -43,6 +43,8 @@ const GoalsContextProvider = ({ children }: any) => {
       const endpoint = `/customer/payments/${customertId}?month=${month}&year=${year}`;
       const { result } = await getData(endpoint);
       setSearchData(result);
+      console.log(result);
+      if (result.length < 1) alert("Nenhum pagamento localizado no mês atual");
     } catch (error) {
       console.log(error);
     }

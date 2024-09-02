@@ -25,6 +25,8 @@ const Goals = () => {
     loadData();
   }, []);
 
+  console.log(selectedSheetsData && searchData);
+
   return (
     <ScreenContainer>
       {selectedSheetsData && searchData ? (

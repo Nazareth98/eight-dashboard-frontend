@@ -3,7 +3,6 @@ import {
   CheckCircle,
   Circle,
   MousePointerClick,
-  NotebookPen,
   Printer,
   RefreshCcw,
   Sheet,
@@ -69,9 +68,8 @@ const GoalsCharges = ({ setSelectedSheetsData }) => {
       (customer: CustomerType) => customer.id == digit
     );
     setCurrentCustomer(customer);
-    const currentSheetsData = charges.find(
-      (charge: ChargeType) => charge.customerId == digit
-    );
+    const currentSheetsData = charges.find((charge) => charge.id == digit);
+    console.log(currentSheetsData);
     setSelectedSheetsData(currentSheetsData);
     const currentDate = new Date();
     const currentMonth = currentDate.getMonth() + 1;
@@ -150,6 +148,8 @@ const GoalsCharges = ({ setSelectedSheetsData }) => {
     doc.save(`vendas-produtos-${formattedDate}-${formattedTime}.pdf`);
   };
 
+  console.log(chargesToShow);
+
   return (
     <ComponentContainer classToAdd="col-span-9 row-span-12">
       <div className="w-full flex items-center justify-between gap-2">
@@ -198,10 +198,10 @@ const GoalsCharges = ({ setSelectedSheetsData }) => {
             </div>
           </div>
           <div className="overflow-y-auto flex flex-col gap-4">
-            {chargesToShow.map((charge: ChargeType) => {
+            {chargesToShow?.map((charge) => {
               return (
                 <div
-                  id={charge.customerId.toString()}
+                  id={charge.id.toString()}
                   key={charge.customerName}
                   onClick={handleGetData}
                   className="border-l-4 border-2 border-gray-900 border-l-primary-400 rounded p-2 cursor-pointer transition-all hover:bg-gray-900 active:bg-gray-950 fade-left"
@@ -212,7 +212,7 @@ const GoalsCharges = ({ setSelectedSheetsData }) => {
                         Cliente
                       </span>
                       <p className="text-gray-100 text-sm font-heading">
-                        {charge.customerName}
+                        {charge.name}
                       </p>
                     </div>
 
@@ -259,14 +259,14 @@ const GoalsCharges = ({ setSelectedSheetsData }) => {
                       <p
                         className={
                           "font-heading " +
-                          (charge.payment > 0
+                          (charge.payments > 0
                             ? "text-primary-500"
-                            : charge.payment < 0
+                            : charge.payments < 0
                             ? "text-red-500"
                             : `text-gray-600`)
                         }
                       >
-                        ${formatCurrency(charge.payment)}
+                        ${formatCurrency(charge.payments)}
                       </p>
                     </div>
 
@@ -332,7 +332,7 @@ const GoalsCharges = ({ setSelectedSheetsData }) => {
                       </p>
                     </div>
                   </div>
-                  {charge.obs !== "-" && (
+                  {/* {charge.obs !== "-" && (
                     <div className="flex items-center gap-2">
                       <NotebookPen className="size-5 text-gray-700" />
                       <p className="text-gray-400 italic">
@@ -340,7 +340,7 @@ const GoalsCharges = ({ setSelectedSheetsData }) => {
                         {charge.obs}
                       </p>
                     </div>
-                  )}
+                  )} */}
                 </div>
               );
             })}

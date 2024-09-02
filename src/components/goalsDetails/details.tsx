@@ -52,6 +52,8 @@ const Details = ({ selectedSheetsData }: DetailsProps) => {
     // setOpenInputGoal(false);
   };
 
+  console.log(selectedSheetsData);
+
   return (
     <>
       <CustomSubtitle
@@ -145,7 +147,7 @@ const Details = ({ selectedSheetsData }: DetailsProps) => {
                 <h2
                   className={`text-xl font-heading font-semibold text-gray-200`}
                 >
-                  ${formatCurrency(selectedSheetsData.payment)}
+                  ${formatCurrency(selectedSheetsData.payments)}
                 </h2>
               </div>
             </div>

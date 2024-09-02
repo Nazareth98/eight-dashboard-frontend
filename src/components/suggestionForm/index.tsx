@@ -1,4 +1,4 @@
-import { Settings } from "lucide-react";
+import { FilePenLine, Settings } from "lucide-react";
 import { useState } from "react";
 import { getData } from "../../services/API";
 import ComponentContainer from "../shared/componentContainer";
@@ -57,8 +57,11 @@ const SugesttionForm = ({ setSuggestionData }) => {
   }
 
   return (
-    <ComponentContainer classToAdd="row-span-5 col-span-3">
-      <CustomSubtitle subtitle="Gerar Sugestão" />
+    <ComponentContainer classToAdd="row-span-5 col-span-4">
+      <CustomSubtitle
+        subtitle="Gerar Sugestão"
+        icon={<FilePenLine className="size-6" />}
+      />
       <form className="w-full h-full grid grid-cols-6 gap-4">
         <div className="col-span-6">
           <label className="text-gray-200 text-sm font-medium">
