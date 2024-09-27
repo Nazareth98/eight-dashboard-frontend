@@ -17,11 +17,7 @@ const PurchasesByMonth = () => {
 
   const options: ApexOptions = {
     colors: ["#45C93B", "#4A99F2"],
-    plotOptions: {
-      bar: {
-        horizontal: true,
-      },
-    },
+
     chart: {
       toolbar: {
         show: false,
@@ -31,7 +27,7 @@ const PurchasesByMonth = () => {
       },
     },
     dataLabels: {
-      enabled: true,
+      enabled: false,
       formatter: function (val) {
         return `$${formatCurrency(val)}`;
       },
@@ -60,7 +56,11 @@ const PurchasesByMonth = () => {
     xaxis: {
       type: "category",
       labels: {
-        show: false, // Remove as labels do eixo X
+        style: {
+          colors: "#C2CCC2", // Cor das labels do eixo Y
+          fontSize: "12px",
+        },
+        show: true, // Remove as labels do eixo X
       },
     },
     yaxis: {
@@ -118,7 +118,7 @@ const PurchasesByMonth = () => {
   }
 
   return (
-    <ComponentContainer classToAdd="row-span-12 col-span-5 relative">
+    <ComponentContainer classToAdd="row-span-6 col-span-9 relative">
       {providerPurchases && (
         <>
           <div className="absolute right-8 z-10">

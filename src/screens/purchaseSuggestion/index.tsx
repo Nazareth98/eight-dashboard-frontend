@@ -5,16 +5,11 @@ import SuggestionList from "../../components/suggestionList";
 import SuggestionCbm from "../../components/suggestionCbm";
 
 export interface SuggestionDataType {
-  product: number;
-  description: string;
-  classification: string;
-  groupDescription: string;
-  brand: number;
-  brandName: string;
-  dailySalesAverage: number;
-  currentStock: number;
-  safetyStock: number;
-  purchaseSuggestion: number;
+  id: number;
+  name: string;
+  groupName: string;
+  total: number;
+  suggestion: number;
 }
 
 const PurchaseSuggestion = () => {

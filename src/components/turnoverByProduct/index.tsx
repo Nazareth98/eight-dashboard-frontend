@@ -4,11 +4,13 @@ import { inventoryTurnoverContext } from "../../contexts/InventoryTurnoverContex
 import { ApexOptions } from "apexcharts";
 import ApexChart from "react-apexcharts";
 import CustomButton from "../shared/customButton";
-import { PlusCircle } from "lucide-react";
+import { PlusCircle, Search } from "lucide-react";
 import ModalTable from "./modalTable";
+import CustomInput from "../shared/customInput";
 
 const TurnoverByProduct = () => {
-  const { dataByProduct } = useContext(inventoryTurnoverContext);
+  const { dataByProduct, updateData } = useContext(inventoryTurnoverContext);
+  const [period, setPeriod] = useState();
 
   const [chartData, setChartData] = useState<number[]>();
   const [chartLabels, setChartLabels] = useState<string[]>();
@@ -20,15 +22,25 @@ const TurnoverByProduct = () => {
 
     const newData = [];
     const newLabels = [];
-
+    console.log(dataByProduct);
     for (let i = 0; i < 10; i++) {
-      newData.push(Number(dataByProduct[i].inventoryTurnover.toFixed(1)));
-      newLabels.push(dataByProduct[i].description);
+      if (dataByProduct[i]) {
+        newData.push(Number(dataByProduct[i].inventoryTurnover.toFixed()));
+        newLabels.push(dataByProduct[i].description);
+      }
     }
 
     setChartData(newData);
     setChartLabels(newLabels);
   }, [dataByProduct]);
+
+  function handleUpdateData() {
+    if (!period) {
+      alert("Digite a quantidade de dias que precisam ser analisados!");
+      return;
+    }
+    updateData(period);
+  }
 
   const options: ApexOptions = {
     colors: ["#45C93B", "#4A99F2", "#CEAF09"],
@@ -120,11 +132,24 @@ const TurnoverByProduct = () => {
         setIsOpen={setModalIsOpen}
         modalData={dataByProduct}
       />
-      <div className="absolute right-8 z-10">
-        <CustomButton theme="alternate" onClick={() => setModalIsOpen(true)}>
-          <PlusCircle className="size-4" />
-          ver detalhes
-        </CustomButton>
+      <div className="absolute right-8 z-10 flex items-center gap-6">
+        <div className="flex">
+          <CustomInput
+            type="number"
+            inputValue={period}
+            setValue={setPeriod}
+            placeholder="Pesquise em  dias"
+          />
+          <CustomButton onClick={handleUpdateData}>
+            <Search className="size-4" />
+          </CustomButton>
+        </div>
+        <div className="w-full">
+          <CustomButton theme="alternate" onClick={() => setModalIsOpen(true)}>
+            <PlusCircle className="size-4" />
+            ver detalhes
+          </CustomButton>
+        </div>
       </div>
       <div className="h-full">
         <ApexChart

@@ -16,14 +16,14 @@ interface InventoryTurnoverContext {
   dataByGroup: InventoryTurnoverDataType[];
   dataByProduct: InventoryTurnoverDataType[];
   dataByBrand: InventoryTurnoverDataType[];
-  updateData: () => Promise<void>;
+  updateData: (period) => Promise<void>;
 }
 
 const initialState: InventoryTurnoverContext = {
   dataByBrand: undefined,
   dataByGroup: undefined,
   dataByProduct: undefined,
-  updateData: async () => {},
+  updateData: async (period) => {},
 };
 
 const inventoryTurnoverContext =
@@ -35,9 +35,9 @@ const InventoryTurnoverProvider = ({ children }: any) => {
     useState<InventoryTurnoverDataType[]>();
   const [dataByGroup, setDataByGroup] = useState<InventoryTurnoverDataType[]>();
 
-  async function getDataByBrand() {
+  async function getDataByBrand(period) {
     try {
-      const endpoint = "/inventory-turnover/brand";
+      const endpoint = `/inventory-turnover/brand?period=${period}`;
       const { result } = await getData(endpoint);
       setDataByBrand(result);
     } catch (error) {
@@ -45,9 +45,9 @@ const InventoryTurnoverProvider = ({ children }: any) => {
     }
   }
 
-  async function getDataByProduct() {
+  async function getDataByProduct(period) {
     try {
-      const endpoint = "/inventory-turnover/product";
+      const endpoint = `/inventory-turnover/product?period=${period}`;
       const { result } = await getData(endpoint);
       setDataByProduct(result);
     } catch (error) {
@@ -55,9 +55,9 @@ const InventoryTurnoverProvider = ({ children }: any) => {
     }
   }
 
-  async function getDataByGroup() {
+  async function getDataByGroup(period) {
     try {
-      const endpoint = "/inventory-turnover/group";
+      const endpoint = `/inventory-turnover/group?period=${period}`;
       const { result } = await getData(endpoint);
       setDataByGroup(result);
     } catch (error) {
@@ -65,11 +65,11 @@ const InventoryTurnoverProvider = ({ children }: any) => {
     }
   }
 
-  async function updateData() {
+  async function updateData(period) {
     try {
-      await getDataByBrand();
-      await getDataByProduct();
-      await getDataByGroup();
+      await getDataByBrand(period);
+      await getDataByProduct(period);
+      await getDataByGroup(period);
     } catch (error) {
       console.error(error);
       alert(error.message);

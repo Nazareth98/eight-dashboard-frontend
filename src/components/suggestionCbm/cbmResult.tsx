@@ -1,8 +1,9 @@
 import { DollarSign, FileText } from "lucide-react";
+import { formatCurrency } from "../../utils/generalsUtils";
 
 interface CbmDataType {
   classif: string;
-  fob: number;
+  totalFob: number;
   group: string;
   quantityBoxes: number;
   quantityPieces: number;
@@ -15,6 +16,8 @@ interface CbmDataProps {
 }
 
 const CbmResult = ({ cbmData }: CbmDataProps) => {
+  console.log(cbmData);
+
   return (
     <div className="w-full h-full flex flex-col items-start gap-4 fade-left">
       <div className="w-full h-full flex-1 flex flex-col fade-left">
@@ -73,6 +76,20 @@ const CbmResult = ({ cbmData }: CbmDataProps) => {
               ({cbmData?.quantityPieces.toLocaleString("pt-BR")} peças)
             </span>{" "}
             {cbmData?.quantityBoxes} caixas
+          </h2>
+        </div>
+      </div>
+      <div className="w-24 m-auto h-[2px] bg-gray-900" />
+      <div className="w-full h-full flex-1 flex flex-col">
+        <div className="flex items-center gap-2">
+          <FileText className="size-4 text-gray-700" />
+          <span className="w-1/2 text-gray-500 font-heading text-sm">
+            Total Fob
+          </span>
+        </div>
+        <div className="w-full h-full flex items-end justify-end fade-right">
+          <h2 className="text-xl font-heading font-semibold text-gray-200">
+            ${formatCurrency(cbmData?.totalFob)}
           </h2>
         </div>
       </div>

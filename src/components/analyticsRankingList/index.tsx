@@ -71,7 +71,7 @@ const AnalyticsRankingList = () => {
                 </div>
                 <div className="flex flex-col gap-2 p-1 col-span-2">
                   <span className="text-gray-500 text-xs font-semibold">
-                    Total Compras
+                    Total Vendas
                   </span>
                   <p
                     className={

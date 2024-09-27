@@ -1,5 +1,5 @@
 import { FilePenLine, Settings } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { getData } from "../../services/API";
 import ComponentContainer from "../shared/componentContainer";
 import CustomButton from "../shared/customButton";
@@ -7,41 +7,70 @@ import CustomInput from "../shared/customInput";
 import CustomSubtitle from "../shared/customSubtitle";
 import Loading from "../shared/loading";
 
-const periodOption = [
-  { value: 90, label: "3 meses" },
-  { value: 180, label: "6 meses" },
-  { value: 365, label: "1 ano" },
-];
+interface OptionType {
+  value: number | string;
+  label: string;
+}
+
+interface GroupType {
+  classif: string;
+  description: string;
+  quantityPerBox: number;
+}
 
 const SugesttionForm = ({ setSuggestionData }) => {
-  const [period, setPeriod] = useState<number>(365);
-  const [frequency, setFrequency] = useState<number>(30);
-  const [deliveryTime, setDeliveryTime] = useState<number>(30);
+  const [period, setPeriod] = useState<number>();
+  const [quantity, setQuantity] = useState<number>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [selectOptions, setSelectOptions] = useState<OptionType[]>();
+  const [groups, setGroups] = useState<GroupType[]>();
+  const [selectedGroup, setSelectedGroup] = useState<GroupType>();
+
+  useEffect(() => {
+    async function getGroups() {
+      try {
+        const endpoint = "/purchase-suggestions/cbm-data";
+        const response = await getData(endpoint);
+        if (!response.result) {
+          alert(response.message);
+          return;
+        }
+        const options: OptionType[] = [];
+        const groups: GroupType[] = response.result;
+        groups.forEach((group) => {
+          options.push({
+            label: group.description,
+            value: group.classif,
+          });
+        });
+        setSelectOptions(options);
+        setGroups(groups);
+      } catch (error) {
+        console.error(error);
+        alert(error.message);
+      }
+    }
+
+    getGroups();
+  }, []);
 
   async function getSuggestion(event) {
     event.preventDefault();
     setIsLoading(true);
-    if (!period) {
-      console.log(period);
-      alert("Selecione um período");
+    console.log(selectedGroup);
+    if (!selectedGroup) {
+      alert("Selecione um grupo");
       return;
     }
 
-    if (!frequency) {
-      console.log(frequency);
-      alert("Frequência de compra inválida.");
-      return;
-    }
-
-    if (!deliveryTime) {
-      console.log(deliveryTime);
-      alert("Prazo de entrega inválida");
+    if (!quantity) {
+      console.log(quantity);
+      alert("Quantidade de peças inválida.");
       return;
     }
 
     try {
-      const endpoint = `/purchase-suggestions?period=${period}&frequency=${frequency}&deliveryTime=${deliveryTime}`;
+      const endpoint = `/purchase-suggestions?quantity=${quantity}&classif=${selectedGroup}`;
       const response = await getData(endpoint);
       setSuggestionData(response.result);
     } catch (error) {
@@ -53,7 +82,7 @@ const SugesttionForm = ({ setSuggestionData }) => {
   }
 
   function handleChange(event) {
-    setPeriod(event.target.value);
+    setSelectedGroup(event.target.value);
   }
 
   return (
@@ -65,37 +94,29 @@ const SugesttionForm = ({ setSuggestionData }) => {
       <form className="w-full h-full grid grid-cols-6 gap-4">
         <div className="col-span-6">
           <label className="text-gray-200 text-sm font-medium">
-            Selecione um Período
+            Selecione um Grupo:
           </label>
           <select
-            className="w-full bg-gray-900 p-2 border-2 border-gray-800 text-gray-200 rounded "
-            value={period}
+            className="w-full bg-gray-900 p-2 border-2 border-gray-800 text-gray-200 rounded"
+            value={selectedGroup?.classif}
             onChange={handleChange}
           >
-            <option value="">Selecione um Período</option>
-            {periodOption.map((option) => {
+            <option value="">Nenhum grupo selecionado</option>
+            {selectOptions?.map((option) => {
               return <option value={option.value}>{option.label}</option>;
             })}
           </select>
         </div>
-        <div className="col-span-3">
+        <div className="col-span-6">
           <CustomInput
-            setValue={setFrequency}
-            inputValue={frequency}
-            label="Frequência de compra:"
+            setValue={setQuantity}
+            inputValue={quantity}
+            label="Quantidade de Peças:"
             type="number"
-            placeholder="Em dias"
+            placeholder="50.000"
           />
         </div>
-        <div className="col-span-3">
-          <CustomInput
-            setValue={setDeliveryTime}
-            inputValue={deliveryTime}
-            label="Prazo de entrega:"
-            type="number"
-            placeholder="Em dias"
-          />
-        </div>
+
         <div
           className="col-span-6 flex items-center justify-end gap-4
         "

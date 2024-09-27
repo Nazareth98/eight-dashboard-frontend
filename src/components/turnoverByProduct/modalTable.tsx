@@ -101,31 +101,31 @@ const ModalTable = ({ setIsOpen, isOpen, modalData }: ModalTableProps) => {
                   onClick={() => handleSort("initialBalance")}
                   className="px-4 py-2 bg-gray-900 border border-gray-800 text-gray-300"
                 >
-                  Saldo Inicial
+                  Valor Estoque Inicial
                 </th>
                 <th
                   onClick={() => handleSort("finalBalance")}
                   className="px-4 py-2 bg-gray-900 border border-gray-800 text-gray-300"
                 >
-                  Saldo Final
+                  Valor Estoque Final
                 </th>
                 <th
                   onClick={() => handleSort("averageStock")}
                   className="px-4 py-2 bg-gray-900 border border-gray-800 text-gray-300"
                 >
-                  Média de Estoque
+                  Valor Médio do Estoque
                 </th>
                 <th
                   onClick={() => handleSort("totalPurchases")}
                   className="px-4 py-2 bg-gray-900 border border-gray-800 text-gray-300"
                 >
-                  Compras no Período
+                  Valor em Compras no Período
                 </th>
                 <th
                   onClick={() => handleSort("inventoryTurnover")}
                   className="px-4 py-2 bg-gray-900 border border-gray-800 text-gray-300"
                 >
-                  Giros
+                  Giros de Estoque
                 </th>
               </tr>
             </thead>

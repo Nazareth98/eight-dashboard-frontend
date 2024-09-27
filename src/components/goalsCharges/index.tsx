@@ -102,7 +102,7 @@ const GoalsCharges = ({ setSelectedSheetsData }) => {
 
     // Adiciona o título
     doc.setFontSize(18);
-    doc.text("Planilha de cobranças", 14, 30);
+    doc.text("Metas", 14, 30);
 
     // Calcula as somas dos valores desejados
     const totalBalance = chargesToShow.reduce(
@@ -111,20 +111,22 @@ const GoalsCharges = ({ setSelectedSheetsData }) => {
     );
     const totalGoal = chargesToShow.reduce((sum, row) => sum + row.goal, 0);
     const totalPayment = chargesToShow.reduce(
-      (sum, row) => sum + row.payment,
+      (sum, row) => sum + row.payments,
       0
     );
     const totalDiff = chargesToShow.reduce((sum, row) => sum + row.diff, 0);
+
+    console.log(chargesToShow[0]);
 
     // Adiciona a tabela
     doc.autoTable({
       startY: 40,
       head: [["Cliente", "Saldo", "Meta", "Pagamentos", "Restante"]],
       body: chargesToShow?.map((row) => [
-        row.customerName,
+        row.name,
         `$${formatCurrency(row.balance)}`,
         `$${formatCurrency(row.goal)}`,
-        `$${formatCurrency(row.payment)}`,
+        `$${formatCurrency(row.payments)}`,
         `$${formatCurrency(row.diff)}`,
         `${row.percentageOfTarget}%`,
       ]),
@@ -144,8 +146,7 @@ const GoalsCharges = ({ setSelectedSheetsData }) => {
       finalY + 30
     );
     doc.text(`Total Restante: $${formatCurrency(totalDiff)}`, 14, finalY + 40);
-
-    doc.save(`vendas-produtos-${formattedDate}-${formattedTime}.pdf`);
+    doc.save(`metas-${formattedDate}-${formattedTime}.pdf`);
   };
 
   console.log(chargesToShow);

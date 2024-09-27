@@ -10,6 +10,7 @@ const Resume = () => {
 
   const [totalValue, setTotalSales] = useState<number>(0);
   const [totalPurchases, setTotalPurchases] = useState<number>(0);
+  const [totalPayments, setTotalPayments] = useState<number>(0);
   const [averageValue, setAverageValue] = useState<number>(0);
   const [totalProducts, setTotalProducts] = useState<number | string>(0);
   const [mostPurchased, setMostPurchased] = useState<string>();
@@ -18,6 +19,7 @@ const Resume = () => {
     if (providerPurchases) {
       let sumValue = 0;
       let sumPurchases = 0;
+      let sumPayments = 0;
       let sumProducts = 0;
       let productCounts: {
         [key: string]: { amount: number; description: string };
@@ -26,8 +28,8 @@ const Resume = () => {
 
       providerPurchases.forEach((month) => {
         sumValue += month.value;
+        sumPayments += month.payments;
         sumPurchases += month.purchases.length;
-        console.log(month.purchases);
         month.purchases.forEach((purchase) => {
           purchase.products.forEach((product) => {
             sumProducts += product.amount;
@@ -54,6 +56,7 @@ const Resume = () => {
         }
       }
 
+      setTotalPayments(sumPayments);
       setTotalSales(sumValue);
       setAverageValue(average);
       setTotalPurchases(sumPurchases);
@@ -76,11 +79,11 @@ const Resume = () => {
         </h2>
       </div>
       <div className="w-full h-full flex flex-col items-start gap-4">
-        <div className="w-full h-full flex-[2] flex flex-col fade-left">
+        <div className="w-full h-full flex-1 flex flex-col fade-left">
           <div className="flex items-center gap-2">
             <DollarSign className="size-4 text-gray-700" />
             <span className="w-1/2 text-gray-500 font-heading text-sm">
-              Valor Total
+              Total de Compras
             </span>
           </div>
           <div className="w-full h-full flex items-end justify-end fade-right">
@@ -94,6 +97,29 @@ const Resume = () => {
               }`}
             >
               ${formatCurrency(totalValue)}
+            </h2>
+          </div>
+        </div>
+        <div className="w-24 m-auto h-[2px] bg-gray-900" />
+
+        <div className="w-full h-full flex-1 flex flex-col fade-left">
+          <div className="flex items-center gap-2">
+            <DollarSign className="size-4 text-gray-700" />
+            <span className="w-1/2 text-gray-500 font-heading text-sm">
+              Total de Pagamentos
+            </span>
+          </div>
+          <div className="w-full h-full flex items-end justify-end fade-right">
+            <h2
+              className={`text-4xl font-heading font-semibold ${
+                totalValue > 0
+                  ? "text-primary-500"
+                  : totalValue < 0
+                  ? "text-red-500"
+                  : "text-gray-600"
+              }`}
+            >
+              ${formatCurrency(totalPayments)}
             </h2>
           </div>
         </div>

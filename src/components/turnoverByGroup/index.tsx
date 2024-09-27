@@ -22,8 +22,10 @@ const TurnoverByGroup = () => {
     const newLabels = [];
 
     for (let i = 0; i < 10; i++) {
-      newData.push(Number(dataByGroup[i].inventoryTurnover.toFixed(1)));
-      newLabels.push(dataByGroup[i].description);
+      if (dataByGroup[i]) {
+        newData.push(Number(dataByGroup[i].inventoryTurnover.toFixed(1)));
+        newLabels.push(dataByGroup[i].description);
+      }
     }
 
     setChartData(newData);

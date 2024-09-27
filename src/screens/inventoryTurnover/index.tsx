@@ -1,5 +1,5 @@
 import ScreenContainer from "../../components/shared/screenContainer";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { inventoryTurnoverContext } from "../../contexts/InventoryTurnoverContext";
 import TurnoverByProduct from "../../components/turnoverByProduct";
 import TurnoverByGroup from "../../components/turnoverByGroup";
@@ -10,7 +10,7 @@ const InventoryTurnover = () => {
   const { updateData } = useContext(inventoryTurnoverContext);
 
   useEffect(() => {
-    updateData();
+    updateData(365);
   }, []);
 
   return (

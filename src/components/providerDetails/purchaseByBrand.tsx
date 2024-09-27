@@ -59,7 +59,7 @@ const PurchasesByBrand = () => {
       },
     },
     subtitle: {
-      text: "Quantidade total vendida",
+      text: "Total de peças compradas",
       align: "left",
       style: {
         fontSize: "12px",

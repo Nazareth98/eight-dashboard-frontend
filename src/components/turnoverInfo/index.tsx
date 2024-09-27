@@ -7,23 +7,28 @@ const TurnoverInfo = () => {
   const { dataByBrand, dataByGroup, dataByProduct } = useContext(
     inventoryTurnoverContext
   );
+  console.log(dataByBrand, dataByGroup, dataByProduct);
+
+  if (!dataByProduct || !dataByGroup || !dataByBrand) {
+    return;
+  }
 
   return (
     <>
       <DataCard
-        value={dataByProduct ? dataByProduct[0].description : "-"}
+        value={dataByProduct[0] ? dataByProduct[0].description : "-"}
         name="Produto com maior giro"
         type="danger"
         icon={<Flame className="size-6 text-red-500" />}
       />
       <DataCard
-        value={dataByGroup ? dataByGroup[0].description : "-"}
+        value={dataByGroup[0] ? dataByGroup[0].description : "-"}
         name="Grupo com maior giro"
         type="attention"
         icon={<Boxes className="size-6 text-yellow-300" />}
       />
       <DataCard
-        value={dataByBrand ? dataByBrand[0]?.description : "-"}
+        value={dataByBrand[0] ? dataByBrand[0]?.description : "-"}
         name="Marca com maior giro"
         type="alternate"
         icon={<Tag className="size-6 text-blue-300" />}

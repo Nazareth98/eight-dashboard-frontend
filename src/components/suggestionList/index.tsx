@@ -5,101 +5,13 @@ import { SuggestionDataType } from "../../screens/purchaseSuggestion";
 import ComponentContainer from "../shared/componentContainer";
 import CustomButton from "../shared/customButton";
 import CustomSubtitle from "../shared/customSubtitle";
+import { formatCurrency } from "../../utils/generalsUtils";
 
 interface SuggestionListProps {
   data: SuggestionDataType[];
 }
 
 const SuggestionList = ({ data }: SuggestionListProps) => {
-  const [groupOptions, setGroupOptions] = useState<any[]>();
-  const [brandOptions, setBrandOptions] = useState<any[]>();
-  const [selectedGroup, setSelectedGroup] = useState();
-  const [selectedBrand, setSelectedBrand] = useState();
-  const [dataToShow, setDataToShow] = useState<SuggestionDataType[]>();
-
-  useEffect(() => {
-    if (!data) return;
-
-    const groups: { value: string | number; label: string }[] = [];
-    const brands: { value: string | number; label: string }[] = [];
-
-    data.forEach((item) => {
-      if (!groups.some((group) => group.label === item.groupDescription)) {
-        groups.push({
-          value: item.classification,
-          label: item.groupDescription,
-        });
-      }
-      if (!brands.some((brand) => brand.label === item.brandName)) {
-        brands.push({ value: item.brand, label: item.brandName });
-      }
-    });
-
-    setGroupOptions(groups);
-    setBrandOptions(brands);
-    setDataToShow(data);
-  }, [data]);
-
-  function handleChangeGroup(event) {
-    setSelectedGroup(event.target.value);
-    const classification = event.target.value;
-    let updatedData = [];
-
-    if (!classification) {
-      updatedData = data.filter((item) => item.brand == selectedBrand);
-    }
-
-    if (!selectedBrand) {
-      updatedData = data;
-    }
-
-    if (classification) {
-      updatedData = data.filter(
-        (item) => item.classification === classification
-      );
-    }
-
-    if (selectedBrand && classification) {
-      updatedData = data.filter(
-        (item) =>
-          item.classification === classification && item.brand == selectedBrand
-      );
-    }
-
-    setDataToShow(updatedData);
-  }
-
-  function handleChangeBrand(event) {
-    setSelectedBrand(event.target.value);
-    const brand = Number(event.target.value);
-    const groups: { value: string | number; label: string }[] = [];
-    if (brand === 0) {
-      setDataToShow(data);
-      data.forEach((item) => {
-        if (!groups.some((group) => group.label === item.groupDescription)) {
-          groups.push({
-            value: item.classification,
-            label: item.groupDescription,
-          });
-        }
-      });
-      setGroupOptions(groups);
-      return;
-    }
-    const updatedData = data.filter((item) => item.brand === brand);
-    updatedData.forEach((item) => {
-      if (!groups.some((group) => group.label === item.groupDescription)) {
-        groups.push({
-          value: item.classification,
-          label: item.groupDescription,
-        });
-      }
-    });
-    setDataToShow(updatedData);
-    setGroupOptions(groups);
-    console.log("depois do filtro", updatedData.length);
-  }
-
   const exportPDF = () => {
     const doc = new jsPDF();
 
@@ -127,23 +39,18 @@ const SuggestionList = ({ data }: SuggestionListProps) => {
     doc.text(`Sugestão de compra`, 14, 30);
 
     // Calcula as somas dos valores desejados
-    const totalSuggestion = dataToShow.reduce(
-      (sum, row) => sum + row.purchaseSuggestion,
-      0
-    );
+    const totalSuggestion = data.reduce((sum, row) => sum + row.suggestion, 0);
 
     // Adiciona a tabela
     doc.autoTable({
       startY: 40,
-      head: [["Id", "Produto", "Vendas Diárias", "Estoque", "Sugestão"]],
-      body: dataToShow?.map((row) => [
-        row.product,
-        row.description,
-        `${Number(row.dailySalesAverage.toFixed()).toLocaleString("pt-BR")} un`,
-        `${row.currentStock} un`,
-        `${Number(row.purchaseSuggestion.toFixed()).toLocaleString(
-          "pt-BR"
-        )} un`,
+      head: [["Id", "Produto", "Grupo", "Vendas no Período", "Sugestão"]],
+      body: data?.map((row) => [
+        row.id,
+        row.name,
+        row.groupName,
+        `${Number(row.total.toFixed()).toLocaleString("pt-BR")} un`,
+        `${Number(row.suggestion.toFixed()).toLocaleString("pt-BR")} un`,
       ]),
       theme: "grid",
       headStyles: { fillColor: [40, 40, 40] },
@@ -175,103 +82,46 @@ const SuggestionList = ({ data }: SuggestionListProps) => {
             </CustomButton>
           </div>
           <CustomSubtitle subtitle="Sugestão de Compra" />
-          <div className="w-full flex gap-6">
-            <select
-              className="bg-gray-900 p-2 border-2 border-gray-800 text-gray-200 rounded "
-              value={selectedBrand}
-              onChange={handleChangeBrand}
-            >
-              <option value="">Selecione uma Marca</option>
-              {brandOptions?.map((option) => {
-                return (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                );
-              })}
-            </select>
-            <select
-              className="bg-gray-900 p-2 border-2 border-gray-800 text-gray-200 rounded "
-              value={selectedGroup}
-              onChange={handleChangeGroup}
-            >
-              <option value="">Selecione um Grupo</option>
-              {groupOptions?.map((option) => {
-                return (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
+          <div></div>
           <div className="overflow-y-auto flex flex-col gap-4 fade-left">
-            {dataToShow?.map((item) => {
+            {data?.map((item) => {
               return (
                 <div
-                  id={item.product.toString()}
-                  key={`${item.product}-${item.purchaseSuggestion}`}
+                  id={item.id.toString()}
+                  key={`${item.id}-${item.suggestion}`}
                   className="border-l-4 border-2 border-gray-900 border-l-primary-400 rounded grid grid-cols-12 p-1 gap-2 cursor-pointer transition-all fade-left hover:bg-gray-900 fade-left"
                 >
-                  <div className="flex flex-col gap-2 p-1 col-span-4">
+                  <div className="flex flex-col gap-2 p-1 col-span-5">
                     <span className="text-gray-500 text-xs font-semibold">
                       Produto
                     </span>
                     <p className="text-gray-100 text-sm font-heading">
-                      {item.description}
+                      {item.name}
                     </p>
                   </div>
-                  <div className="flex flex-col gap-2 p-1 col-span-2">
+
+                  <div className="flex flex-col gap-2 p-1 col-span-3">
                     <span className="text-gray-500 text-xs font-semibold">
-                      Estoque Atual
-                    </span>
-                    <p
-                      className={
-                        "font-heading " +
-                        (item.currentStock > 0
-                          ? "text-primary-500 "
-                          : item.currentStock < 0
-                          ? "text-red-500"
-                          : `text-gray-600`)
-                      }
-                    >
-                      {item.currentStock} peças
-                    </p>
-                  </div>
-                  <div className="flex flex-col gap-2 p-1 col-span-2">
-                    <span className="text-gray-500 text-xs font-semibold">
-                      Venda Diária
+                      Grupo
                     </span>
                     <p className="text-gray-100 text-sm font-heading">
-                      {item.dailySalesAverage.toFixed()} pc
+                      {item.groupName}
                     </p>
                   </div>
                   <div className="flex flex-col gap-2 p-1 col-span-2">
                     <span className="text-gray-500 text-xs font-semibold">
-                      Estoque de Segurança
+                      Vendas no período
                     </span>
                     <p className="text-gray-100 text-sm font-heading">
-                      {item.safetyStock} pc
+                      {item.total} peças
                     </p>
                   </div>
                   <div className="flex flex-col gap-2 p-1 col-span-2">
                     <span className="text-gray-500 text-xs font-semibold">
-                      Sugestão de compra
+                      Sugestão
                     </span>
-                    <p
-                      className={
-                        "font-heading " +
-                        (item.purchaseSuggestion > 0
-                          ? "text-primary-500 "
-                          : item.purchaseSuggestion < 0
-                          ? "text-red-500"
-                          : `text-gray-600`)
-                      }
-                    >
-                      {Number(item.purchaseSuggestion.toFixed()).toLocaleString(
-                        "pt-BR"
-                      )}{" "}
-                      pc
+                    <p className="text-yellow-400 text-sm font-heading">
+                      {item.suggestion} peças
                     </p>
                   </div>
                 </div>

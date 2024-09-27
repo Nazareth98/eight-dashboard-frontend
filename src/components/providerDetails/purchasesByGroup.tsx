@@ -61,7 +61,7 @@ const PurchasesByGroup = () => {
       },
     },
     subtitle: {
-      text: "Quantidade total vendida",
+      text: "Total de peças compradas",
       align: "left",
       style: {
         fontSize: "12px",
@@ -79,7 +79,7 @@ const PurchasesByGroup = () => {
   const series = chartData;
 
   return (
-    <ComponentContainer classToAdd="row-span-6 col-span-4">
+    <ComponentContainer classToAdd="row-span-6 col-span-5">
       <div className="h-full">
         <ApexChart
           className="fade-left"
