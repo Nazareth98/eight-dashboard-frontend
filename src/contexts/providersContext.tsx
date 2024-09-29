@@ -30,7 +30,7 @@ interface ProviderPurchasesMonth {
 
 interface ProvidersContext {
   updateProviders: () => void;
-  selectProvider: (provider: ProviderType) => void;
+  selectProvider: (provider: ProviderType, period: number) => void;
   cleanSearchData: () => void;
   providers: ProviderType[];
   currentProvider: ProviderType;
@@ -75,9 +75,11 @@ const ProvidersContextProvider = ({ children }: any) => {
     setProviders(undefined);
   }
 
-  async function getProviderPurchases(id: number) {
+  async function getProviderPurchases(id: number, period: number) {
     try {
-      const endpoint = `/providers/purchases/${id}`;
+      const endpoint = `/providers/purchases/${id}?period=${
+        period ? period : ""
+      }`;
       const { result } = await getData(endpoint);
       return result;
     } catch (error) {
@@ -85,9 +87,9 @@ const ProvidersContextProvider = ({ children }: any) => {
     }
   }
 
-  async function selectProvider(provider: ProviderType) {
+  async function selectProvider(provider: ProviderType, period: number) {
     try {
-      const purchases = await getProviderPurchases(provider.id);
+      const purchases = await getProviderPurchases(provider.id, period);
       setProviderPurchases(purchases);
       setCurrentProvider(provider);
       console.log(purchases);

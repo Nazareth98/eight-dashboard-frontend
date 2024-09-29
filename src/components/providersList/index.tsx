@@ -13,13 +13,11 @@ const ProvidersList = () => {
 
   function handleSelectProvider({ currentTarget }) {
     const currentDate = new Date();
-    const month = currentDate.getMonth() + 1;
-    const year = currentDate.getFullYear();
 
     const provider = providers.find(
       (provider) => provider.id == currentTarget.id
     );
-    selectProvider(provider, month, year);
+    selectProvider(provider, 0);
   }
 
   return (

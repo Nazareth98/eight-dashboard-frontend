@@ -5,8 +5,16 @@ import { DollarSign, FileText, UserCircle } from "lucide-react";
 import { providersContext } from "../../contexts/providersContext";
 import { formatCurrency } from "../../utils/generalsUtils";
 
+const selectOptions = [
+  { value: 0, label: "Todo o Período" },
+  { value: 2024, label: "2024" },
+  { value: 2023, label: "2023" },
+  { value: 2023, label: "2022" },
+];
+
 const Resume = () => {
-  const { providerPurchases, currentProvider } = useContext(providersContext);
+  const { providerPurchases, currentProvider, selectProvider } =
+    useContext(providersContext);
 
   const [totalValue, setTotalSales] = useState<number>(0);
   const [totalPurchases, setTotalPurchases] = useState<number>(0);
@@ -14,6 +22,7 @@ const Resume = () => {
   const [averageValue, setAverageValue] = useState<number>(0);
   const [totalProducts, setTotalProducts] = useState<number | string>(0);
   const [mostPurchased, setMostPurchased] = useState<string>();
+  const [period, setPeriod] = useState<number>(0);
 
   useEffect(() => {
     if (providerPurchases) {
@@ -65,12 +74,27 @@ const Resume = () => {
     }
   }, [providerPurchases]);
 
+  const handleChange = (event) => {
+    setPeriod(Number(event.target.value));
+
+    selectProvider(currentProvider, Number(event.target.value));
+  };
+
   return (
     <ComponentContainer classToAdd="row-span-12 col-span-3">
-      <CustomSubtitle
-        subtitle="Resumo do Período"
-        icon={<FileText className="size-6" />}
-      />
+      <div className="w-full flex justify-between">
+        <CustomSubtitle subtitle="Resumo" />
+        <select
+          className="bg-gray-900 border-2 border-gray-800 text-gray-200 p-2 rounded"
+          value={period}
+          onChange={handleChange}
+        >
+          <option value="">Selecione um Trimestre</option>
+          {selectOptions.map((option) => {
+            return <option value={option.value}>{option.label}</option>;
+          })}
+        </select>
+      </div>
 
       <div className="w-full h-full flex-1  flex items-center gap-2 fade-left">
         <UserCircle className="size-5 text-gray-600" />
